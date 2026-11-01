@@ -139,15 +139,18 @@ function hface(o){
  s+=P(`M${50+fw-2.6} ${fy-13} Q${50+fw+0.4} ${fy-2} ${50+fw} ${fy+6} Q${50+fw-0.4} ${fy+14.5} ${50+fw-2.6} ${fy+19.2} L53.8 ${chin-1} Q51.4 ${chin-0.4} 52.2 ${chin-2.4} L${50+fw-4.4} ${fy+16.4} Q${50+fw-2.4} ${fy+4} ${50+fw-2.6} ${fy-13} Z`,skD,{opacity:.3});
  s+=P(`M${50-fw+0.6} ${fy+7} Q${50-fw+3} ${fy+9} ${50-fw+4.4} ${fy+12.5} Q${50-fw+2} ${fy+11.6} ${50-fw+0.6} ${fy+9} Z`,skD,{opacity:.28})+P(`M${50+fw-0.6} ${fy+7} Q${50+fw-3} ${fy+9} ${50+fw-4.4} ${fy+12.5} Q${50+fw-2} ${fy+11.6} ${50+fw-0.6} ${fy+9} Z`,skD,{opacity:.38});
  s+=L(`M48.8 ${chin-1.8} Q50 ${chin-1.1} 51.2 ${chin-1.8}`,skD,0.55,{opacity:.7});
- // large eyes
- for(const d of [-1,1]){const x=50+d*ex;
-  s+=P(`M${x-3.1} ${ey+0.2} Q${x-0.4} ${ey-2.9} ${x+3.1} ${ey-0.3} Q${x+0.2} ${ey+2} ${x-3.1} ${ey+0.2} Z`,'#fcfaf6');
-  s+=C(x+0.2,ey-0.35,1.8,iris)+C(x+0.2,ey-0.35,1.8,'none',{stroke:sh(iris,-0.4),stroke_width:0.35})+C(x+0.2,ey-0.35,0.95,'#120d0a')+C(x+0.85,ey-1.1,0.62,'#fff')+C(x-0.4,ey+0.5,0.28,'#fff',{opacity:.8});
-  s+=L(`M${x-3.3} ${ey+0.3} Q${x-0.4} ${ey-3.3} ${x+3.3} ${ey-0.4}`,'#1c1310',1.05);
-  s+=L(`M${x-2.8} ${ey-3.6} Q${x} ${ey-4.6} ${x+2.8} ${ey-3.5}`,skD,0.45,{opacity:.6})}
+ // eyes: realistic, slightly hooded almond shape; the upper lid covers the top of the iris; deep-set under the brow
+ for(const d of [-1,1]){const x=50+d*ex,inner=x-d*3,outer=x+d*3.1;
+  s+=P(`M${x-3.6} ${ey-1.2} Q${x} ${ey-4.6} ${x+3.6} ${ey-1.4} L${x+3.2} ${ey+0.6} Q${x} ${ey-1.6} ${x-3.2} ${ey+0.6} Z`,skD,{opacity:.38});
+  const eye=`M${inner} ${ey+0.3} Q${x-d*0.5} ${ey-2.55} ${outer} ${ey-0.2} Q${x+d*0.4} ${ey+1.7} ${inner} ${ey+0.3} Z`;
+  s+=P(eye,'#f3ede4');
+  s+=`<clipPath id="pe${d<0?'l':'r'}"><path d="${eye}"/></clipPath><g clip-path="url(#pe${d<0?'l':'r'})">`+C(x+0.15,ey-0.25,1.62,iris)+C(x+0.15,ey-0.25,1.62,'none',{stroke:sh(iris,-0.45),stroke_width:0.3})+C(x+0.15,ey-0.25,0.76,'#120d0a')+P(`M${x-3.4} ${ey-3} L${x+3.4} ${ey-3} L${x+3.4} ${ey-1.5} Q${x} ${ey-0.9} ${x-3.4} ${ey-1.5} Z`,'#000',{opacity:.16})+`</g>`+C(x+0.66,ey-0.86,0.4,'#fff',{opacity:.9});
+  s+=L(`M${inner-d*0.2} ${ey+0.35} Q${x-d*0.5} ${ey-2.75} ${outer+d*0.2} ${ey-0.25}`,'#1d1410',1.05);
+  s+=L(`M${inner+d*0.6} ${ey+0.95} Q${x} ${ey+1.95} ${outer-d*0.4} ${ey+0.4}`,skDD,0.4,{opacity:.5});
+  s+=L(`M${x-2.6} ${ey-3.3} Q${x} ${ey-4.1} ${x+2.8} ${ey-3.1}`,skDD,0.45,{opacity:.5})}
  // brows: thick, straight, close to the eyes
  const bc=o.brow||(['blonde','ash','platinum'].includes(o.hc)||/^#c/.test(o.hc)?sh(hc,-0.45):hcD);
- s+=P(`M${50-ex-3.5} ${ey-4.2} L${50-ex+3} ${ey-5.4} L${50-ex+3.2} ${ey-4.3} L${50-ex-3.3} ${ey-3.3} Z`,bc)+P(`M${50+ex+3.5} ${ey-4.5} L${50+ex-3} ${ey-5.5} L${50+ex-3.2} ${ey-4.4} L${50+ex+3.3} ${ey-3.6} Z`,bc);
+ s+=P(`M${50-ex-3.6} ${ey-3.6} L${50-ex+3} ${ey-4.9} L${50-ex+3.2} ${ey-3.8} L${50-ex-3.4} ${ey-2.8} Z`,bc)+P(`M${50+ex+3.6} ${ey-3.9} L${50+ex-3} ${ey-5} L${50+ex-3.2} ${ey-3.9} L${50+ex+3.4} ${ey-3.1} Z`,bc);
  // nose: long and straight
  s+=L(`M50.6 ${ey-0.4} L51 ${ey+7.6}`,skL,0.9,{opacity:.8})+L(`M51.7 ${ey+1.4} Q52.5 ${ey+6.4} 52 ${ey+8.6}`,skD,0.7,{opacity:.7})+L(`M48 ${ey+8.8} Q49.2 ${ey+9.9} 50.3 ${ey+9.5} Q51.4 ${ey+10} 52.5 ${ey+8.9}`,skDD,0.8,{opacity:.72});
  // mouth: well-shaped lips, a half-smile
@@ -165,7 +168,7 @@ function hhair(o,hc,hcD,hcL,fy,fw,fh){const t=o.h,top=fy-fh;let s='';
  const hairline=(dip)=>`L${50+fw-0.1} ${fy+1} Q${50+fw-0.3} ${fy-7} ${50+fw-3.4} ${fy-11.6} Q50 ${fy-14.6+(dip||0)} ${50-fw+3.4} ${fy-11.6} Q${50-fw+0.3} ${fy-7} ${50-fw+0.1} ${fy+1}`;
  const crown=(lift,w)=>`M${50-fw-(w||1.3)} ${fy+1} Q${50-fw-(w||1.3)-1.1} ${top-0.6-lift*0.5} 50 ${top-2.2-lift} Q${50+fw+(w||1.3)+1.1} ${top-0.6-lift*0.5} ${50+fw+(w||1.3)} ${fy+1}`;
  const base=(lift,op)=>P(crown(lift)+hairline()+'Z',hc,op?{opacity:op}:{});
- const burns=()=>R(50-fw-0.3,fy-3,1.4,6,hc,{rx:0.6})+R(50+fw-1.1,fy-3,1.4,6,hc,{rx:0.6});
+ const burns=()=>P(`M${50-fw+0.1} ${fy-3} L${50-fw+1.3} ${fy-3} L${50-fw+0.7} ${fy+2.6} L${50-fw+0.2} ${fy+2.6} Z M${50+fw-0.1} ${fy-3} L${50+fw-1.3} ${fy-3} L${50+fw-0.7} ${fy+2.6} L${50+fw-0.2} ${fy+2.6} Z`,hc);
  const shine=(d)=>L(d,hcL,1,{opacity:.5});
  const strands=(n,y0,col,op)=>{let r='';for(let i=0;i<n;i++){const x=50-fw+3.6+i*(fw*2-9)/(n-1);r+=L(`M${x-1} ${y0+2.6} Q${x+0.4} ${y0-0.6} ${x+1.8} ${y0-1.6}`,col||hcD,0.7,{opacity:op||0.5})}return r};
  if(t==='textured'){s+=P(`M${50-fw-1.3} ${fy+1} Q${50-fw-2.6} ${top} ${50-fw+2.6} ${top-2.8} Q${50-6} ${top-5.2} ${50-2.2} ${top-3.6} Q${50+1.6} ${top-6} ${50+5.6} ${top-3.8} Q${50+fw-0.6} ${top-4.2} ${50+fw+1.6} ${top+0.6} Q${50+fw+2.4} ${fy-6} ${50+fw+1.3} ${fy+1}`+hairline()+'Z',hc)+burns()+strands(5,top+3)+shine(`M${50-6} ${top-0.8} Q${50-1} ${top-3.2} ${50+5} ${top-1.4}`)}
