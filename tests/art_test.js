@@ -7,7 +7,10 @@ const miss=[],broken=[];
 const ok=s=>s.startsWith('<svg')&&s.endsWith('</svg>')&&!/undefined|NaN/.test(s)&&(s.match(/</g)||[]).length===(s.match(/>/g)||[]).length;
 for(const k in DISH){const s=dishArt(k);if(!s)miss.push('dish '+k);else if(!ok(s))broken.push('dish '+k)}
 for(const k in VEHICLES){const s=carArt(k);if(!s)miss.push('car '+k);else if(!ok(s))broken.push('car '+k)}
-console.log('dishes',Object.keys(DISH).length,'vehicles',Object.keys(VEHICLES).length);
+for(const k in NPCS){const f=npcFace(k);if(!f)miss.push('face '+k);else if(!ok(f))broken.push('face '+k)}
+// scenes that belong to a person get the portrait
+{S=newState('T','中');const sc=talkScene('lucia');if(!sc.art)broken.push('talkScene without portrait');if(actNpc({id:'p4_carmen'})!=='p4_carmen'||actNpc({id:'p7_arc_zeke'})!=='p7_zeke'||actNpc({id:'talk-earl'})!=='earl')broken.push('actNpc mapping')}
+console.log('dishes',Object.keys(DISH).length,'vehicles',Object.keys(VEHICLES).length,'portraits',Object.keys(NPCS).length);
 if(miss.length)console.log('MISSING',miss.join(', '));if(broken.length)console.log('BROKEN',broken.join(', '));
 console.log(miss.length||broken.length?'ART PROBLEMS':'ART OK');`;
 eval(js);

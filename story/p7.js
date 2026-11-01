@@ -1,4 +1,4 @@
-/* p7 — two Chinese-American and four Black Texan characters.
+/* p7 — two Chinese-American Texans, three Black Texans and a county health inspector.
    San Luís: Rev. Zeke Washington & Angela Brooks (Zion AME church), Dr. Naomi Carter (county health office), Marcus Bell (county rodeo arena)
    Cities: Wei Huang (College Station, AgriLife extension — visits the Reyes ranch), Xiuying Li (El Paso, railroad-worker descendant)
    Events: p7_june (Juneteenth, W2 Sat midday), p7_fest (W46 d3 s1 → c4_fs).
