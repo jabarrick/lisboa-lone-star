@@ -260,6 +260,8 @@ select{font:inherit;font-size:13px;width:100%;background:var(--surface);color:va
 .msettings{display:none}
 @media (max-width:760px){
  html,body{height:100%;overflow:hidden}
+ html.start,html.start body{height:auto;min-height:100%;overflow:visible;overflow-y:auto}
+ html.start .wrap{height:auto;display:block;padding-bottom:calc(24px + env(safe-area-inset-bottom,0px))}
  body{padding-block:0}
  .wrap{height:100%;gap:0;display:flex;flex-direction:column;max-width:none}
  header{flex:none;border-radius:0 0 10px 10px;border-top:none}
@@ -1984,6 +1986,7 @@ function setView(v){mview=v;render();const vw=$('#views');if(vw&&vw.scrollTo)vw.
 function render(){if(S&&S.flags&&S.flags.dbgInfEnergy)S.energy=10;
  if(S){if(cur&&cur!==lastCur)mview='story';else if(!cur&&lastCur)mview='act';lastCur=cur}
  const app=$('#app');
+ {const de=document.documentElement,was=de.classList.contains('start');de.classList.toggle('start',!S);if(was&&S&&window.scrollTo)window.scrollTo(0,0)} // the start screen scrolls as a normal page (no tab bar / views)
  if(!S){app.innerHTML=res(startHTML());bindStart();bindLang();return}
  app.dataset.mv=mview;app.dataset.idle=cur?'0':'1';app.innerHTML=res(headerHTML()+`<div class="views" id="views"><div class="main"><div class="col-l"><div class="card scene" aria-live="polite">${sceneHTML()}</div>${mapCardHTML()}</div><div class="card" id="panel"><div class="pscroll"><div class="pmain">${panelHTML()}</div>${tab==="log"?"":panelFill()}</div></div></div><div class="card board">${boardHTML()}</div></div>${mnavHTML()}`);
  bind();bindMini();gc();fitFill();document.querySelectorAll('.mnav [data-mv]').forEach(b=>b.onclick=()=>setView(b.dataset.mv));bindLang();
