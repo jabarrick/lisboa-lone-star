@@ -508,7 +508,7 @@ function accentBonus(first){
  const b={'浓':12,'中':6,'淡':Math.min(6,S.nightClasses*2)}[S.accent];
  return b+(first&&S.accent==='浓'?8:0);
 }
-function charmBonus(first){return Math.min(30,accentBonus(first)+S.muscle*4+S.dress)}
+function charmBonus(first){return Math.min(30,accentBonus(first)+S.muscle*4+S.dress+(CAR()&&S.course.drive>=2?CAR().charm:0))}
 function charm(first){return clamp(S.stats.charme+charmBonus(first),0,100)}
 function formalPenalty(){return {'浓':-15,'中':-5,'淡':5}[S.accent]}
 function talkCost(id){const r=rel(id);return 2+(S.accent==='浓'&&r.trust<6?1:0)}
@@ -564,10 +564,10 @@ function endDay(){
 }
 function weekly(){
  weeklySystems();
- const rent=250+Math.round(S.wk.rev*0.16),wages=S.staff.reduce((a,k)=>a+STAFF[k].wage,0);
- S.cash-=rent+wages;
- const profit=S.wk.rev-S.wk.spend-rent-wages;
- S.history.push({w:S.week,rev:Math.round(S.wk.rev),cost:Math.round(S.wk.spend+rent+wages),profit:Math.round(profit)});
+ const rent=250+Math.round(S.wk.rev*0.16),wages=S.staff.reduce((a,k)=>a+STAFF[k].wage,0),carUp=CAR()?CAR().upkeep:0;
+ S.cash-=rent+wages+carUp;
+ const profit=S.wk.rev-S.wk.spend-rent-wages-carUp;
+ S.history.push({w:S.week,rev:Math.round(S.wk.rev),cost:Math.round(S.wk.spend+rent+wages+carUp),profit:Math.round(profit)});
  const sp_=has('fridge')?0.5:1;const lf=Math.floor(S.inv.fish*0.3*sp_),ld=Math.floor(S.inv.dairy*0.2*sp_),lb=Math.floor(S.inv.beef*0.15*sp_),lost=lf+ld+lb;
  S.inv.fish-=lf;S.inv.dairy-=ld;S.inv.beef-=lb;
  if(S.incoming){const n=S.incoming;S.inv.imp+=n;log(`葡萄牙进口货到了 ${n} 份`,`${n} units of Portuguese imports arrived`,`Chegaram ${n} doses de produtos portugueses`);S.incoming=0}
@@ -577,11 +577,11 @@ function weekly(){
  S.cash<0?S.negWeeks++:S.negWeeks=0;
  S.rumor=pick(RUMORS);
  S.rep=clamp(S.rep,-20,100);
- const R_=Math.round(S.wk.rev),C_=Math.round(S.wk.spend+rent+wages),P_=Math.round(profit);
+ const R_=Math.round(S.wk.rev),C_=Math.round(S.wk.spend+rent+wages+carUp),P_=Math.round(profit);
  log(`周结算：营收 $${R_}，支出 $${C_}，${P_>=0?'盈利':'亏损'} $${Math.abs(P_)}`,`Week closed: revenue $${R_}, costs $${C_}, ${P_>=0?'profit':'loss'} $${Math.abs(P_)}`,`Fecho da semana: receita $${R_}, custos $${C_}, ${P_>=0?'lucro':'prejuízo'} $${Math.abs(P_)}`);
  const wkN=S.week, rum=S.rumor, rep=Math.round(S.rep), onl=Math.round(S.online), sp=Math.round(S.wk.spend);
  queue.push({title:t(`第 ${wkN} 周结算`,`Week ${wkN} closing`,`Fecho da semana ${wkN}`),meta:t('周日 · 账本','Sunday · The ledger','Domingo · O livro de contas'),text:[
-  t(`营收 $${R_}，进货 $${sp}，房租与杂费 $${rent}${wages?`，工资 $${wages}`:''}${lost?`，过期损耗 ${lost} 份`:''}。`,`Revenue $${R_}, stock $${sp}, rent & overheads $${rent}${wages?`, wages $${wages}`:''}${lost?`, ${lost} units spoiled`:''}.`,`Receita $${R_}, compras $${sp}, renda e despesas $${rent}${wages?`, salários $${wages}`:''}${lost?`, ${lost} doses estragadas`:''}.`),
+  t(`营收 $${R_}，进货 $${sp}，房租与杂费 $${rent}${wages?`，工资 $${wages}`:''}${carUp?`，车辆保险与保养 $${carUp}`:''}${lost?`，过期损耗 ${lost} 份`:''}。`,`Revenue $${R_}, stock $${sp}, rent & overheads $${rent}${wages?`, wages $${wages}`:''}${carUp?`, car insurance & upkeep $${carUp}`:''}${lost?`, ${lost} units spoiled`:''}.`,`Receita $${R_}, compras $${sp}, renda e despesas $${rent}${wages?`, salários $${wages}`:''}${carUp?`, seguro e manutenção do carro $${carUp}`:''}${lost?`, ${lost} doses estragadas`:''}.`),
   P_>=0?t(`这周赚了 $${P_}。若泽留下的那本账本，你第一次觉得能翻下去。`,`You made $${P_} this week. For the first time, José\'s old ledger feels like something you can keep writing in.`,`Ganhaste $${P_} esta semana. Pela primeira vez, o livro de contas do José parece algo que consegues continuar.`):t(`这周亏了 $${-P_}。账本上的红字像德州的太阳一样晒人。`,`You lost $${-P_} this week. The red ink burns like the Texas sun.`,`Perdeste $${-P_} esta semana. A tinta vermelha queima como o sol do Texas.`),
   t(`本地口碑 ${rep}，线上评分 ${onl}。镇上新流传的一句话：`,`Local reputation ${rep}, online rating ${onl}. New talk around town: `,`Reputação local ${rep}, avaliação online ${onl}. Na vila, a nova conversa é: `)+tt(rum)],
   choices:[{t:t('翻到下一周','On to next week','Virar a página')}]});
@@ -725,6 +725,8 @@ function hygieneHTML(){
 function ensureState(s){
  const d={up:{},price:'normal',special:null,market:{beef:1,pork:1,fish:1,dairy:1,imp:1},marketNews:null,orders:[],ordersDone:0,goals:[],ach:{},pet:null,happyTotal:0,grillQ:1,dailyLast:-1,dailySeen:{},where:null,tripNights:0,tripWith:null,visited:{},clean:85,grade:null,gradeWk:0,sm:{},contract:{beef:0,pork:0,fish:0,dairy:0}};
  for(const k in d)if(s[k]===undefined)s[k]=JSON.parse(JSON.stringify(d[k]));
+ if(s.up&&s.up.pickup){if(!s.car)s.car='pickup';delete s.up.pickup} // v0.9.3: the pickup moved from upgrades to vehicles
+ if(s.car===undefined)s.car=null;
  s.v=3;
  s.wk=Object.assign({rev:0,spend:0,happy:0,orders:0,trains:0,talks:0,hosts:0},s.wk||{});
  if(s.npc)Object.keys(NPCS).forEach(k=>{if(!s.npc[k])s.npc[k]={met:false,like:0,trust:0,talks:0,truth:false}});
@@ -741,10 +743,30 @@ const UPG={
  espresso:{n:['意式咖啡机','Espresso machine','Máquina de café expresso'],cost:350,d:['咖啡涨价 $2，卡车司机和学生更爱来','Coffee +$2; truckers and students like it more','Café +$2; camionistas e estudantes gostam mais']},
  fado:{n:['法多角','Fado corner','Canto do fado'],cost:300,d:['夜晚多来 2 组客人；夜里亲自招呼算接触家乡','+2 parties at night; working a night shift counts as something Portuguese','+2 grupos à noite; atender à noite conta como algo português']},
  tablet:{n:['外卖平板','Delivery tablet','Tablet de entregas'],cost:250,d:['午间多一笔外卖收入，线上评分每周 +2','Extra delivery income at midday; online rating +2 a week','Receita extra de entregas ao almoço; avaliação online +2 por semana']},
- pickup:{n:['二手皮卡','Used pickup truck','Carrinha usada'],cost:2500,d:['学会开车（第 2 课）后自己开车出门，只付油钱','Once you can drive (lesson 2), travel by road and pay only for gas','Quando souberes conduzir (2.ª aula), viajas de carro e só pagas gasolina']},
  azulejo:{n:['瓷砖翻新','Azulejo makeover','Renovação com azulejos'],cost:1200,d:['口碑立即 +8，口碑回落的底线提高 10','Reputation +8 now; reputation settles 10 points higher','Reputação +8 já; a reputação estabiliza 10 pontos acima']}
 };
 const has=k=>!!(S.up&&S.up[k]);
+/* ----- vehicles: bought at the frontage-road lot (story/v1_cars.js); you still need driving lesson 2 to use one -----
+   gas = $ per mile, upkeep = insurance + maintenance per week, brk = breakdown chance per trip out of town */
+const VEHICLES={
+ sedan:{n:['旧轿车','Old sedan','Carro velho'],cost:1200,gas:0.09,upkeep:10,brk:0.12,charm:0,d:['便宜、省油，但三天两头出毛病','Cheap and easy on gas, but always ailing','Barato e poupado, mas está sempre a avariar']},
+ moto:{n:['二手摩托车','Used motorcycle','Mota usada'],cost:1600,gas:0.05,upkeep:8,brk:0.06,charm:3,d:['最省油，魅力 +3；装不了货','Cheapest to run, charm +3; no room for cargo','A mais poupada, charme +3; não leva carga']},
+ pickup:{n:['二手皮卡','Used pickup truck','Carrinha usada'],cost:2500,gas:0.12,upkeep:15,brk:0.05,charm:0,cargo:1,d:['德州标配，能拉货，偶尔闹脾气','Texas standard issue; hauls cargo, sulks now and then','O padrão do Texas; leva carga e às vezes amua']},
+ foodtruck:{n:['餐车','Food truck','Roulote de comida'],cost:6800,gas:0.2,upkeep:40,brk:0.08,charm:0,cargo:1,food:1,d:['油耗大；在外地城市能支起来卖菜，每天一轮','Thirsty; lets you sell food in other cities, one round a day','Gasta muito; deixa-te vender comida noutras cidades, uma ronda por dia']},
+ newtruck:{n:['新皮卡','New pickup truck','Carrinha nova'],cost:9800,gas:0.13,upkeep:35,brk:0,charm:4,cargo:1,d:['从不抛锚，魅力 +4；保险贵','Never breaks down, charm +4; pricey insurance','Nunca avaria, charme +4; seguro caro']}
+};
+const carId=()=>(S&&(S.car||(S.up&&S.up.pickup?'pickup':null)))||null;
+const CAR=()=>VEHICLES[carId()]||null;
+const carName=()=>CAR()?tt(CAR().n):'';
+const carTrade=()=>CAR()?Math.round(CAR().cost*0.5):0;
+function carPanel(){const v=CAR();
+ const body=v?`<div class="npc"><div><span class="nm">${tt(v.n)}</span> <span class="grp">${S.course.drive>=2?t('能开','ready to drive','pronto a andar'):t('还不会开','can\'t drive yet','ainda não conduzes')}</span><div class="mini">${t(`油耗 每英里 $${v.gas.toFixed(2)} · 保险与保养 每周 $${v.upkeep}`,`Gas $${v.gas.toFixed(2)}/mile · insurance & upkeep $${v.upkeep}/week`,`Gasolina $${v.gas.toFixed(2)}/milha · seguro e manutenção $${v.upkeep}/semana`)}${v.brk?t(` · 抛锚 ${Math.round(v.brk*100*(S.carServ&&S.week-S.carServ<6?0.4:1))}%/趟`,` · breakdowns ${Math.round(v.brk*100*(S.carServ&&S.week-S.carServ<6?0.4:1))}%/trip`,` · avarias ${Math.round(v.brk*100*(S.carServ&&S.week-S.carServ<6?0.4:1))}%/viagem`):''}${v.charm?t(` · 魅力 +${v.charm}`,` · charm +${v.charm}`,` · charme +${v.charm}`):''} · ${t(`折价 $${carTrade()}`,`trade-in $${carTrade()}`,`retoma $${carTrade()}`)}</div></div></div>`
+  :`<p class="mini">${t('还没有车，出门坐灰狗巴士。','No car yet — you ride the Greyhound.','Ainda sem carro — andas de Greyhound.')}</p>`;
+ return `<h3 class="sub">${t('车辆','Vehicle','Veículo')}</h3>${body}<p class="mini">${t('买车、卖车和保养都在行动板上的「辅路二手车场」。','Buy, sell and service at the frontage-road car lot on the action board.','Compra, venda e manutenção no stand da via de serviço, no quadro de ações.')}</p>`}
+function buyCar(k){const v=VEHICLES[k],price=v.cost-carTrade();S.cash-=price;S.wk.spend+=price;S.car=k;if(S.up)delete S.up.pickup;S.carServ=0;
+ log(`买了${v.n[0]}（实付 $${price}）`,`Bought: ${v.n[1]} ($${price} paid)`,`Compraste: ${v.n[2]} ($${price} pagos)`)}
+function sellCar(){const g=carTrade(),v=CAR();S.cash+=g;S.car=null;if(S.up)delete S.up.pickup;
+ log(`把${v.n[0]}卖了，拿回 $${g}`,`Sold: ${v.n[1]}, $${g}`,`Vendeste: ${v.n[2]}, $${g}`)}
 function buyUpgrade(k){const u=UPG[k];if(has(k)||S.cash<u.cost)return;S.cash-=u.cost;S.wk.spend+=u.cost;S.up[k]=S.week;if(k==='azulejo')S.rep+=8;log('店铺升级：'+u.n[0],'Upgrade: '+u.n[1],'Melhoria: '+u.n[2]);toast(t('升级完成：','Upgrade done: ','Melhoria feita: ')+tt(u.n));checkAch()}
 
 /* ----- pricing & special ----- */
@@ -821,6 +843,7 @@ function goalsHTML(){
 /* ----- achievements ----- */
 const ACH=[
  {id:'profit',n:['开张大吉','Open for business','Casa aberta'],d:['第一次周盈利','First profitable week','Primeira semana com lucro'],f:()=>S.history.some(h=>h.profit>0)},
+ {id:'wheels',n:['有车一族','Got wheels','Já tens carro'],d:['买下第一辆车','Buy your first vehicle','Comprar o primeiro veículo'],f:()=>!!carId()},
  {id:'k5',n:['小有积蓄','Rainy-day fund','Pé-de-meia'],d:['现金达到 $5,000','Reach $5,000 cash','Chegar a $5.000'],f:()=>S.cash>=5000},
  {id:'k15',n:['圣鲁伊斯首富？','Richest in San Luís?','O mais rico de San Luís?'],d:['现金达到 $15,000','Reach $15,000 cash','Chegar a $15.000'],f:()=>S.cash>=15000},
  {id:'up3',n:['装修队长','Renovator','Renovador'],d:['买下 3 项店铺升级','Buy 3 upgrades','Comprar 3 melhorias'],f:()=>Object.keys(S.up).length>=3},
@@ -974,7 +997,7 @@ function bizPanel(){
  ${Object.keys(S.perks||{}).length?`<p class="mini">${t('长期供货：','Supply deals: ','Acordos de fornecimento: ')}${Object.keys(S.perks).map(k=>`${tt(ING[k].n)} ×${S.perks[k]}${S.perkNotes[k]?'（'+tt(S.perkNotes[k])+'）':''}`).join(' · ')}</p>`:''}
  <h3 class="sub">${t('外烩订单','Catering orders','Encomendas de catering')}</h3><p class="mini">${t('备好食材后，在店里选「准备外烩订单」交付。过期会掉口碑。','Stock the ingredients, then choose "Prepare a catering order" at the shop. Missed deadlines cost reputation.','Junta os ingredientes e escolhe «Preparar encomenda» no restaurante. Prazos falhados custam reputação.')}</p>${ords}
  ${hygieneHTML()}${contractHTML()}
- <h3 class="sub">${t('店铺升级','Upgrades','Melhorias')}</h3>${ups}`;
+ <h3 class="sub">${t('店铺升级','Upgrades','Melhorias')}</h3>${ups}${carPanel()}`;
 }
 
 /* ---------- actions ---------- */
@@ -1153,8 +1176,8 @@ const CITIES={}, EXTRA_LOCS=[], ROAD_EVENTS=[];
 const REGION=k=>({central:t('德州中部','Central Texas','Texas Central'),north:t('北德州','North Texas','Norte do Texas'),coast:t('墨西哥湾沿岸','Gulf Coast','Costa do Golfo'),hill:t('德州山地','Hill Country','Hill Country'),west:t('西德州','West Texas','Oeste do Texas')}[k]||k);
 const inSeason=(a,b)=>S.week>=a&&S.week<=b;
 const away=()=>!!S.where;
-function canDrive(){return has('pickup')&&S.course.drive>=2}
-function fare(c){if(S&&S.flags&&S.flags.dbgFreeTravel)return 0;return canDrive()?Math.round(c.miles*2*0.12):Math.round(12+c.miles*0.18)}
+function canDrive(){return !!carId()&&S.course.drive>=2}
+function fare(c){if(S&&S.flags&&S.flags.dbgFreeTravel)return 0;return canDrive()?Math.round(c.miles*2*CAR().gas):Math.round(12+c.miles*0.18)}
 // helpers for city content
 function popupSell(max,mult){const P={beef:14,pork:8,fish:11,dairy:5};let sold=0,cash=0;for(const k of ['beef','pork','fish','dairy']){while(sold<max&&S.inv[k]>0){S.inv[k]--;sold++;cash+=P[k]*(mult||1)}}cash=Math.round(cash);S.cash+=cash;S.wk.rev+=cash;S.online=clamp(S.online+sold/6,0,100);return {sold,cash}}
 function cityBuy(ing,qty,mult){const cost=Math.round(unitPrice(ing)*qty*(mult||1));if(S.cash<cost)return 0;S.cash-=cost;S.wk.spend+=cost;S.inv[ing]+=qty;return cost}
@@ -1171,12 +1194,14 @@ function goTrip(id,withId){
  S.cash-=f;S.wk.spend+=f;S.energy-=2;autoShop();
  S.where=id;S.tripNights=0;S.tripLegs=0;S.innTonight=null;S.tripWith=withId||null;S.visited[id]=(S.visited[id]||0)+1;S.wk.trips=(S.wk.trips||0)+1;
  log('出发去'+res(c.n,'zh'),'Set off for '+res(c.n,'en'),'Partiste para '+res(c.n,'pt'));
- const how=canDrive()?t(`你开着自己的皮卡上了州际公路，油钱 $${f}。`,`You take your own pickup onto the interstate. Gas: $${f}.`,`Pegas na tua carrinha e entras na autoestrada. Gasolina: $${f}.`):t(`你坐灰狗巴士去，往返车票 $${f}。`,`You take the Greyhound. Round-trip fare: $${f}.`,`Vais de Greyhound. Ida e volta: $${f}.`);
+ const how=canDrive()?t(`你开着自己的${carName()}上了州际公路，油钱 $${f}。`,`You take your ${carName()} onto the interstate. Gas: $${f}.`,`Pegas no volante (${carName()}) e entras na autoestrada. Gasolina: $${f}.`):t(`你坐灰狗巴士去，往返车票 $${f}。`,`You take the Greyhound. Round-trip fare: $${f}.`,`Vais de Greyhound. Ida e volta: $${f}.`);
+ const brk=canDrive()&&Math.random()<CAR().brk*(S.carServ&&S.week-S.carServ<6?0.4:1)?RI(60,140):0;if(brk){S.cash-=brk;S.wk.spend+=brk;log(`${CAR().n[0]}半路抛锚，修车 $${brk}`,`The ${CAR().n[1].toLowerCase()} broke down: $${brk} to fix`,`Avaria pelo caminho: $${brk} de reparação`)}
  const extra=c.arrive?c.arrive():[];const vt=viaText(c);if(vt)extra.unshift(t(`一路走${vt}。`,`Route: ${vt}.`,`Percurso: ${vt}.`));
+ const breakdown=brk?[t(`开到半路，仪表盘亮起一盏你不认识的灯。路边修车铺的老头钻到车底下看了十分钟：“$${brk}，下午就好。”`,`Halfway there a dashboard light you've never seen comes on. The old man at a roadside garage spends ten minutes under the car. "$${brk}. Ready this afternoon."`,`A meio do caminho acende-se no painel uma luz que nunca viste. O velhote de uma oficina à beira da estrada passa dez minutos debaixo do carro. «$${brk}. Fica pronto à tarde.»`)]:[];
  const comp=withId?[t(`${SH(withId)}坐在你旁边，一路上把收音机调来调去。`,`${SH(withId)} rides beside you, fiddling with the radio the whole way.`,`${SH(withId)} vai ao teu lado, sempre a mexer no rádio.`)]:[];
  const road=ROAD_EVENTS.filter(e=>!e.cond||e.cond(c));
  pendingAdvance=true;
- push({title:c.n,meta:REGION(c.region)+` · ${c.miles} ${t('英里','miles','milhas')}`,text:[how,tt(c.desc),...comp,...extra],choices:[{t:t('到了','Arrive','Chegar'),next:()=>road.length&&Math.random()<0.35?pick(road).run(c):null}]});
+ push({title:c.n,meta:REGION(c.region)+` · ${c.miles} ${t('英里','miles','milhas')}`,text:[how,...breakdown,tt(c.desc),...comp,...extra],choices:[{t:t('到了','Arrive','Chegar'),next:()=>road.length&&Math.random()<0.35?pick(road).run(c):null}]});
 }
 function goHome(){
  const c=CITIES[S.where];const was=S.where;let legBack=0;if(S.tripLegs>0){legBack=legFare(legMiles(was,'home'));S.cash-=legBack;S.wk.spend+=legBack}S.tripLegs=0;S.where=null;S.tripNights=0;S.innTonight=null;const w=S.tripWith;S.tripWith=null;
@@ -1229,6 +1254,11 @@ function cityActions(){
  for(const L of c.locs){for(const a of L.acts){A.push(Object.assign({},a,{loc:S.where+':'+L.id,city:1}))}}
  A.push({loc:S.where+':inn',id:'book',n:t('订房 / 续住','Book a room / stay on','Reservar / ficar mais'),cost:0,noSlot:1,run:innScene,city:1});
  A.push({loc:S.where+':inn',id:'lobby',n:t('在大堂打听本地消息','Ask around in the lobby','Perguntar no átrio'),cost:1,run:lobbyScene,city:1,req:()=>S.flags['lobby'+dayIndex()]?t('今天已经聊过了','Already chatted today','Já conversaste hoje'):true,pre:()=>{S.flags['lobby'+dayIndex()]=1}});
+ if(CAR()&&CAR().food&&canDrive())A.push({loc:S.where+':trip',id:'foodtruck',n:t('支起餐车卖一轮','Open the food truck for a round','Abrir a roulote para uma ronda'),cost:2,city:1,
+  req:()=>S.flags.ftDay===dayIndex()?t('今天已经出过摊了','Already sold today','Já vendeste hoje'):S.inv.beef+S.inv.pork+S.inv.fish+S.inv.dairy<6?t('冷库里的货不够 6 份','Fewer than 6 portions in stock','Menos de 6 doses em stock'):true,
+  run:()=>{S.flags.ftDay=dayIndex();const r=popupSell(24,1.4);S.rep+=1;
+   return say(t('餐车','Food truck','Roulote'),[t(`你把餐车停在${res(CITIES[S.where].n,'zh')}最热闹的那条街上，掀开窗板。炭烟一飘出去，队就排起来了。`,`You park the truck on the busiest street in ${res(CITIES[S.where].n,'en')} and prop open the hatch. The moment the charcoal smoke drifts out, a line forms.`,`Estacionas a roulote na rua mais movimentada de ${res(CITIES[S.where].n,'pt')} e abres a janela. Mal o fumo do carvão se espalha, forma-se uma fila.`),
+    t(`卖出 ${r.sold} 份，进账 $${r.cash}。`,`${r.sold} portions sold, $${r.cash} taken.`,`${r.sold} doses vendidas, $${r.cash} de receita.`)],t('口碑 +1 · 线上评分上涨','Reputation +1 · online rating up','Reputação +1 · avaliação online sobe'))}});
  A.push({loc:S.where+':trip',id:'roadtrip',n:t('继续上路去别的城市','Drive on to another city','Seguir para outra cidade'),cost:0,noSlot:1,run:roadTripScene,city:1});
  A.push({loc:S.where+':trip',id:'home',n:t('回圣鲁伊斯','Go back to San Luís','Voltar para San Luís'),cost:1,run:goHome,city:1});
  return A;
@@ -1347,7 +1377,7 @@ function roadName(k){return ROADS[k]?tt(ROADS[k].n):''}
 function viaText(c){const v=(c&&c.via)||[];return v.length?v.map(roadName).join(' → '):''}
 function cityPos(id){return id==='home'?TX_PT.home:TX_PT[id]}
 function legMiles(a,b){const A=cityPos(a),B=cityPos(b);if(!A||!B)return 0;const r=Math.PI/180,R=3959;const dLa=(B[1]-A[1])*r,dLo=(B[0]-A[0])*r;const h=Math.sin(dLa/2)**2+Math.cos(A[1]*r)*Math.cos(B[1]*r)*Math.sin(dLo/2)**2;return Math.round(2*R*Math.asin(Math.sqrt(h))*1.25)}
-function legFare(m){if(S&&S.flags&&S.flags.dbgFreeTravel)return 0;return canDrive()?Math.round(m*0.12):Math.round(8+m*0.12)}
+function legFare(m){if(S&&S.flags&&S.flags.dbgFreeTravel)return 0;return canDrive()?Math.round(m*CAR().gas):Math.round(8+m*0.12)}
 // keep driving to another city without going home first
 function roadTripScene(){
  const here=S.where;const ids=Object.keys(CITIES).filter(k=>k!==here&&cityPos(k)).sort((a,b)=>legMiles(here,a)-legMiles(here,b));
@@ -1374,7 +1404,7 @@ const GUIDE=[
  [['营业','Running the shop','O restaurante'],['三种营业方式：亲自招呼（魅力与口音生效、小费多）、下厨帮忙（烤架小游戏决定火候）、推荐贵菜。8 张桌子（露天座位升级后 12 张），客人有耐心和预算，等太久会走。每周房租 $250，另有营收 16% 的杂费。','Three ways to open: work the floor (charm and accent count, more tips), work the kitchen (the grill mini-game sets the quality) or upsell. Eight tables (twelve with the patio), and customers have patience and budgets — wait too long and they leave. Rent is $250 a week plus 16% of revenue in overheads.','Três maneiras de abrir: atender (contam o charme e o sotaque, mais gorjetas), cozinhar (o minijogo da grelha decide a qualidade) ou sugerir pratos caros. Oito mesas (doze com a esplanada); os clientes têm paciência e orçamento — se esperarem demais, vão-se embora. Renda de $250 por semana mais 16% da receita em despesas.']],
  [['经营面板','The Business panel','O painel Negócio'],['定价（平价 / 正常 / 高档）、本周招牌菜（+$2、所有人更想点）、浮动市价（每周一变动，偶有紧缺或降价）、外烩订单（备齐食材后交付，过期掉口碑）、店铺升级、长期供货（在各地结交的人给的永久折扣）。','Pricing (budget / standard / premium), the house special (+$2, everyone orders it more), a market whose prices change every Monday (with shortages and sales), catering orders (stock the ingredients and deliver; missed deadlines cost reputation), upgrades, and supply deals — permanent discounts from people you befriend around Texas.','Preços (económico / normal / premium), prato da casa (+$2, toda a gente o pede mais), um mercado que muda todas as segundas (com faltas e promoções), encomendas de catering (junta os ingredientes e entrega; prazos falhados custam reputação), melhorias e acordos de fornecimento — descontos permanentes de pessoas que conheces pelo Texas.']],
  [['卫生、员工与订货','Hygiene, staff and standing orders','Higiene, equipa e encomendas fixas'],['每次营业都会弄脏厨房，太脏出错多；县卫生检查大约每月一次，评级影响客流。最多可雇 5 名员工（乔琳、玛丽索尔、汤米，以及认识后可雇的德肖恩和露丝·安）。员工有士气与培训等级：员工餐和培训能提升，发不出工资士气会掉，降到零会辞职。长期订货每周一按固定价送到，不受市价影响。','Every service dirties the kitchen, and a dirty kitchen makes mistakes; county health inspections come roughly monthly and the grade changes foot traffic. You can hire up to five staff (Jolene, Marisol, Tommy, and — once you know them — DeShawn and Ruth Ann). Staff have morale and training: family meals and training raise them, missed payroll lowers morale, and at zero they quit. Standing orders arrive every Monday at a fixed price, whatever the market does.','Cada serviço suja a cozinha, e uma cozinha suja erra mais; a inspeção sanitária do condado vem mais ou menos uma vez por mês e a nota muda a clientela. Podes contratar até cinco pessoas (Jolene, Marisol, Tommy e, depois de os conheceres, o DeShawn e a Ruth Ann). A equipa tem moral e formação: refeições do pessoal e formação melhoram-nas, salários em atraso baixam a moral e, a zero, despedem-se. As encomendas fixas chegam todas as segundas a preço fixo, faça o mercado o que fizer.']],
- [['出行、旅店与公路旅行','Travel, lodging and road trips','Viagens, alojamento e viagens de estrada'],['早晨或午间可以出门，花 2 点精力。没车坐灰狗巴士；买二手皮卡并跟厄尔学会开车后只付油钱。近处城市当天往返，远处要过夜；每座城市都有三档旅店，订房就能多住（一趟最多 7 晚）。在外地可以“继续上路去别的城市”，回家时按所在城市的距离付路费。你不在时，有员工就照常营业，没员工就关门掉口碑。','Leave in the morning or at midday for 2 energy. Without a car you take the Greyhound; buy a used pickup and learn to drive with Earl and you only pay for gas. Nearby cities are day trips, far ones need a night; every city has three tiers of lodging, and booking lets you stay longer (up to 7 nights a trip). From any city you can drive on to another; the trip home is priced from wherever you are. While you are away, staff keep the shop open — without staff it stays shut and reputation slips.','Parte de manhã ou ao almoço, por 2 de energia. Sem carro vais de Greyhound; compra uma carrinha usada e aprende a conduzir com o Earl e só pagas gasolina. As cidades perto são ida e volta, as longe pedem dormida; todas têm três níveis de alojamento e reservar deixa-te ficar mais (até 7 noites por viagem). De qualquer cidade podes seguir para outra; o regresso paga-se a partir de onde estiveres. Enquanto estás fora, a equipa mantém o restaurante aberto — sem equipa fica fechado e a reputação cai.']],
+ [['出行、旅店与公路旅行','Travel, lodging and road trips','Viagens, alojamento e viagens de estrada'],['早晨或午间可以出门，花 2 点精力。没车坐灰狗巴士；在镇上的辅路二手车场买辆车并跟厄尔学会开车后只付油钱。五种车各有价钱、油耗和每周保险保养费，便宜的车会半路抛锚，餐车能在外地城市出摊卖菜。近处城市当天往返，远处要过夜；每座城市都有三档旅店，订房就能多住（一趟最多 7 晚）。在外地可以“继续上路去别的城市”，回家时按所在城市的距离付路费。你不在时，有员工就照常营业，没员工就关门掉口碑。','Leave in the morning or at midday for 2 energy. Without a car you take the Greyhound; buy one at the frontage-road car lot and learn to drive with Earl and you only pay for gas. The five vehicles differ in price, gas and weekly insurance; cheap ones break down on the road, and a food truck lets you sell food in other cities. Nearby cities are day trips, far ones need a night; every city has three tiers of lodging, and booking lets you stay longer (up to 7 nights a trip). From any city you can drive on to another; the trip home is priced from wherever you are. While you are away, staff keep the shop open — without staff it stays shut and reputation slips.','Parte de manhã ou ao almoço, por 2 de energia. Sem carro vais de Greyhound; compra um no stand da via de serviço e aprende a conduzir com o Earl e só pagas gasolina. Os cinco veículos diferem no preço, na gasolina e no seguro semanal; os baratos avariam na estrada, e uma roulote deixa-te vender comida noutras cidades. As cidades perto são ida e volta, as longe pedem dormida; todas têm três níveis de alojamento e reservar deixa-te ficar mais (até 7 noites por viagem). De qualquer cidade podes seguir para outra; o regresso paga-se a partir de onde estiveres. Enquanto estás fora, a equipa mantém o restaurante aberto — sem equipa fica fechado e a reputação cai.']],
  [['恋爱','Romance','Romance'],['16 位恋爱对象各有 7 段剧情、一次真话时刻、一场约会、一场关系危机。魅力只加好感，信任要靠真心话；用“靠脸”捷径会记轻浮计数，满 3 次全镇流言、所有人信任 −1。同时好感 ≥5 的超过 3 人会出事。信任 ≥8 时可以“定下来”，之后可以求婚、在圣安东尼节结婚，一周年选择留下进入第五章「家」。','Sixteen romance options, each with seven story beats, a moment of truth, a date and a crisis. Charm only raises affection; trust comes from honesty. Using the charm shortcut adds to a flirt count — three and the whole town talks, costing everyone\'s trust. More than three people at affection 5+ means trouble. At trust 8 you can settle down, then propose, marry at the Santo António festival and, staying at the one-year mark, enter Chapter 5, "Home".','Dezasseis romances, cada um com sete momentos, um momento da verdade, um encontro e uma crise. O charme só sobe o afeto; a confiança vem da sinceridade. O atalho do charme soma ao contador de namoricos — à terceira, a vila inteira fala e toda a gente perde confiança. Mais de três pessoas com afeto 5+ dá problemas. Com confiança 8 podes assentar, depois pedir em casamento, casar na festa de Santo António e, ficando ao fim de um ano, entrar no Capítulo 5, «Casa».']],
  [['主线与结局','Main story and endings','História e finais'],['四章主线围绕若泽的 12 封信、罐头厂的污染和特拉维斯的阴谋。第四章议会投票看证据、证人、执照、冰暴时是否开火、牧师的信任和口碑；你在德州各地收集的旁证和结交的朋友也会算进去。一周年结局：回里斯本需要乡愁 ≥70；去奥斯汀需要玛雅好感 ≥7；留下时——魅力 ≥80 且信任总和 <20 是「花瓶」，德州味 ≥70 且乡愁 ≤40 是「孤星之子」，德州味与乡愁都 ≥50 且信任总和 ≥40 是「两个家」，其余是「体面的异乡人」。','Four chapters follow José\'s 12 letters, the cannery\'s pollution and Travis\'s scheme. The chapter-4 council vote weighs evidence, witnesses, the liquor license, whether you lit the fire in the ice storm, Pastor Dale\'s trust and your reputation — side evidence and friends from around Texas count too. One-year endings: going home needs homesickness 70+; Austin needs Maya\'s affection 7+; if you stay — charm 80+ with total trust under 20 is "Pretty face", Texanness 70+ with homesickness 40 or less is "Son of the Lone Star", both 50+ with total trust 40+ is "Two homes", anything else is "A decent stranger".','Quatro capítulos seguem as 12 cartas do José, a poluição da fábrica e o esquema do Travis. A votação da câmara no capítulo 4 pesa provas, testemunhas, a licença, se acendeste a lareira na tempestade de gelo, a confiança do pastor e a tua reputação — provas e amigos de todo o Texas também contam. Finais de um ano: voltar a casa pede saudade 70+; Austin pede afeto da Maya 7+; se ficares — charme 80+ com confiança total abaixo de 20 é «Cara bonita», Texanidade 70+ com saudade até 40 é «Filho da Estrela Solitária», ambos 50+ com confiança total 40+ é «Duas casas», e o resto é «Um estrangeiro digno».']]
 ];
@@ -1415,7 +1445,7 @@ const CHEATS=[
  ['love',['所有关系拉满（好感、信任 10）','Max every relationship (affection & trust 10)','Todas as relações no máximo (afeto e confiança 10)'],()=>{Object.keys(S.npc).forEach(k=>{const r=S.npc[k];r.met=true;r.like=10;r.trust=10;r.talks=Math.max(r.talks,5)})}],
  ['dishes',['解锁全部菜和融合菜','Unlock every dish and fusion','Desbloquear todos os pratos e fusão'],()=>{S.fusion.unlocked=true;Object.keys(DISH).forEach(k=>{if(DISH[k].unlock)S.flags['dish_'+k]=1})}],
  ['stock',['每种食材 +50','+50 of every ingredient','+50 de cada ingrediente'],()=>{Object.keys(S.inv).forEach(k=>S.inv[k]+=50)}],
- ['upgrades',['全部店铺升级','Every upgrade','Todas as melhorias'],()=>{Object.keys(UPG).forEach(k=>{S.up[k]=S.week});S.course.drive=Math.max(S.course.drive,2)}],
+ ['upgrades',['全部店铺升级','Every upgrade','Todas as melhorias'],()=>{Object.keys(UPG).forEach(k=>{S.up[k]=S.week});S.course.drive=Math.max(S.course.drive,2);if(!S.car)S.car='pickup'}],
  ['crew',['雇满五名员工','Hire a full crew of five','Contratar uma equipa completa de cinco'],()=>{const ks=Object.keys(STAFF);ks.forEach(k=>{if(NPCS[k])rel(k).met=true});S.staff=ks.slice(0,STAFF_MAX);S.staff.forEach(smOf)}],
  ['clean',['厨房一尘不染','Spotless kitchen','Cozinha impecável'],()=>{S.clean=100}],
  ['letters',['拿到全部 12 封信','All 12 letters','As 12 cartas'],()=>{S.letters=12}],
@@ -1450,7 +1480,7 @@ function mapPanel(){
  const all=Object.keys(CITIES).sort((a,b)=>CITIES[a].miles-CITIES[b].miles);
  const partners=Object.keys(NPCS).filter(k=>NPCS[k].romance&&rel(k).met&&rel(k).like>=5&&rel(k).trust>=3);
  const comp=partners.length?`<label class="mini" for="tripwith">${t('同行的人（一路上会更亲近）','Bring someone along (you\'ll grow closer)','Levar alguém (vão aproximar-se)')}<select id="tripwith"><option value="">${t('一个人去','Go alone','Ir sozinho')}</option>${partners.map(k=>`<option value="${k}">${NM(k)}</option>`).join('')}</select></label>`:'';
- const how=canDrive()?t('你有皮卡，也会开车：自己开，只付油钱。','You have a pickup and can drive: you only pay for gas.','Tens carrinha e sabes conduzir: só pagas gasolina.'):has('pickup')?t('你有皮卡，但还没学会开（跟厄尔学开车到第 2 课）。现在只能坐巴士。','You own a pickup but can\'t drive yet (reach lesson 2 with Earl). Bus for now.','Tens carrinha mas ainda não conduzes (chega à 2.ª aula com o Earl). Por agora, autocarro.'):t('没车就坐灰狗巴士。买一辆二手皮卡（「经营」面板）并学会开车，出门会便宜很多。','No car means the Greyhound. Buy a used pickup (Business panel) and learn to drive to travel far cheaper.','Sem carro, vais de Greyhound. Compra uma carrinha usada (painel Negócio) e aprende a conduzir para viajares muito mais barato.');
+ const how=canDrive()?t(`你开${carName()}，自己开只付油钱（每英里 $${CAR().gas.toFixed(2)}）。`,`You drive your ${carName()}: gas only ($${CAR().gas.toFixed(2)} a mile).`,`Vais de ${carName()}: só pagas gasolina ($${CAR().gas.toFixed(2)} por milha).`):carId()?t(`你有${carName()}，但还没学会开（跟厄尔学开车到第 2 课）。现在只能坐巴士。`,`You own a ${carName()} but can't drive yet (reach lesson 2 with Earl). Bus for now.`,`Tens ${carName()} mas ainda não conduzes (chega à 2.ª aula com o Earl). Por agora, autocarro.`):t('没车就坐灰狗巴士。去镇上的辅路二手车场买辆车，再跟厄尔学会开车，出门会便宜很多。','No car means the Greyhound. Buy one at the frontage-road car lot in town and learn to drive with Earl to travel far cheaper.','Sem carro, vais de Greyhound. Compra um no stand da via de serviço e aprende a conduzir com o Earl para viajares muito mais barato.');
  const here=away()?`<p class="mini">${t('你现在在','You are in','Estás em')} <b>${CITIES[S.where].n}</b>${S.tripWith?' · '+t('同行：','with ','com ')+SH(S.tripWith):''}。${t('在下方的行动板上选「回圣鲁伊斯」回家。','Choose "Go back to San Luís" on the board below to return.','Escolhe «Voltar para San Luís» no painel de ações para regressar.')}</p>`:'';
  const regs=['all',...['central','hill','north','coast','west'].filter(r=>all.some(id=>CITIES[id].region===r))];
  const ids=all.filter(id=>MAP_RG==='all'||CITIES[id].region===MAP_RG);
@@ -7255,6 +7285,56 @@ ROAD_EVENTS.push({id:'tx9_flares',cond:c=>c===CITIES.beaumont,run:c=>sc(t(`内�
 (function(){const V={austin:['i35'],waco:['i35'],lockhart:['i35','us183'],gruene:['i35'],fredericksburg:['i35','us290'],sanantonio:['i35'],dallas:['i35','i35e'],fortworth:['i35'],houston:['i35','us190','i45'],galveston:['i35','us190','i45'],marfa:['i35','i10','tx17'],elpaso:['i35','i10'],bigbend:['i35','i10','us385'],lubbock:['i35','i20','us87'],amarillo:['i35','us287'],corpus:['i35','i37'],padre:['i35','i37','us77','tx100'],laredo:['i35'],nacogdoches:['i35','us190','us59'],jefferson:['i35','i35e','i20','us59'],
  permian:['i35','i20'],sanangelo:['i35','us190','us87'],abilene:['i35','i20'],delrio:['i35','us90'],beaumont:['i35','us190','i45','i10'],tyler:['i35','i35e','i20'],aggieland:['i35','us190'],valley:['i35','us281'],sanmarcos:['i35'],luckenbach:['i35','us290']};
  Object.keys(V).forEach(k=>{if(CITIES[k])CITIES[k].via=V[k]})})();
+
+/* ===== v1 · the frontage-road car lot: buy, trade in, sell and service vehicles =====
+ Vehicles and their numbers live in the engine (VEHICLES, buyCar, sellCar, carTrade, CAR, carId).
+ Flags: S.car (vehicle id or null), S.carServ (week of the last service; halves breakdowns for 6 weeks → ×0.4)
+*/
+(function(){
+const BUCK=t(`巴克`,`Buck`,`Buck`);
+const LOT=t(`辅路二手车场`,`Frontage-road car lot`,`Stand da via de serviço`);
+const LINES={
+ sedan:t(`“这辆轿车跑了二十万英里，”巴克拍拍车顶，“剩下的二十万全靠祷告。便宜，省油。坏了别来找我。”`,`"Two hundred thousand miles on this sedan," Buck says, patting the roof. "The next two hundred are on prayer. Cheap, sips gas. Don't come crying when it quits."`,`«Este carro tem duzentas mil milhas», diz o Buck, a bater no tejadilho. «As próximas duzentas são à base de oração. Barato, poupado. Se avariar, não venhas chorar.»`),
+ moto:t(`“摩托车。省油，好看，女孩子会多看你一眼。”他想了想，“下雨天你会恨它。也装不下一扇牛胸肉。”`,`"A motorcycle. Easy on gas, looks good, gets you a second glance." He thinks. "You'll hate it in the rain. And it won't carry a brisket."`,`«Uma mota. Gasta pouco, fica bem, fazem-te olhinhos.» Pensa um bocado. «Vais odiá-la quando chover. E não leva um peito de vaca.»`),
+ pickup:t(`“皮卡。在德州，没有皮卡的男人就像没有帽子的牛仔——不犯法，可大家会小声议论。”`,`"A pickup. In Texas a man without a pickup is like a cowboy without a hat — not illegal, but folks talk."`,`«Uma carrinha. No Texas, um homem sem carrinha é como um cowboy sem chapéu — não é crime, mas as pessoas comentam.»`),
+ foodtruck:t(`“一辆旧餐车，以前卖墨西哥卷饼的。烤架、冰柜、窗板都在。”巴克敲了敲车身，“开到哪儿，店就开到哪儿。油钱嘛，你就别算了。”`,`"An old food truck — used to sell tacos. Grill, cooler, serving hatch, all there." Buck knocks on the side. "Wherever you drive it, you're open for business. Just don't add up the gas."`,`«Uma roulote velha — vendia tacos. Grelha, arca, janela, está tudo.» O Buck bate na chapa. «Onde a levares, tens o restaurante aberto. Só não faças contas à gasolina.»`),
+ newtruck:t(`巴克压低声音：“这辆是全新的，经销商那边退下来的，里程表上才四十英里。全镇只有特拉维斯开得起这个级别。”`,`Buck lowers his voice. "This one's brand new, came back from a dealer with forty miles on the clock. Only Travis drives anything in this class around here."`,`O Buck baixa a voz. «Esta é novinha, veio de um concessionário com quarenta milhas no conta-quilómetros. Por aqui só o Travis anda numa coisa destas.»`)
+};
+const AFTER={
+ sedan:t(`你开着它出了车场，排气管咳了两声。巴克在后面喊：“它喜欢你！”`,`You drive it off the lot and the tailpipe coughs twice. Buck hollers after you: "She likes you!"`,`Sais do stand e o escape tosse duas vezes. O Buck grita atrás de ti: «Ela gosta de ti!»`),
+ moto:t(`你骑上摩托沿着主街开过去。花店门口有人吹了一声口哨，你没回头，耳朵红到脖子。`,`You ride the motorcycle down Main Street. Someone outside the flower shop whistles. You don't look back; your ears go red to the neck.`,`Desces a rua principal de mota. À porta da florista alguém assobia. Não olhas para trás; as orelhas ficam vermelhas até ao pescoço.`),
+ pickup:t(`你把皮卡停在店门口。厄尔从酒吧那边走过来，绕车一圈，踢了踢轮胎：“行。现在你看起来像住在这儿的了。”`,`You park the pickup outside the shop. Earl wanders over from the saloon, walks round it once, kicks a tyre. "All right. Now you look like you live here."`,`Estacionas a carrinha à porta. O Earl vem do bar, dá uma volta, dá um pontapé num pneu. «Pronto. Agora pareces de cá.»`),
+ foodtruck:t(`你在餐车侧面用葡萄牙蓝刷了一行字：若泽烧烤店·流动分店。字有点歪，阿尔贝蒂娜太太说歪得正好。`,`You paint a line in Portuguese blue along the side: Zé's Churrasco · On the Road. The letters lean a little; Dona Albertina says they lean just right.`,`Pintas na lateral, em azul português: Churrasqueira do Zé · Sobre Rodas. As letras ficam um pouco tortas; a Dona Albertina diz que estão tortas na medida certa.`),
+ newtruck:t(`第二天，全镇都知道葡萄牙人买了新皮卡。五金店老板说你“生意做起来了”，特拉维斯开车经过时多看了两眼。`,`By the next day the whole town knows the Portuguese fella bought a new truck. The hardware man says you've "made it"; Travis slows down for a second look as he drives by.`,`No dia seguinte a vila inteira sabe que o português comprou uma carrinha nova. O da loja de ferragens diz que «estás a ir bem»; o Travis abranda para olhar duas vezes.`)
+};
+function lotScene(){
+ const own=CAR(),tr=carTrade();
+ const intro=[t(`35 号州际公路辅路边上一块碎石地，三十来辆车排成两排，每辆挡风玻璃上都用白漆写着价钱。车场老板巴克从活动房里出来，手里端着一杯咖啡。`,`A gravel lot on the I-35 frontage road: thirty-odd vehicles in two rows, prices painted in white on every windshield. Buck, who runs the place, steps out of his trailer office holding a coffee.`,`Um terreno de gravilha na via de serviço da I-35: uns trinta veículos em duas filas, o preço pintado a branco em cada para-brisas. O Buck, o dono, sai do escritório-contentor com um café na mão.`),
+  own?t(`他看了一眼你的${own.n[0]}：“那辆我按 $${tr} 收，折进新车里。”`,`He eyes your ${own.n[1].toLowerCase()}. "I'll take that for $${tr} toward the next one."`,`Olha para o teu veículo (${own.n[2]}). «Fico com esse por $${tr} para abater no próximo.»`):t(`“第一次买车？在德州，车就是你的腿。”`,`"First car? In Texas, your car is your legs."`,`«Primeiro carro? No Texas, o carro são as tuas pernas.»`)];
+ if(S.course.drive<2)intro.push(t(`“你还不会开？那先跟厄尔学两课，车我可以先卖给你，在店门口等你。”`,`"Can't drive yet? Take a couple of lessons with Earl. I'll still sell you one — it can wait outside your shop."`,`«Ainda não conduzes? Tem umas aulas com o Earl. Vendo-te o carro na mesma — fica à tua porta à espera.»`));
+ const ch=Object.keys(VEHICLES).filter(k=>k!==carId()).map(k=>{const v=VEHICLES[k],price=v.cost-tr;
+  return {t:t(`${v.n[0]} · $${v.cost}${tr?`（折价后 $${price}）`:''} — ${v.d[0]}`,`${v.n[1]} · $${v.cost}${tr?` ($${price} after trade-in)`:''} — ${v.d[1]}`,`${v.n[2]} · $${v.cost}${tr?` ($${price} com retoma)`:''} — ${v.d[2]}`),
+   req:()=>S.cash>=price||t(`钱不够（要 $${price}）`,`Not enough money (need $${price})`,`Não tens dinheiro (precisas de $${price})`),
+   next:()=>({title:tt(v.n),meta:LOT,text:[LINES[k],t(`油耗每英里 $${v.gas.toFixed(2)}，保险和保养每周 $${v.upkeep}。`,`Gas $${v.gas.toFixed(2)} a mile; insurance and upkeep $${v.upkeep} a week.`,`Gasolina $${v.gas.toFixed(2)} por milha; seguro e manutenção $${v.upkeep} por semana.`)],choices:[
+    {t:t(`成交（$${price}）`,`Deal ($${price})`,`Negócio fechado ($${price})`),req:()=>S.cash>=price||t('钱不够','Not enough money','Não tens dinheiro'),fx:()=>{buyCar(k);if(k==='newtruck'){S.rep+=3;stat('tex',2)}if(k==='pickup')stat('tex',2);if(k==='foodtruck')S.lusoThisWeek=true},
+     next:()=>say(tt(v.n),AFTER[k],k==='newtruck'?t('口碑 +3 · 德州味 +2','Reputation +3 · Texanness +2','Reputação +3 · Texanidade +2'):k==='pickup'?t('德州味 +2','Texanness +2','Texanidade +2'):'')},
+    {t:t('再想想','Let me think about it','Vou pensar')}]})}});
+ if(own)ch.push({t:t(`把${own.n[0]}直接卖给他（+$${tr}）`,`Just sell him the ${own.n[1].toLowerCase()} (+$${tr})`,`Vender-lhe só o veículo (+$${tr})`),fx:()=>sellCar(),next:()=>say(LOT,t('巴克数钱数得很慢，像在数自己的好心。“想买车的时候再来。”','Buck counts the money out slowly, like he\'s counting his own generosity. "Come back when you want wheels."','O Buck conta o dinheiro devagar, como quem conta a própria generosidade. «Volta quando quiseres rodas.»'))});
+ ch.push({t:t('只是看看','Just looking','Só estou a ver')});
+ return {title:LOT,meta:BUCK,text:intro,choices:ch};
+}
+function serviceScene(){
+ const v=CAR();if(!v)return say(LOT,t('你还没有车。','You don\'t have a vehicle yet.','Ainda não tens veículo.'));
+ S.cash-=40;S.wk.spend+=40;S.carServ=S.week;
+ return say(t('保养','Service','Revisão'),[t(`巴克的侄子钻到${v.n[0]}底下，换了机油、皮带和一个你叫不出名字的零件。“六个礼拜内它会听话的，”他说，“之后看它心情。”`,`Buck's nephew slides under the ${v.n[1].toLowerCase()} and changes the oil, a belt and a part you can't name. "She'll behave for six weeks," he says. "After that, depends on her mood."`,`O sobrinho do Buck enfia-se debaixo do veículo (${v.n[2]}) e muda o óleo, uma correia e uma peça cujo nome não sabes. «Seis semanas a portar-se bem», diz. «Depois, depende do humor dela.»`)],
+  t('$40 · 六周内抛锚概率降到四成','$40 · breakdown chance cut to 40% for six weeks','$40 · probabilidade de avaria reduzida a 40% durante seis semanas'));
+}
+EXTRA_LOCS.push({id:'v1_lot',n:LOT,open:()=>S.week>=2,acts:[
+ {id:'v1_look',n:t('看车 / 买车 / 卖车','Browse, buy or sell a vehicle','Ver, comprar ou vender um veículo'),cost:1,tip:t('五种车，旧车可以折价','Five vehicles; trade-ins welcome','Cinco veículos; aceita retomas'),run:lotScene},
+ {id:'v1_service',n:t('给车做保养 $40','Service your vehicle · $40','Fazer a revisão · $40'),cost:1,tip:t('六周内少抛锚','Fewer breakdowns for six weeks','Menos avarias durante seis semanas'),
+  req:()=>!carId()?t('你还没有车','You don\'t have a vehicle','Ainda não tens veículo'):!CAR().brk?t('新车不需要保养','A new truck doesn\'t need it','Uma carrinha nova não precisa'):S.carServ&&S.week-S.carServ<6?t(`刚保养过（第 ${S.carServ} 周）`,`Serviced recently (week ${S.carServ})`,`Revisão recente (semana ${S.carServ})`):S.cash<40?t('钱不够','Not enough money','Não tens dinheiro'):true,run:serviceScene}
+]});
+})();
 
 /* ---------- story events ---------- */
 /* ===================== v0.3 — romance deepening =====================
