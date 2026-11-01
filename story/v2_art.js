@@ -66,6 +66,8 @@ const DISHES={
  tx8_betty:()=>plate()+steak(28,64,46,'#c68a45')+gravy(30,52,40)+L('M80 54 l12 -6 M82 60 l12 -6 M84 66 l12 -6',K.green,3),
  pandecampo:()=>skillet()+E(58,56,36,15,'#e8c07a',{stroke:'#c4924a',stroke_width:1.2})+L('M40 52 l8 6 M54 50 l8 6 M68 50 l8 6',K.breadD,1.5)+C(48,60,1.3,'#b8823a')+C(70,60,1.3,'#b8823a'),
  boudin:()=>plate()+L('M34 62 q-6 -16 12 -18 q22 -2 28 10 q4 12 -14 14 q-14 0 -10 -8',K.terraD,10)+L('M34 62 q-6 -16 12 -18 q22 -2 28 10 q4 12 -14 14 q-14 0 -10 -8',K.terra,7)+R(82,56,12,9,'#f2dca0',{rx:1})+R(86,62,12,9,'#f2dca0',{rx:1}),
+ p4_concha:()=>plate()+[[40,58,'#f3b6c4'],[68,54,'#f6d27a'],[78,68,'#f3b6c4']].map(([x,y,f])=>E(x,y+3,15,8,'#d9a35a',{stroke:K.breadD,stroke_width:1.2})+P(`M${x-14} ${y+1} Q${x} ${y-14} ${x+14} ${y+1} Q${x} ${y+5} ${x-14} ${y+1} Z`,f,{stroke:'rgba(0,0,0,.18)',stroke_width:1})+L(`M${x-9} ${y-1} Q${x} ${y-9} ${x+9} ${y-1} M${x-5} ${y+1} Q${x} ${y-12} ${x+5} ${y+1} M${x} ${y+2} L${x} ${y-9}`,'rgba(120,70,40,.45)',1)).join(''),
+ p4_gulao:()=>plate()+[[40,56],[52,50],[64,56],[76,52],[58,64],[46,64],[72,64]].map(([x,y])=>E(x,y,7,5.5,'#c9452a',{stroke:'#8a2a16',stroke_width:1})+C(x-2,y-2,1.6,'rgba(255,255,255,.45)')).join('')+[[56,57],[70,58]].map(([x,y])=>R(x-4,y-3,8,6,'#f2cf4a',{rx:1.5,stroke:'#c9a22a',stroke_width:.8})).join('')+L('M36 62 l8 -3 M80 58 l8 -3 M62 46 l8 2',K.green,3)+C(84,64,1.2,K.white)+C(36,52,1.2,K.white),
  barbacoa:()=>plate()+tortilla(46,58,20)+tortilla(76,64,18)+[...Array(10)].map((_,i)=>L(`M${36+i*4} ${54+(i%3)*2} l6 3`,K.meatL,2.4)).join('')+C(44,52,2,K.white)+C(52,56,2,K.white)+C(48,58,1.8,K.green)+P('M84 48 a8 8 0 0 1 12 6 Z','#7fb24a',{stroke:'#4f8a2c',stroke_width:1})
 };
 function dishArt(k,cls){const f=DISHES[k];return f?svg('0 0 120 90',f(),'art-dish '+(cls||'')):''}

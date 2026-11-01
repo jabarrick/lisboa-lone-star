@@ -11,11 +11,13 @@ run(){ # name, command, regex that must appear in the output, regex that must no
 run validate   "node validate.js story/*.js"   "NO PROBLEMS FOUND"
 run roadcheck  "node tests/roadcheck.js"        "ROADS OK"
 run p3         "node tests/p3_test.js"          "P3 OK"
+run p4        "node tests/p4_test.js"          "P4 OK"
 run cars      "node tests/v1_cars_test.js"     "CARS OK"
 run art       "node tests/art_test.js"         "ART OK"
 run tx7        "node tests/tx7_test.js"         "witness"
 for t in ui_wiki ui_mappage; do run $t "node tests/$t.js" "phone errors \[\]" "errors \[[^]]"; done
 for t in ui_phone ui_test ui_map ui_map2 ui_inn ui_travel ui_road ui_routes; do run $t "node tests/$t.js" "errors:? ?(none|\[\])" "TimeoutError"; done
+run ui_start  "node tests/ui_start.js"         "START OK"
 run ui_overflow "node tests/ui_overflow.js" "LAYOUT OK"
 run ui_shots   "node tests/ui_shots.js shop,biz,map,people,ach,log,wiki" "" "Error"
 if [ "$1" != quick ]; then
