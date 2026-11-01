@@ -121,90 +121,8 @@ function hat(t,col,fy,fw,fh){const top=fy-fh,c=col?(CLOTH[col]||col):null;
  if(t==='kufi'){const k=c||'#f4f2ee';return P(`M${50-fw+1} ${fy-9} Q${50-fw+1} ${top-4} 50 ${top-4.5} Q${50+fw-1} ${top-4} ${50+fw-1} ${fy-9} Z`,k,{stroke:sh(k,-0.12),stroke_width:0.6})}
  if(t==='visor'){const k=c||'#2f7470';return R(50-fw-1,fy-12,fw*2+2,3,k,{rx:1.4})+P(`M${50-fw} ${fy-9.5} Q50 ${fy-6} ${50+fw+8} ${fy-8} L${50+fw} ${fy-10} Z`,sh(k,-0.2))}
  return ''}
-/* the player: a lean, long, handsome face — narrow jaw, square chin, large eyes; the hair hugs the skull with a natural hairline */
-function hface(o){
- const sk=SKIN[o.sk||1],skD=sh(sk,-0.15),skDD=sh(sk,-0.3),skL=sh(sk,0.24),hc=HAIR[o.hc]||o.hc,hcD=sh(hc,-0.3),hcL=sh(hc,0.22),cc=CLOTH[o.cc]||o.cc,ccD=sh(cc,-0.22);
- const fw=12.2,fy=44,fh=22,chin=o.chin==='pointed'?70.5:70,ey=fy+0.9,ex=5.1,iris=o.eye||'#5a3a22';
- const cw=o.chin==='pointed'?2.4:3.2,cd=o.chin==='pointed'?1.5:0.9,jx=o.chin==='pointed'?3.4:3.2,jy=o.chin==='pointed'?18:18.6; // chin half-width, chin drop, jaw corner
- const bgc=C(50,50,50,BG[o.bgi||0]);let s='';
- if(o.h==='long'){s+=P(`M${50-fw-1.6} 36 Q${50-fw-3.6} 50 ${50-fw-2.8} 62 Q${50-fw-5} 68 ${50-fw-6.4} 71 Q${50-fw-1} 72 ${50-fw+3} 69 L${50+fw-3} 69 Q${50+fw+1} 72 ${50+fw+6.4} 71 Q${50+fw+5} 68 ${50+fw+2.8} 62 Q${50+fw+3.6} 50 ${50+fw+1.6} 36 Z`,hc);for(let k=-2;k<=2;k++)s+=L(`M${50+k*4.4} 44 Q${50+k*5} 58 ${50+k*5.6+(k<0?-1:1)} 68`,sh(hc,-0.25),0.7,{opacity:.45})}
- if(o.h==='mid')s+=P(`M${50-fw-3.4} 36 Q${50-fw-5.4} 48 ${50-fw-3.2} ${fy+10} Q${50-fw-0.6} ${fy+12.4} ${50-fw+1} ${fy+8.6} L${50+fw-1} ${fy+8.6} Q${50+fw+0.6} ${fy+12.4} ${50+fw+3.2} ${fy+10} Q${50+fw+5.4} 48 ${50+fw+3.4} 36 Z`,hc);
- // shoulders, neck, clothes
- s+=P('M4 100 Q8 76 31.5 70.5 Q50 77 68.5 70.5 Q92 76 96 100 Z',cc);
- s+=R(44.6,fy+16,10.8,14,skD,{rx:3})+P(`M44.6 ${fy+20} Q50 ${fy+25} 55.4 ${fy+20} L55.4 ${fy+22.6} Q50 ${fy+27.4} 44.6 ${fy+22.6} Z`,skDD,{opacity:.45});
- s+=clothes(o,cc,ccD,sk,skD);
- // ears
- s+=E(50-fw+0.3,fy+2.6,2.3,4.4,skD)+E(50+fw-0.3,fy+2.6,2.3,4.4,skD)+L(`M${50-fw-0.6} ${fy+1} q-0.9 1.6 0 3.4`,skDD,0.55)+L(`M${50+fw+0.6} ${fy+1} q0.9 1.6 0 3.4`,skDD,0.55);
- // head: long and lean, straight cheeks, narrow angled jaw, square chin
- const head=`M${50-fw} ${fy-8} Q${50-fw} ${fy-fh} 50 ${fy-fh} Q${50+fw} ${fy-fh} ${50+fw} ${fy-8} L${50+fw} ${fy+7} Q${50+fw-0.4} ${fy+14.5} ${50+fw-jx} ${fy+jy} L${50+cw} ${chin-1} Q50 ${chin+cd} ${50-cw} ${chin-1} L${50-fw+jx} ${fy+jy} Q${50-fw+0.4} ${fy+14.5} ${50-fw} ${fy+7} Z`;
- s+=P(head,sk);
- s+=P(`M${50+fw-2.6} ${fy-13} Q${50+fw+0.4} ${fy-2} ${50+fw} ${fy+6} Q${50+fw-0.4} ${fy+14.5} ${50+fw-jx} ${fy+jy} L${50+cw} ${chin-1} Q${50+cw*0.4} ${chin-0.4} ${50+cw*0.6} ${chin-2.4} L${50+fw-4.4} ${fy+16.4} Q${50+fw-2.4} ${fy+4} ${50+fw-2.6} ${fy-13} Z`,skD,{opacity:.3});
- s+=P(`M${50-fw+0.6} ${fy+7} Q${50-fw+3} ${fy+9} ${50-fw+4.4} ${fy+12.5} Q${50-fw+2} ${fy+11.6} ${50-fw+0.6} ${fy+9} Z`,skD,{opacity:.28})+P(`M${50+fw-0.6} ${fy+7} Q${50+fw-3} ${fy+9} ${50+fw-4.4} ${fy+12.5} Q${50+fw-2} ${fy+11.6} ${50+fw-0.6} ${fy+9} Z`,skD,{opacity:.38});
- s+=P(`M${50-fw+1.2} ${fy+8.4} Q${50-fw+3.4} ${fy+11} ${50-fw+3.6} ${fy+15.6} Q${50-fw+2} ${fy+13} ${50-fw+0.8} ${fy+10.6} Z`,skD,{opacity:.35})+P(`M${50+fw-1.2} ${fy+8.4} Q${50+fw-3.4} ${fy+11} ${50+fw-3.6} ${fy+15.6} Q${50+fw-2} ${fy+13} ${50+fw-0.8} ${fy+10.6} Z`,skD,{opacity:.45});
- s+=L(`M48.8 ${chin-1.8} Q50 ${chin-1.1} 51.2 ${chin-1.8}`,skD,0.55,{opacity:.7});
- // eyes: realistic, slightly hooded almond shape; the upper lid covers the top of the iris; deep-set under the brow
- for(const d of [-1,1]){const x=50+d*ex,inner=x-d*3,outer=x+d*3.1;
-  s+=P(`M${x-3.6} ${ey-1.2} Q${x} ${ey-4.6} ${x+3.6} ${ey-1.4} L${x+3.2} ${ey+0.6} Q${x} ${ey-1.6} ${x-3.2} ${ey+0.6} Z`,skD,{opacity:.38});
-  const eye=`M${inner} ${ey+0.3} Q${x-d*0.5} ${ey-2.55} ${outer} ${ey-0.2} Q${x+d*0.4} ${ey+1.7} ${inner} ${ey+0.3} Z`;
-  s+=P(eye,'#f3ede4');
-  s+=`<clipPath id="pe${d<0?'l':'r'}"><path d="${eye}"/></clipPath><g clip-path="url(#pe${d<0?'l':'r'})">`+C(x+0.15,ey-0.25,1.62,iris)+C(x+0.15,ey-0.25,1.62,'none',{stroke:sh(iris,-0.45),stroke_width:0.3})+C(x+0.15,ey-0.25,0.76,'#120d0a')+P(`M${x-3.4} ${ey-3} L${x+3.4} ${ey-3} L${x+3.4} ${ey-1.5} Q${x} ${ey-0.9} ${x-3.4} ${ey-1.5} Z`,'#000',{opacity:.16})+`</g>`+C(x+0.66,ey-0.86,0.4,'#fff',{opacity:.9});
-  s+=L(`M${inner-d*0.2} ${ey+0.35} Q${x-d*0.5} ${ey-2.75} ${outer+d*0.2} ${ey-0.25}`,'#1d1410',1.05);
-  s+=L(`M${inner+d*0.6} ${ey+0.95} Q${x} ${ey+1.95} ${outer-d*0.4} ${ey+0.4}`,skDD,0.4,{opacity:.5});
-  s+=L(`M${x-2.6} ${ey-3.3} Q${x} ${ey-4.1} ${x+2.8} ${ey-3.1}`,skDD,0.45,{opacity:.5})}
- // brows: thick, straight, close to the eyes
- const bc=o.brow||(['blonde','ash','platinum'].includes(o.hc)||/^#c/.test(o.hc)?sh(hc,-0.45):hcD);
- s+=P(`M${50-ex-3.6} ${ey-3.6} L${50-ex+3} ${ey-4.9} L${50-ex+3.2} ${ey-3.8} L${50-ex-3.4} ${ey-2.8} Z`,bc)+P(`M${50+ex+3.6} ${ey-3.9} L${50+ex-3} ${ey-5} L${50+ex-3.2} ${ey-3.9} L${50+ex+3.4} ${ey-3.1} Z`,bc);
- // nose: long and straight
- s+=L(`M50.6 ${ey-0.4} L51 ${ey+7.6}`,skL,0.9,{opacity:.8})+L(`M51.7 ${ey+1.4} Q52.5 ${ey+6.4} 52 ${ey+8.6}`,skD,0.7,{opacity:.7})+L(`M48 ${ey+8.8} Q49.2 ${ey+9.9} 50.3 ${ey+9.5} Q51.4 ${ey+10} 52.5 ${ey+8.9}`,skDD,0.8,{opacity:.72});
- // mouth: well-shaped lips, a half-smile
- s+=L(`M46.6 ${ey+13.2} Q49.6 ${ey+14.5} 53.6 ${ey+12.7}`,'#6b382c',1.15)+L(`M47.9 ${ey+15.1} Q50.1 ${ey+15.9} 52.4 ${ey+15}`,skD,0.9,{opacity:.8})+L(`M53.6 ${ey+12.7} l0.6 -0.5`,'#6b382c',0.75);
- // facial hair
- const fhc=HAIR[o.fhc]||o.fhc||hc,beard=`M${50-fw+0.2} ${fy+5} Q${50-fw+0.4} ${fy+15} ${50-fw+jx} ${fy+jy} L${50-cw} ${chin-1} Q50 ${chin+cd} ${50+cw} ${chin-1} L${50+fw-jx} ${fy+jy} Q${50+fw-0.4} ${fy+15} ${50+fw-0.2} ${fy+5} Q${50+fw-2.6} ${fy+11} ${50+fw-5.2} ${ey+12.4} Q50 ${ey+11} ${50-fw+5.2} ${ey+12.4} Q${50-fw+2.6} ${fy+11} ${50-fw+0.2} ${fy+5} Z`;
- const stache=`M45.8 ${ey+12.5} Q50 ${ey+10.1} 54.2 ${ey+12.2} Q52 ${ey+12} 50 ${ey+11.5} Q48 ${ey+12.2} 45.8 ${ey+12.5} Z`;
- if(o.fh==='stubble')s+=P(beard,fhc,{opacity:.24})+P(stache,fhc,{opacity:.3});
- if(o.fh==='beard')s+=P(beard,fhc,{opacity:.9})+P(stache,fhc)+L(`M46.6 ${ey+13.2} Q49.6 ${ey+14.5} 53.6 ${ey+12.7}`,'#6b382c',1.1);
- if(o.fh==='mustache')s+=P(stache,fhc)+P(beard,fhc,{opacity:.16});
- s+=hhair(o,hc,hcD,hcL,fy,fw,fh);
- return bgc+`<g transform="translate(50 60) scale(1.1) translate(-50 -60)">${s}</g>`}
-function hhair(o,hc,hcD,hcL,fy,fw,fh){const t=o.h,top=fy-fh;let s='';
- // hair that hugs the skull: crown outline + a natural hairline with slight temples, down to sideburns at the ears
- const hairline=(dip)=>`L${50+fw-0.1} ${fy+1} Q${50+fw-0.3} ${fy-7} ${50+fw-3.4} ${fy-11.6} Q50 ${fy-14.6+(dip||0)} ${50-fw+3.4} ${fy-11.6} Q${50-fw+0.3} ${fy-7} ${50-fw+0.1} ${fy+1}`;
- const crown=(lift,w)=>`M${50-fw-(w||1.3)} ${fy+1} Q${50-fw-(w||1.3)-1.1} ${top-0.6-lift*0.5} 50 ${top-2.2-lift} Q${50+fw+(w||1.3)+1.1} ${top-0.6-lift*0.5} ${50+fw+(w||1.3)} ${fy+1}`;
- const base=(lift,op)=>P(crown(lift)+hairline()+'Z',hc,op?{opacity:op}:{});
- const burns=()=>P(`M${50-fw+0.1} ${fy-3} L${50-fw+1.3} ${fy-3} L${50-fw+0.7} ${fy+2.6} L${50-fw+0.2} ${fy+2.6} Z M${50+fw-0.1} ${fy-3} L${50+fw-1.3} ${fy-3} L${50+fw-0.7} ${fy+2.6} L${50+fw-0.2} ${fy+2.6} Z`,hc);
- const shine=(d)=>L(d,hcL,1,{opacity:.5});
- const strands=(n,y0,col,op)=>{let r='';for(let i=0;i<n;i++){const x=50-fw+3.6+i*(fw*2-9)/(n-1);r+=L(`M${x-1} ${y0+2.6} Q${x+0.4} ${y0-0.6} ${x+1.8} ${y0-1.6}`,col||hcD,0.7,{opacity:op||0.5})}return r};
- if(t==='textured'){s+=P(`M${50-fw-1.3} ${fy+1} Q${50-fw-2.6} ${top} ${50-fw+2.6} ${top-2.8} Q${50-6} ${top-5.2} ${50-2.2} ${top-3.6} Q${50+1.6} ${top-6} ${50+5.6} ${top-3.8} Q${50+fw-0.6} ${top-4.2} ${50+fw+1.6} ${top+0.6} Q${50+fw+2.4} ${fy-6} ${50+fw+1.3} ${fy+1}`+hairline()+'Z',hc)+burns()+strands(5,top+3)+shine(`M${50-6} ${top-0.8} Q${50-1} ${top-3.2} ${50+5} ${top-1.4}`)}
- if(t==='quiff'){s+=P(crown(1)+hairline(1.2)+'Z',hc)+burns()+P(`M${50-fw+2.6} ${fy-11.8} Q${50-fw+0.6} ${top-6.4} ${50+2} ${top-8} Q${50+fw+1.6} ${top-6.6} ${50+fw-0.6} ${fy-9.4} Q${50+3.4} ${top-1.4} ${50-2} ${fy-13.8} Q${50-fw+4.2} ${fy-12.8} ${50-fw+2.6} ${fy-11.8} Z`,hc)+shine(`M${50-7} ${top-4.6} Q${50+1} ${top-7.4} ${50+8.6} ${top-4.4}`)+strands(4,top+3.4)}
- if(t==='undercut'){s+=base(0,0.5)+P(`M${50-fw+1.6} ${fy-9.4} Q${50-fw+0.6} ${top-4.6} 50 ${top-5.8} Q${50+fw+0.8} ${top-4.6} ${50+fw-1.2} ${fy-9.8} Q${50+fw-3.4} ${fy-12} ${50+fw-3.6} ${fy-11.8} Q50 ${fy-14.6} ${50-fw+3.6} ${fy-11.6} Q${50-fw+2.2} ${fy-10.6} ${50-fw+1.6} ${fy-9.4} Z`,hc)+shine(`M${50-7} ${top-2.4} Q${50+2} ${top-4.8} ${50+fw-3} ${top-0.6} M${50-5} ${top+0.4} Q${50+3} ${top-1.4} ${50+fw-4} ${top+2.6}`)}
- if(t==='fringe'){s+=base(1.4)+burns();const locks=[[-9,fy-9.2],[-5.2,fy-8],[-1.4,fy-8.6],[2.4,fy-9.6],[6.2,fy-10.4]];
-  s+=P(`M${50-fw+1} ${fy-9} Q${50-fw+2} ${top+1.6} 50 ${top+0.6} Q${50+fw-1} ${top+1.6} ${50+fw-0.4} ${fy-9}`+locks.slice().reverse().map(([dx,y])=>` L${50+dx+1.8} ${y-1.8} L${50+dx} ${y}`).join('')+` L${50-fw+2} ${fy-10.6} Z`,hc)+L(locks.map(([dx,y],k)=>`M${50+dx+0.6} ${y-0.6} L${50+dx+3.4} ${top+3}`).join(' '),hcD,0.6,{opacity:.55})+shine(`M${50-5} ${top+2} Q${50+1} ${top} ${50+7} ${top+2.4}`)}
- if(t==='manbun'){s+=P(crown(0.2,0.9)+hairline()+'Z',hc)+burns()+C(50+1,top-3.4,4.6,hc)+C(50+1,top-3.4,4.6,'none',{stroke:hcD,stroke_width:0.5})+L(`M${50-fw+2.6} ${fy-10} Q${50-3} ${top+0.6} ${50+1} ${top} M${50+fw-2.6} ${fy-10} Q${50+4} ${top+0.8} ${50+1} ${top}`,hcD,0.6,{opacity:.55})+shine(`M${50-7} ${top+2} Q50 ${top-0.4} ${50+7} ${top+2.2}`)}
- if(t==='curlytop'){s+=base(1.2)+burns();for(let r=0;r<2;r++)for(let i=0;i<6;i++){const x=50-fw+2.6+i*(fw*2-5.2)/5+(r?1.6:0),y=top+(r?1.6:-1.2)-Math.sin(i/5*Math.PI)*1.8;s+=C(x,y,3,hc)+L(`M${x-1.6} ${y+0.4} q1.6 -2 3.2 0`,hcD,0.55,{opacity:.6})+C(x-0.8,y-1,0.9,hcL,{opacity:.4})}
-  for(let i=0;i<4;i++){const x=50-6+i*4;s+=C(x,fy-12.4+(i%2)*0.8,2.2,hc)}}
- if(t==='side'){s+=base(0.8)+burns()+P(`M${50-fw+3} ${fy-11.2} Q${50-3} ${top+0.2} ${50+fw-0.2} ${fy-8.6} Q${50+3} ${fy-14.2} ${50-fw+3} ${fy-11.2} Z`,hc)+L(`M${50-4.6} ${top-1.6} Q${50-5.4} ${fy-12.8} ${50-7.6} ${fy-11.6}`,hcD,0.8)+shine(`M${50-2} ${top} Q${50+5} ${top-0.6} ${50+fw-3} ${top+3}`)+strands(4,top+4.4)}
- if(t==='slick'){s+=P(crown(1.6)+hairline(-1.2)+'Z',hc)+burns()+L(`M${50-fw+2.6} ${fy-12.6} Q50 ${top-2.8} ${50+fw-2.6} ${fy-12.6} M${50-fw+4.6} ${fy-15} Q50 ${top-3.6} ${50+fw-4.6} ${fy-15}`,hcD,0.7)+shine(`M${50-6} ${top-1.6} Q50 ${top-3.2} ${50+6} ${top-1.4}`)}
- if(t==='buzz')s+=P(crown(-1.2,0.2)+hairline()+'Z',hc,{opacity:.72})+R(50-fw-0.2,fy-3,1.4,5,hc,{rx:0.6,opacity:.72})+R(50+fw-1.2,fy-3,1.4,5,hc,{rx:0.6,opacity:.72});
- if(t==='mid'){s+=P(crown(1.6,2.4)+`L${50+fw+1.6} ${fy+8} Q${50+fw-0.2} ${fy+9} ${50+fw-0.6} ${fy+5} Q${50+fw-0.6} ${fy-6} ${50+fw-3.6} ${fy-11.4} Q${50+2} ${fy-14.8} ${50-3} ${fy-12.4} Q${50-fw+2.6} ${fy-10.4} ${50-fw+0.6} ${fy-2} L${50-fw+0.6} ${fy+5} Q${50-fw+0.2} ${fy+9} ${50-fw-1.6} ${fy+8} Z`,hc)+L(`M${50-fw-1.2} ${fy-4} q-0.8 4 0.6 8.4 M${50+fw+1.2} ${fy-4} q0.8 4 -0.6 8.4 M${50-2} ${fy-12.6} Q${50-5} ${fy-10} ${50-6.6} ${fy-7.6}`,hcD,0.7,{opacity:.6})+shine(`M${50-7} ${top} Q${50} ${top-2.2} ${50+7} ${top+0.2}`)}
- // ---- the four protagonist styles ----
- if(t==='long'){s+=P(crown(2.2,1.8)+hairline(-0.6)+'Z',hc)+P(`M${50-fw-1.8} ${fy+1} Q${50-fw-2.6} ${fy+8} ${50-fw-1.6} ${fy+13} L${50-fw-0.2} ${fy+12} Q${50-fw-0.6} ${fy+6} ${50-fw+0.2} ${fy+1} Z M${50+fw+1.8} ${fy+1} Q${50+fw+2.6} ${fy+8} ${50+fw+1.6} ${fy+13} L${50+fw+0.2} ${fy+12} Q${50+fw+0.6} ${fy+6} ${50+fw-0.2} ${fy+1} Z`,hc);
-  s+=L(`M${50-fw+3} ${fy-11.8} Q${50-5} ${top} ${50+2} ${top-1.6} M${50-1} ${fy-13.6} Q${50+2} ${top+1} ${50+8} ${top+1.4} M${50+fw-3} ${fy-11.8} Q${50+fw-1} ${fy-6} ${50+fw+1} ${fy+4} M${50-fw+2} ${fy-9} Q${50-fw-0.6} ${fy-3} ${50-fw-1} ${fy+6}`,hcD,0.65,{opacity:.55})+shine(`M${50-7} ${top+0.6} Q${50-1} ${top-2.8} ${50+6} ${top-0.4}`)}
- if(t==='flattop'){// faded sides, a flat squared top with bristles
-  s+=P(crown(-0.6,0.3)+hairline()+'Z',hc,{opacity:.55})+burns();
-  const y0=fy-12.2,yt=top-1.8;s+=P(`M${50-fw+0.6} ${fy-7} Q${50-fw+0.4} ${y0-3} ${50-fw+1.8} ${yt+2.4} Q${50-fw+2.8} ${yt} ${50-fw+5.4} ${yt} L${50+fw-5.4} ${yt} Q${50+fw-2.8} ${yt} ${50+fw-1.8} ${yt+2.4} Q${50+fw-0.4} ${y0-3} ${50+fw-0.6} ${fy-7} Q${50+fw-2.6} ${fy-11.4} ${50+fw-3.6} ${fy-11.8} Q50 ${fy-14.6} ${50-fw+3.6} ${fy-11.8} Q${50-fw+2.6} ${fy-11.4} ${50-fw+0.6} ${fy-7} Z`,hc);
-  for(let k=0;k<9;k++){const x=50-fw+5+k*(fw*2-10)/8;s+=L(`M${x} ${yt+0.4} L${x+0.2} ${yt+2.6}`,hcD,0.5,{opacity:.5})}
-  s+=L(`M${50-fw+5.4} ${yt+0.3} L${50+fw-5.4} ${yt+0.3}`,hcL,0.7,{opacity:.5})}
- if(t==='crop'){// buzz cut: an even, very short layer, skull and hairline showing, fine texture
-  s+=P(crown(-1.6,0)+hairline()+'Z',hc,{opacity:.62});
-  for(let k=0;k<26;k++){const ang=Math.PI*(0.12+0.76*((k*7)%26)/26),r=fw-1.2-(k%3)*1.6;s+=C(50+Math.cos(ang)*-r,fy-9.4-Math.sin(ang)*(fh-11)-(k%2),0.3,hcD,{opacity:.55})}
-  s+=P(`M${50-fw+0.2} ${fy-2.6} L${50-fw+1.1} ${fy-2.6} L${50-fw+0.7} ${fy+1.6} L${50-fw+0.3} ${fy+1.6} Z M${50+fw-0.2} ${fy-2.6} L${50+fw-1.1} ${fy-2.6} L${50+fw-0.7} ${fy+1.6} L${50+fw-0.3} ${fy+1.6} Z`,hc,{opacity:.62})}
- if(t==='curls'){// full curls; uneven edge at the forehead and temples
-  s+=P(crown(2.6,1.8)+hairline(1.2)+'Z',hc)+burns();
-  const pts=[];for(let r=0;r<3;r++)for(let k=0;k<7-r;k++){const ang=Math.PI*(0.08+0.84*(k+(r?0.5:0))/(6-r)),rad=fw+1.2-r*3.4;pts.push([50-Math.cos(ang)*rad,fy-8-Math.sin(ang)*(fh-6-r*3.6),2.9-r*0.25])}
-  for(const [x,y,rr] of [[50-fw+1.6,fy-9],[50-fw+4.4,fy-11.6],[50-2.6,fy-12.8],[50+1.6,fy-13.2],[50+fw-4.6,fy-11.8],[50+fw-1.8,fy-9.4]].map(([x,y])=>[x,y,2.4]).concat(pts))s+=C(x,y,rr,hc)+L(`M${x-rr*0.6} ${y+rr*0.2} q${rr*0.6} ${-rr*0.9} ${rr*1.2} 0`,hcD,0.55,{opacity:.6})+C(x-rr*0.35,y-rr*0.4,rr*0.32,hcL,{opacity:.4})}
- return s}
 const SV=(inner,cls)=>`<svg class="art art-face ${cls||''}" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><defs><clipPath id="fc"><circle cx="50" cy="50" r="50"/></clipPath></defs><g clip-path="url(#fc)">${inner}</g></svg>`;
-return {face,hface,SV};
+return {face,SV};
 })();
 
 /* ---------- who looks like what ---------- */
@@ -304,8 +222,7 @@ const FACE={
  tessa:{sk:1,h:'ponytail',hc:'chestnut',cl:'flannel',cc:'maroon',freckles:1,bgi:5},
  chayo:{sk:5,h:'bun',hc:'white',hat:'straw',cl:'shirt',cc:'cream',acc:['earrings'],age:2,bgi:2},
  // not in NPCS but appear in scenes
- pruitt:{sk:1,h:'short',hc:'brown',fh:'mustache',hat:'cowboy',hatc:'cream',cl:'uniform',cc:'tan',acc:['badge'],age:1,mouth:'flat',bgi:7},
- tiago:{sk:1,h:'curly',hc:'dark',fh:'stubble',cl:'apron',cc:'navy',ac:'white',bgi:0}
+ pruitt:{sk:1,h:'short',hc:'brown',fh:'mustache',hat:'cowboy',hatc:'cream',cl:'uniform',cc:'tan',acc:['badge'],age:1,mouth:'flat',bgi:7}
 };
 // 'blouse' renders like a dress neckline with a collar
 const facePrep=o=>{const p=Object.assign({},o);if(p.cl==='blouse')p.cl='shirt';if(p.cc==='shirt')p.cc='sky';return p};
@@ -327,32 +244,3 @@ function actNpc(a){if(!a||!a.id)return null;const id=String(a.id);
 {const m0=meetScene;meetScene=function(id){const sc=m0(id);if(sc&&!sc.art)sc.art=npcFace(id);return sc}}
 {const t0=talkScene;talkScene=function(id){const sc=t0(id);if(sc&&!sc.art)sc.art=npcFace(id);return sc}}
 if(typeof truthScene==='function'){const u0=truthScene;truthScene=function(id){const sc=u0(id);if(sc&&!sc.art)sc.art=npcFace(id);return sc}}
-
-/* ---------- the player's look: pick one of a few handsome Lisboetas (start screen, or the people panel later) ---------- */
-const PLAYER_LOOKS=[
- {n:['黑色平头','Black flat top','Corte raso preto'],o:{sk:2,h:'flattop',hc:'black',cl:'tee',cc:'white',bgi:6}},
- {n:['金色平头','Blond flat top','Corte raso loiro'],o:{chin:'pointed',sk:0,h:'flattop',hc:'blonde',fh:'stubble',eye:'#3f6f9c',cl:'shirt',cc:'white',bgi:3}},
- {n:['深棕平头胡茬','Dark flat top and stubble','Corte raso escuro e barba curta'],o:{sk:3,h:'flattop',hc:'dark',fh:'stubble',cl:'shirt',cc:'white',bgi:7}},
- {n:['亚麻金平头','Ash-blond flat top','Corte raso loiro-cinza'],o:{chin:'pointed',sk:1,h:'flattop',hc:'ash',eye:'#5f7f4a',cl:'tee',cc:'white',bgi:0}},
- {n:['黑色寸头','Black buzz cut','Cabelo rapado preto'],o:{sk:3,h:'crop',hc:'black',fh:'stubble',cl:'tee',cc:'white',bgi:4}},
- {n:['金色寸头','Blond buzz cut','Cabelo rapado loiro'],o:{chin:'pointed',sk:1,h:'crop',hc:'blonde',eye:'#4f86b0',cl:'tee',cc:'white',bgi:1}},
- {n:['深棕寸头络腮胡','Dark buzz cut and beard','Cabelo rapado escuro e barba'],o:{sk:2,h:'crop',hc:'dark',fh:'beard',cl:'shirt',cc:'white',bgi:5}},
- {n:['蜜金寸头','Honey-blond buzz cut','Cabelo rapado loiro-mel'],o:{sk:2,h:'crop',hc:'#c99a4a',fh:'stubble',fhc:'#b0823c',cl:'shirt',cc:'white',bgi:2}},
- {n:['黑色卷发','Black curls','Caracóis pretos'],o:{chin:'pointed',sk:2,h:'curls',hc:'black',cl:'shirt',cc:'white',bgi:5}},
- {n:['金色卷发','Golden curls','Caracóis dourados'],o:{chin:'pointed',sk:1,h:'curls',hc:'#c99a4a',fh:'stubble',fhc:'#b0823c',eye:'#4f86b0',cl:'tee',cc:'white',bgi:2}},
- {n:['深棕卷发胡茬','Dark curls and stubble','Caracóis escuros e barba curta'],o:{sk:3,h:'curls',hc:'dark',fh:'stubble',cl:'tee',cc:'white',bgi:6}},
- {n:['亚麻金卷发','Ash-blond curls','Caracóis loiro-cinza'],o:{chin:'pointed',sk:0,h:'curls',hc:'ash',eye:'#3f6f9c',cl:'shirt',cc:'white',bgi:4}}
-];
-let pendingLook=0;
-const lookIdx=()=>{const i=S&&S.look!=null?S.look:pendingLook;return PLAYER_LOOKS[i]?i:0};
-function playerFace(cls){return FACES.SV(FACES.hface(PLAYER_LOOKS[lookIdx()].o),cls)}
-FACE.tiago=PLAYER_LOOKS[0].o; // (the player's portrait always comes from playerFace)
-{const nf0=npcFace;npcFace=function(id,cls){return id==='tiago'?playerFace(cls):nf0(id,cls)}}
-function lookPickerHTML(){const cur=lookIdx();
- return `<div class="look-pick" role="radiogroup">${PLAYER_LOOKS.map((L,i)=>`<button type="button" class="look-opt${i===cur?' on':''}" data-look-pick="${i}" role="radio" aria-checked="${i===cur}" title="${tt(L.n)}">${FACES.SV(FACES.hface(L.o),'face-pick')}<span>${tt(L.n)}</span></button>`).join('')}</div>`}
-function lookCardHTML(){return `<div class="look-card">${playerFace('face-me')}<div><b>${S.name}</b><div class="mini">${t('这是你。形象在开局时选定。','This is you. Your look was chosen at the start.','Este és tu. O visual foi escolhido no início.')}</div></div></div>`}
-// a new game takes the look picked on the start screen
-{const ns0=newState;newState=function(...args){const s=ns0(...args);s.look=pendingLook;return s}}
-if(typeof document!=='undefined'&&document.addEventListener)document.addEventListener('click',e=>{const b=e.target&&e.target.closest&&e.target.closest('[data-look-pick]');if(!b)return;
- const i=+b.dataset.lookPick;if(!PLAYER_LOOKS[i])return;
- if(S)return;{pendingLook=i;document.querySelectorAll('[data-look-pick]').forEach(x=>{const on=+x.dataset.lookPick===i;x.classList.toggle('on',on);x.setAttribute('aria-checked',on)})}});
