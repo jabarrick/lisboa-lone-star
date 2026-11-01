@@ -1,0 +1,12 @@
+{
+  "name": "lisboa-lone-star",
+  "private": true,
+  "description": "《里斯本·孤星》LISBOA, LONE STAR — a trilingual narrative management sim",
+  "scripts": {
+    "build": "python3 build.py",
+    "validate": "node validate.js story/*.js",
+    "check": "python3 build.py && node validate.js story/*.js",
+    "test:econ": "node tests/econ_bot.js",
+    "test:ui": "node tests/ui_wiki.js && node tests/ui_mappage.js"
+  }
+}

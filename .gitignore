@@ -1,0 +1,6 @@
+check.js
+*.bak
+node_modules/
+recon/
+shots/
+.DS_Store
