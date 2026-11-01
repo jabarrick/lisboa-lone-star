@@ -4,3 +4,4 @@ node_modules/
 recon/
 shots/
 .DS_Store
+.claude/worktrees/
