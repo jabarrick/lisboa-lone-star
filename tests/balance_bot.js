@@ -1,5 +1,5 @@
 // Balance probe: a "human-ish" player (about half the slots in the shop, keeps stock up, rest random).
-// Usage: node tests/balance_bot.js [runs] [shopShare] [staff] [nocar]   (by default buys a used pickup at week 8 once cash > $3500)   (needs a fresh build: python3 build.py)
+// Usage: node tests/balance_bot.js [runs] [shopShare] [staff] [nocar]   (by default buys the 1995 F-150 at week 8 once cash > $3500)   (needs a fresh build: python3 build.py)
 const fs=require('fs');const el=()=>({innerHTML:'',classList:{add(){},remove(){}},dataset:{},onclick:null,value:'T'});
 global.document={querySelector:()=>el(),querySelectorAll:()=>[],documentElement:{}};global.window={innerWidth:1200,innerHeight:900,matchMedia:()=>({matches:false,addEventListener(){}}),addEventListener(){},scrollTo(){},requestAnimationFrame(){}};global.localStorage={getItem:()=>null,setItem(){},removeItem(){}};
 let js=fs.readFileSync('check.js','utf8').replace(/document\.documentElement\.lang=[^\n]*\ndocument\.title=[^\n]*\nrender\(\);\s*$/,'');
@@ -16,7 +16,7 @@ for(let run=0;run<RUNS;run++){S=newState('T',['浓','中','淡'][run%3]);S.npc.g
    if(W.includes(w)){(acc[w]=acc[w]||[]).push([S.cash,h?h.profit:0,S.rep,S.online,S.stats.charme,charmBonus(),charm(),S.stats.oficio,S.stats.tex,S.stats.saud]);if(S.cash<0)neg++}}
   if(S.inv.beef<12&&S.cash>150){S.cash-=73;S.wk.spend+=73;S.inv.beef+=10}if(S.inv.pork<12&&S.cash>80){S.cash-=29;S.wk.spend+=29;S.inv.pork+=10}if(S.inv.fish<8&&S.cash>80){S.cash-=37;S.wk.spend+=37;S.inv.fish+=10}if(S.inv.dairy<10&&S.cash>60){S.cash-=18;S.wk.spend+=18;S.inv.dairy+=10}
   if(HIRE&&S.cash>800&&S.staff.length<2){for(const k of ['tommy','marisol','jolene']){if(S.staff.length<2&&!S.staff.includes(k)&&((k==='tommy'&&S.week>=5)||(k==='marisol'&&rel('marisol').met)||(k==='jolene'&&rel('jolene').like>=3))){S.staff.push(k);smOf(k)}}}
-  if(CARS&&!S.car&&S.week>=8&&S.cash>3500)buyCar('pickup');
+  if(CARS&&!S.car&&S.week>=8&&S.cash>3500)buyCar('f150_95');
   const A=actions().filter(a=>locOpen(a.loc)&&(!a.req||a.req()===true)&&S.energy>=costOf(a)&&a.loc!=='x:v1_lot');
   if(!A.length){doAction(actions().find(a=>a.id==='sleep'));continue}
   const shop=A.filter(x=>['host','cook','upsell'].includes(x.id));
