@@ -103,6 +103,18 @@ select{font:inherit;font-size:13px;width:100%;background:var(--surface);color:va
 .go{font:inherit;margin-top:16px;background:var(--rust);color:#fff;border:none;border-radius:8px;padding:10px 20px;cursor:pointer;font-size:15px}
 .toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:8px 16px;border-radius:8px;font-size:13px;opacity:0;transition:opacity .2s;pointer-events:none;max-width:90vw;z-index:40;text-align:center}
 .toast.on{opacity:1}
+/* illustrations (story/v2_art.js) */
+.art{display:block;flex:none}
+.scene-art{margin:2px 0 8px;display:flex;justify-content:center}.scene-art .art{width:100%;max-width:300px;height:auto}
+.scene-art .art-dish{max-width:200px}
+.art-ico{width:34px;height:26px}.art-empty{border:1px dashed var(--line);border-radius:50%;opacity:.6}
+#panel label.mini.menu-slot{display:flex;align-items:flex-end;gap:5px}#panel label.mini.menu-slot>span:last-child{flex:1;min-width:0}
+@media (max-width:760px){.menu-slot .art-ico{width:26px;height:20px}}#panel label.menu-slot select{width:100%}
+.car-row{justify-content:flex-start!important;align-items:center}.art-car-s{width:96px;height:44px}
+.wiki-pic{display:flex;gap:10px;align-items:flex-start}.wiki-pic>.art-dish{width:72px;height:54px}.wiki-pic>.art-car{width:110px;height:51px}
+.art-locked{filter:grayscale(1) brightness(.35);opacity:.35}
+.lot-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin:4px 0 10px}.lot-grid figure{margin:0;text-align:center;font-size:11.5px;line-height:1.3;color:var(--muted)}.lot-grid .art{width:100%;height:auto}.lot-grid b{color:var(--ink);font-weight:600}
+@media (prefers-color-scheme:dark){.art{filter:brightness(.92)}.art-locked{filter:grayscale(1) brightness(.5)}}
 @media (prefers-reduced-motion:reduce){.toast{transition:none}}
 .col-l{display:flex;flex-direction:column;gap:14px;min-width:0}
 .tx-map{padding:14px 16px}
@@ -764,7 +776,7 @@ const carTrade=()=>{const v=CAR();if(!v)return 0;const driven=Math.max(0,carOdo(
 const carBrk=()=>{const v=CAR();return v?v.brk*(S.carServ&&S.week-S.carServ<6?0.4:1):0};
 function carDrive(m){if(canDrive())S.carMi=carOdo()+m}
 function carPanel(){const v=CAR();
- const body=v?`<div class="npc"><div><span class="nm">${carFull(v)}</span> <span class="grp">${S.course.drive>=2?t('能开','ready to drive','pronto a andar'):t('还不会开','can\'t drive yet','ainda não conduzes')}</span><div class="mini">${t(`里程表 ${fmtMi(carOdo())} 英里 · 油耗 每英里 $${v.gas.toFixed(2)} · 保险与保养 每周 $${v.upkeep}`,`Odometer ${fmtMi(carOdo())} mi · gas $${v.gas.toFixed(2)}/mile · insurance & upkeep $${v.upkeep}/week`,`Conta-quilómetros ${fmtMi(carOdo())} mi · gasolina $${v.gas.toFixed(2)}/milha · seguro e manutenção $${v.upkeep}/semana`)}${v.brk?t(` · 抛锚 ${Math.round(carBrk()*100)}%/趟`,` · breakdowns ${Math.round(carBrk()*100)}%/trip`,` · avarias ${Math.round(carBrk()*100)}%/viagem`):''}${v.charm?t(` · 魅力 ${v.charm>0?'+':''}${v.charm}`,` · charm ${v.charm>0?'+':''}${v.charm}`,` · charme ${v.charm>0?'+':''}${v.charm}`):''} · ${t(`折价 $${carTrade()}`,`trade-in $${carTrade()}`,`retoma $${carTrade()}`)}</div></div></div>`
+ const body=v?`<div class="npc car-row">${carArt(carId(),'art-car-s')}<div><span class="nm">${carFull(v)}</span> <span class="grp">${S.course.drive>=2?t('能开','ready to drive','pronto a andar'):t('还不会开','can\'t drive yet','ainda não conduzes')}</span><div class="mini">${t(`里程表 ${fmtMi(carOdo())} 英里 · 油耗 每英里 $${v.gas.toFixed(2)} · 保险与保养 每周 $${v.upkeep}`,`Odometer ${fmtMi(carOdo())} mi · gas $${v.gas.toFixed(2)}/mile · insurance & upkeep $${v.upkeep}/week`,`Conta-quilómetros ${fmtMi(carOdo())} mi · gasolina $${v.gas.toFixed(2)}/milha · seguro e manutenção $${v.upkeep}/semana`)}${v.brk?t(` · 抛锚 ${Math.round(carBrk()*100)}%/趟`,` · breakdowns ${Math.round(carBrk()*100)}%/trip`,` · avarias ${Math.round(carBrk()*100)}%/viagem`):''}${v.charm?t(` · 魅力 ${v.charm>0?'+':''}${v.charm}`,` · charm ${v.charm>0?'+':''}${v.charm}`,` · charme ${v.charm>0?'+':''}${v.charm}`):''} · ${t(`折价 $${carTrade()}`,`trade-in $${carTrade()}`,`retoma $${carTrade()}`)}</div></div></div>`
   :`<p class="mini">${t('还没有车，出门坐灰狗巴士。','No car yet — you ride the Greyhound.','Ainda sem carro — andas de Greyhound.')}</p>`;
  return `<h3 class="sub">${t('车辆','Vehicle','Veículo')}</h3>${body}<p class="mini">${t('买车、卖车和保养都在行动板上的「辅路二手车场」，每周换一批车。','Buy, sell and service at the frontage-road car lot on the action board; the stock changes every week.','Compra, venda e manutenção no stand da via de serviço, no quadro de ações; os carros mudam todas as semanas.')}</p>`}
 function buyCar(k){const v=VEHICLES[k],price=v.cost-carTrade();S.cash-=price;S.wk.spend+=price;S.car=k;S.carMi=v.miles;if(S.up)delete S.up.pickup;S.carServ=0;
@@ -1205,7 +1217,7 @@ function goTrip(id,withId){
  const comp=withId?[t(`${SH(withId)}坐在你旁边，一路上把收音机调来调去。`,`${SH(withId)} rides beside you, fiddling with the radio the whole way.`,`${SH(withId)} vai ao teu lado, sempre a mexer no rádio.`)]:[];
  const road=ROAD_EVENTS.filter(e=>!e.cond||e.cond(c));
  pendingAdvance=true;
- push({title:c.n,meta:REGION(c.region)+` · ${c.miles} ${t('英里','miles','milhas')}`,text:[how,...breakdown,tt(c.desc),...comp,...extra],choices:[{t:t('到了','Arrive','Chegar'),next:()=>road.length&&Math.random()<0.35?pick(road).run(c):null}]});
+ push({title:c.n,meta:REGION(c.region)+` · ${c.miles} ${t('英里','miles','milhas')}`,art:canDrive()?carArt(carId(),'art-wide'):'',text:[how,...breakdown,tt(c.desc),...comp,...extra],choices:[{t:t('到了','Arrive','Chegar'),next:()=>road.length&&Math.random()<0.35?pick(road).run(c):null}]});
 }
 function goHome(){
  const c=CITIES[S.where];const was=S.where;let legBack=0;if(S.tripLegs>0){legBack=legFare(legMiles(was,'home'));S.cash-=legBack;S.wk.spend+=legBack;carDrive(legMiles(was,'home'))}S.tripLegs=0;S.where=null;S.tripNights=0;S.innTonight=null;const w=S.tripWith;S.tripWith=null;
@@ -1261,8 +1273,8 @@ function cityActions(){
  if(CAR()&&CAR().food&&canDrive())A.push({loc:S.where+':trip',id:'foodtruck',n:t('支起餐车卖一轮','Open the food truck for a round','Abrir a roulote para uma ronda'),cost:2,city:1,
   req:()=>S.flags.ftDay===dayIndex()?t('今天已经出过摊了','Already sold today','Já vendeste hoje'):S.inv.beef+S.inv.pork+S.inv.fish+S.inv.dairy<6?t('冷库里的货不够 6 份','Fewer than 6 portions in stock','Menos de 6 doses em stock'):true,
   run:()=>{S.flags.ftDay=dayIndex();const r=popupSell(24,1.4);S.rep+=1;
-   return say(t('餐车','Food truck','Roulote'),[t(`你把餐车停在${res(CITIES[S.where].n,'zh')}最热闹的那条街上，掀开窗板。炭烟一飘出去，队就排起来了。`,`You park the truck on the busiest street in ${res(CITIES[S.where].n,'en')} and prop open the hatch. The moment the charcoal smoke drifts out, a line forms.`,`Estacionas a roulote na rua mais movimentada de ${res(CITIES[S.where].n,'pt')} e abres a janela. Mal o fumo do carvão se espalha, forma-se uma fila.`),
-    t(`卖出 ${r.sold} 份，进账 $${r.cash}。`,`${r.sold} portions sold, $${r.cash} taken.`,`${r.sold} doses vendidas, $${r.cash} de receita.`)],t('口碑 +1 · 线上评分上涨','Reputation +1 · online rating up','Reputação +1 · avaliação online sobe'))}});
+   return Object.assign(say(t('餐车','Food truck','Roulote'),[t(`你把餐车停在${res(CITIES[S.where].n,'zh')}最热闹的那条街上，掀开窗板。炭烟一飘出去，队就排起来了。`,`You park the truck on the busiest street in ${res(CITIES[S.where].n,'en')} and prop open the hatch. The moment the charcoal smoke drifts out, a line forms.`,`Estacionas a roulote na rua mais movimentada de ${res(CITIES[S.where].n,'pt')} e abres a janela. Mal o fumo do carvão se espalha, forma-se uma fila.`),
+    t(`卖出 ${r.sold} 份，进账 $${r.cash}。`,`${r.sold} portions sold, $${r.cash} taken.`,`${r.sold} doses vendidas, $${r.cash} de receita.`)],t('口碑 +1 · 线上评分上涨','Reputation +1 · online rating up','Reputação +1 · avaliação online sobe')),{art:carArt(carId(),'art-wide')})}});
  A.push({loc:S.where+':trip',id:'roadtrip',n:t('继续上路去别的城市','Drive on to another city','Seguir para outra cidade'),cost:0,noSlot:1,run:roadTripScene,city:1});
  A.push({loc:S.where+':trip',id:'home',n:t('回圣鲁伊斯','Go back to San Luís','Voltar para San Luís'),cost:1,run:goHome,city:1});
  return A;
@@ -1414,7 +1426,7 @@ const GUIDE=[
 ];
 function wikiMatch(...xs){if(!WIKI_Q)return true;const q=WIKI_Q.toLowerCase();return xs.some(x=>['zh','en','pt'].some(l=>res(x,l).toLowerCase().includes(q)))}
 function wikiPanel(){
- const secs=[['guide',t('玩法','Guide','Guia')],['people',t('人物','People','Pessoas')],['cities',t('城市','Cities','Cidades')],['roads',t('公路','Roads','Estradas')],['dishes',t('菜谱','Recipes','Receitas')],['letters',t('信','Letters','Cartas')]];
+ const secs=[['guide',t('玩法','Guide','Guia')],['people',t('人物','People','Pessoas')],['cities',t('城市','Cities','Cidades')],['roads',t('公路','Roads','Estradas')],['dishes',t('菜谱','Recipes','Receitas')],['cars',t('车辆','Vehicles','Veículos')],['letters',t('信','Letters','Cartas')]];
  const nav=`<div class="acts wiki-nav">${secs.map(([k,n])=>`<button class="btn-s ${WIKI_SEC===k?'on':''}" data-wsec="${k}">${n}</button>`).join('')}</div><label class="mini" for="wikiq">${t('搜索','Search','Pesquisar')}<input type="search" id="wikiq" class="wiki-q" value="${WIKI_Q.replace(/"/g,'&quot;')}"></label>`;
  const one=sec=>{let body='';
  if(sec==='guide')body=GUIDE.filter(([h,b])=>wikiMatch(tt(h),tt(b))).map(([h,b])=>`<div class="wiki-e"><b>${tt(h)}</b><p class="mini">${tt(b)}</p></div>`).join('');
@@ -1425,7 +1437,8 @@ function wikiPanel(){
   return `<div class="wiki-e"><b>${c.n}</b> <span class="grp">${REGION(c.region)} · ${c.miles} ${t('英里','mi','mi')}</span><p class="mini">${tt(c.desc)}</p><p class="mini">${t('地点：','Places: ','Locais: ')}${c.locs.map(L=>L.n).join(' · ')}${c.via?' · '+t('路线：','Route: ','Percurso: ')+viaText(c):''}${v?' · '+t(`去过 ${v} 次`,`visited ${v}×`,`visitado ${v}×`):''}</p></div>`}).join('');
  if(sec==='roads')body=Object.keys(ROADS).filter(k=>wikiMatch(tt(ROADS[k].n))).map(k=>{const r=ROADS[k];const on=Object.keys(CITIES).filter(id=>(CITIES[id].via||[]).includes(k));return `<div class="wiki-e"><b>${tt(r.n)}</b> <span class="grp">${r.n[1]}</span><p class="mini">${on.length?t('经过这条路去：','Taken to reach: ','Usada para ir a: ')+on.map(id=>CITIES[id].n).join(' · '):''}</p></div>`}).join('');
  if(sec==='dishes')body=Object.keys(DISH).filter(k=>wikiMatch(tt(DISH[k].n))).map(k=>{const d=DISH[k];const locked=(d.unlock&&!S.flags['dish_'+k])||(d.fusion&&!S.fusion.unlocked);const fans=Object.keys(d.pref||{}).filter(c=>d.pref[c]>=3).map(c=>tt(CUST[c].n)).join('、');
-  return `<div class="wiki-e"><b>${locked&&!debugOn()?'？？？':tt(d.n)}</b> <span class="grp">$${d.price} · ${d.ing?tt(ING[d.ing].n):t('无需食材','no ingredient','sem ingrediente')}${d.luso?' · '+t('葡萄牙菜','Portuguese','português'):''}${d.fusion?' · '+t('融合菜','fusion','fusão'):''}</span><p class="mini">${locked?(d.fusion?t('研发融合菜后解锁','Unlocks once you develop fusion dishes','Desbloqueia ao criar pratos de fusão'):t('在德州某地学会后解锁','Learn it somewhere in Texas to unlock','Aprende-o algures no Texas para desbloquear')):(fans?t('最爱的客人：','Favourite with: ','Preferido de: ')+fans:'')}</p></div>`}).join('');
+  return `<div class="wiki-e wiki-pic">${dishArt(k,locked&&!debugOn()?'art-locked':'')}<div><b>${locked&&!debugOn()?'？？？':tt(d.n)}</b> <span class="grp">$${d.price} · ${d.ing?tt(ING[d.ing].n):t('无需食材','no ingredient','sem ingrediente')}${d.luso?' · '+t('葡萄牙菜','Portuguese','português'):''}${d.fusion?' · '+t('融合菜','fusion','fusão'):''}</span><p class="mini">${locked?(d.fusion?t('研发融合菜后解锁','Unlocks once you develop fusion dishes','Desbloqueia ao criar pratos de fusão'):t('在德州某地学会后解锁','Learn it somewhere in Texas to unlock','Aprende-o algures no Texas para desbloquear')):(fans?t('最爱的客人：','Favourite with: ','Preferido de: ')+fans:'')}</p></div></div>`}).join('');
+ if(sec==='cars')body=`<p class="mini">${t('辅路二手车场每周挂出其中 6 辆。','The frontage-road lot shows six of these each week.','O stand da via de serviço mostra seis destes por semana.')}</p>`+Object.keys(VEHICLES).sort((x,y)=>VEHICLES[x].cost-VEHICLES[y].cost).filter(k=>wikiMatch(carFull(VEHICLES[k]))).map(k=>{const v=VEHICLES[k];return `<div class="wiki-e wiki-pic">${carArt(k)}<div><b>${carFull(v)}</b> <span class="grp">$${fmtMi(v.cost)} · ${fmtMi(v.miles)} ${t('英里','mi','mi')}</span><p class="mini">${tt(v.quirk)}</p></div></div>`}).join('');
  if(sec==='letters')body=`<p class="mini">${t(`你已找到若泽的 ${S.letters}/12 封信。信的全文只在剧情里出现——留意第一到第四章的每一个抽屉、保险柜和旧箱子。`,`You have found ${S.letters}/12 of José's letters. Their full text appears only in the story — watch every drawer, safe and old crate from Chapter 1 to 4.`,`Encontraste ${S.letters}/12 cartas do José. O texto completo só aparece na história — atenção a cada gaveta, cofre e caixa velha do capítulo 1 ao 4.`)}</p><div class="room">${Array.from({length:12},(_,i)=>`<span class="seat ${i<S.letters?'s-happy':'s-gone'}" title="${i+1}"></span>`).join('')}</div>`;
  return body};
  let body;if(WIKI_Q){body=secs.filter(([k])=>k!=='letters').map(([k,n])=>{const b=one(k);return b&&b.includes('wiki-e')?`<h3 class="sub">${n}</h3>`+b:''}).join('')}else body=one(WIKI_SEC);
@@ -1980,7 +1993,7 @@ function sceneHTML(){
  const ps=(cur.text||[]).map(x=>`<p>${x}</p>`).join('');
  const list=cur.choices&&cur.choices.length?cur.choices:[{t:t('继续','Continue','Continuar')}];
  const ch=list.map((c,i)=>{const r=c.req?c.req():true;const dis=r!==true;return `<button class="choice" data-c="${i}" ${dis?'disabled':''}>${c.t}${dis?`<span class="req">${r}</span>`:''}</button>`}).join('');
- return `${cur.meta?`<div class="meta">${cur.meta}</div>`:''}${cur.title?`<h2>${cur.title}</h2>`:''}${ps}${cur.html||''}${cur.mini?miniHTML(cur):''}<div class="choices">${ch}</div>`;
+ return `${cur.meta?`<div class="meta">${cur.meta}</div>`:''}${cur.title?`<h2>${cur.title}</h2>`:''}${cur.art?`<div class="scene-art">${cur.art}</div>`:''}${ps}${cur.html||''}${cur.mini?miniHTML(cur):''}<div class="choices">${ch}</div>`;
 }
 function innerThought(){
  if(S.stats.saud>80)return t('你又想起了阿尔法马的台阶。太多次了。','You\'re thinking about the Alfama steps again. Too often.','Voltas a pensar nos degraus de Alfama. Vezes demais.');
@@ -2010,7 +2023,7 @@ function panelHTML(){
 }
 function shopPanel(){
  const opts=k=>`<option value="">${t('— 空 —','— empty —','— vazio —')}</option>`+Object.keys(DISH).filter(d=>(!DISH[d].fusion||S.fusion.unlocked)&&(!DISH[d].unlock||S.flags['dish_'+d])).map(d=>`<option value="${d}" ${k===d?'selected':''}>${tt(DISH[d].n)} $${DISH[d].price}</option>`).join('');
- const menu=S.menu.map((k,i)=>`<label class="mini" for="m${i}">${t('槽位','Slot','Lugar')} ${i+1}<select id="m${i}" data-m="${i}">${opts(k)}</select></label>`).join('');
+ const menu=S.menu.map((k,i)=>`<label class="mini menu-slot" for="m${i}">${k?dishArt(k,'art-ico'):'<span class="art art-ico art-empty"></span>'}<span>${t('槽位','Slot','Lugar')} ${i+1}<select id="m${i}" data-m="${i}">${opts(k)}</select></span></label>`).join('');
  const inv=Object.keys(ING).map(k=>{const p=unitPrice(k);return `<div class="stat"><div class="lab">${tt(ING[k].n)}<b>${S.inv[k]}${k==='imp'&&S.incoming?` (+${S.incoming})`:''}</b></div><button class="btn-s" data-buy="${k}">${t('进 10 份','Buy 10','Comprar 10')} · $${(p*10).toFixed(0)}</button></div>`}).join('');
  const pool=Object.keys(STAFF).filter(k=>(k==='jolene'&&rel('jolene').like>=3)||(k==='marisol'&&rel('marisol').met)||(k==='tommy'&&S.week>=5)||(k==='p1_deshawn'&&NPCS.p1_deshawn&&rel('p1_deshawn').met&&!S.flags.p1_dsSchool&&!S.flags.p1_dsTrucks)||(k==='p1_ruthann'&&NPCS.p1_ruthann&&rel('p1_ruthann').met));
  const lockMsg={jolene:t('乔琳好感 3 后可雇','Hire after Jolene\'s affection reaches 3','Contratável com afeto da Jolene 3'),marisol:t('在牧场认识玛丽索尔后可雇','Hire after meeting Marisol at the ranch','Contratável depois de conheceres a Marisol no rancho'),tommy:t('第 5 周后可雇','Hire from week 5','Contratável a partir da semana 5'),p1_deshawn:S.flags.p1_dsSchool?t('去上厨艺学校了','Off to culinary school','Foi para a escola de cozinha'):S.flags.p1_dsTrucks?t('去开砂车了','Driving sand trucks now','Agora conduz camiões de areia'):t('在店里认识德肖恩后可雇','Hire after meeting DeShawn at the shop','Contratável depois de conheceres o DeShawn no restaurante'),p1_ruthann:t('在主街认识露丝·安后可雇','Hire after meeting Ruth Ann on Main Street','Contratável depois de conheceres a Ruth Ann na rua principal')};

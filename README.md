@@ -15,6 +15,7 @@ A trilingual (Chinese / English / Portuguese) narrative management sim: Tiago, f
 - 16 条恋爱线、结婚生子留美的第五、六章
 - 30 座真实德州城市、真实公路网、旅店与公路旅行
 - 车辆：辅路二手车场 16 辆具体的二手车（品牌车型、年份、里程，每周轮换 6 辆），油耗、每周保险保养、抛锚、里程表与折价、餐车出摊
+- 插图：37 道菜和 16 辆车都有内嵌 SVG 插图（`story/v2_art.js`，总览见 `docs/art_preview.png`）
 - 百科与调试模式（百科页底部开启）
 
 ## 项目结构

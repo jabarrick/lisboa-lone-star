@@ -12,6 +12,7 @@ run validate   "node validate.js story/*.js"   "NO PROBLEMS FOUND"
 run roadcheck  "node tests/roadcheck.js"        "ROADS OK"
 run p3         "node tests/p3_test.js"          "P3 OK"
 run cars      "node tests/v1_cars_test.js"     "CARS OK"
+run art       "node tests/art_test.js"         "ART OK"
 run tx7        "node tests/tx7_test.js"         "witness"
 for t in ui_wiki ui_mappage; do run $t "node tests/$t.js" "phone errors \[\]" "errors \[[^]]"; done
 for t in ui_phone ui_test ui_map ui_map2 ui_inn ui_travel ui_road ui_routes; do run $t "node tests/$t.js" "errors:? ?(none|\[\])" "TimeoutError"; done

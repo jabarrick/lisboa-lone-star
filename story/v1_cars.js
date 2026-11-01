@@ -73,16 +73,18 @@ function lotScene(){
  const intro=[t(`35 号州际公路辅路边上一块碎石地，几十辆车排成两排，每辆挡风玻璃上都用白漆写着年份、里程和价钱。车场老板巴克从活动房里出来，手里端着一杯咖啡。“这礼拜新到了几辆。”`,`A gravel lot on the I-35 frontage road: a few dozen vehicles in two rows, year, mileage and price painted in white on every windshield. Buck, who runs the place, steps out of his trailer office with a coffee. "Got a few new ones in this week."`,`Um terreno de gravilha na via de serviço da I-35: umas dezenas de veículos em duas filas, ano, milhas e preço pintados a branco em cada para-brisas. O Buck, o dono, sai do escritório-contentor com um café. «Chegaram uns novos esta semana.»`),
   own?t(`他绕着你的${own.make[0]}走了一圈，看了眼里程表（${fmtMi(carOdo())} 英里）：“我按 $${tr} 收，折进下一辆里。”`,`He walks round your ${own.make[1]} and checks the odometer (${fmtMi(carOdo())} mi). "I'll take it for $${tr} toward the next one."`,`Dá uma volta ao teu ${own.make[2]} e espreita o conta-quilómetros (${fmtMi(carOdo())} mi). «Fico com ele por $${tr} para abater no próximo.»`):t(`“第一次买车？在德州，车就是你的腿。”`,`"First car? In Texas, your car is your legs."`,`«Primeiro carro? No Texas, o carro são as tuas pernas.»`)];
  if(S.course.drive<2)intro.push(t(`“你还不会开？那先跟厄尔学两课。车我可以先卖给你，让它在你店门口等着。”`,`"Can't drive yet? Take a couple of lessons with Earl. I'll still sell you one — it can wait outside your shop."`,`«Ainda não conduzes? Tem umas aulas com o Earl. Vendo-te o carro na mesma — fica à tua porta à espera.»`));
- const ch=lotStock().map(k=>{const v=VEHICLES[k],price=v.cost-tr;
+ const stock=lotStock();
+ const gallery=`<div class="lot-grid">${stock.map(k=>{const v=VEHICLES[k];return `<figure>${carArt(k)}<figcaption><b>${carFull(v)}</b><br>$${fmtMi(v.cost)}</figcaption></figure>`}).join('')}</div>`;
+ const ch=stock.map(k=>{const v=VEHICLES[k],price=v.cost-tr;
   return {t:t(`${v.year} 年${v.make[0]} · ${fmtMi(v.miles)} 英里 · $${fmtMi(v.cost)}${tr?`（折价后 $${fmtMi(price)}）`:''}`,`${v.year} ${v.make[1]} · ${fmtMi(v.miles)} mi · $${fmtMi(v.cost)}${tr?` ($${fmtMi(price)} after trade-in)`:''}`,`${v.make[2]} de ${v.year} · ${fmtMi(v.miles)} mi · $${fmtMi(v.cost)}${tr?` ($${fmtMi(price)} com retoma)`:''}`),
-   next:()=>{const b=BONUS(v);return {title:carFull(v),meta:LOT,text:[tt(v.quirk),specs(v)],choices:[
+   next:()=>{const b=BONUS(v);return {title:carFull(v),meta:LOT,art:carArt(k),text:[tt(v.quirk),specs(v)],choices:[
     {t:t(`成交（$${fmtMi(price)}）`,`Deal ($${fmtMi(price)})`,`Negócio fechado ($${fmtMi(price)})`),req:()=>S.cash>=price||t(`钱不够（要 $${fmtMi(price)}）`,`Not enough money (need $${fmtMi(price)})`,`Não tens dinheiro (precisas de $${fmtMi(price)})`),
      fx:()=>{buyCar(k);if(b.rep)S.rep+=b.rep;if(b.tex)stat('tex',b.tex);if(v.food)S.lusoThisWeek=true},
-     next:()=>say(carFull(v),v.cost>=9000&&v.cls==='truck'?AFTER_RICH:AFTER[v.cls],bonusText(b).join(' · '))},
+     next:()=>Object.assign(say(carFull(v),v.cost>=9000&&v.cls==='truck'?AFTER_RICH:AFTER[v.cls],bonusText(b).join(' · ')),{art:carArt(k)})},
     {t:t('再看看别的','Look at the others','Ver os outros'),next:lotScene}]}}}});
  if(own)ch.push({t:t(`把${own.make[0]}直接卖给他（+$${fmtMi(tr)}）`,`Just sell him the ${own.make[1]} (+$${fmtMi(tr)})`,`Vender-lhe só o ${own.make[2]} (+$${fmtMi(tr)})`),fx:()=>sellCar(),next:()=>say(LOT,t('巴克数钱数得很慢，像在数自己的好心。“想买车的时候再来。”','Buck counts the money out slowly, like he\'s counting his own generosity. "Come back when you want wheels."','O Buck conta o dinheiro devagar, como quem conta a própria generosidade. «Volta quando quiseres rodas.»'))});
  ch.push({t:t('只是看看','Just looking','Só estou a ver')});
- return {title:LOT,meta:BUCK,text:intro,choices:ch};
+ return {title:LOT,meta:BUCK,text:intro,html:gallery,choices:ch};
 }
 function serviceScene(){
  const v=CAR();if(!v)return say(LOT,t('你还没有车。','You don\'t have a vehicle yet.','Ainda não tens veículo.'));
