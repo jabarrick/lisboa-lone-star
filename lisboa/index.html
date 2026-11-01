@@ -9581,18 +9581,18 @@ if(typeof truthScene==='function'){const u0=truthScene;truthScene=function(id){c
 
 /* ---------- the player's look: pick one of a few handsome Lisboetas (start screen, or the people panel later) ---------- */
 const PLAYER_LOOKS=[
- {n:['黑色长发','Long black hair','Cabelo comprido preto'],o:{sk:2,h:'long',hc:'black',fh:'stubble',cl:'shirt',cc:'white',bgi:0}},
- {n:['金色长发','Long blond hair','Cabelo comprido loiro'],o:{sk:1,h:'long',hc:'blonde',eye:'#4f86b0',cl:'tee',cc:'white',bgi:5}},
- {n:['深棕长发络腮胡','Long dark hair and beard','Cabelo comprido escuro e barba'],o:{sk:3,h:'long',hc:'dark',fh:'beard',cl:'tee',cc:'white',bgi:2}},
  {n:['黑色平头','Black flat top','Corte raso preto'],o:{sk:2,h:'flattop',hc:'black',cl:'tee',cc:'white',bgi:6}},
  {n:['金色平头','Blond flat top','Corte raso loiro'],o:{sk:0,h:'flattop',hc:'blonde',fh:'stubble',eye:'#3f6f9c',cl:'shirt',cc:'white',bgi:3}},
- {n:['平头胡茬','Flat top and stubble','Corte raso e barba curta'],o:{sk:3,h:'flattop',hc:'dark',fh:'stubble',cl:'shirt',cc:'white',bgi:7}},
+ {n:['深棕平头胡茬','Dark flat top and stubble','Corte raso escuro e barba curta'],o:{sk:3,h:'flattop',hc:'dark',fh:'stubble',cl:'shirt',cc:'white',bgi:7}},
+ {n:['亚麻金平头','Ash-blond flat top','Corte raso loiro-cinza'],o:{sk:1,h:'flattop',hc:'ash',eye:'#5f7f4a',cl:'tee',cc:'white',bgi:0}},
  {n:['黑色寸头','Black buzz cut','Cabelo rapado preto'],o:{sk:3,h:'crop',hc:'black',fh:'stubble',cl:'tee',cc:'white',bgi:4}},
- {n:['金色寸头','Blond buzz cut','Cabelo rapado loiro'],o:{sk:1,h:'crop',hc:'blonde',eye:'#5f7f4a',cl:'tee',cc:'white',bgi:1}},
- {n:['寸头络腮胡','Buzz cut and beard','Cabelo rapado e barba'],o:{sk:2,h:'crop',hc:'dark',fh:'beard',cl:'shirt',cc:'white',bgi:0}},
+ {n:['金色寸头','Blond buzz cut','Cabelo rapado loiro'],o:{sk:1,h:'crop',hc:'blonde',eye:'#4f86b0',cl:'tee',cc:'white',bgi:1}},
+ {n:['深棕寸头络腮胡','Dark buzz cut and beard','Cabelo rapado escuro e barba'],o:{sk:2,h:'crop',hc:'dark',fh:'beard',cl:'shirt',cc:'white',bgi:5}},
+ {n:['蜜金寸头','Honey-blond buzz cut','Cabelo rapado loiro-mel'],o:{sk:2,h:'crop',hc:'#c99a4a',fh:'stubble',fhc:'#b0823c',cl:'shirt',cc:'white',bgi:2}},
  {n:['黑色卷发','Black curls','Caracóis pretos'],o:{sk:2,h:'curls',hc:'black',cl:'shirt',cc:'white',bgi:5}},
- {n:['金色卷发','Blond curls','Caracóis loiros'],o:{sk:1,h:'curls',hc:'#c99a4a',fh:'stubble',fhc:'#b0823c',eye:'#4f86b0',cl:'tee',cc:'white',bgi:2}},
- {n:['卷发胡茬','Curls and stubble','Caracóis e barba curta'],o:{sk:3,h:'curls',hc:'dark',fh:'stubble',cl:'tee',cc:'white',bgi:6}}
+ {n:['金色卷发','Golden curls','Caracóis dourados'],o:{sk:1,h:'curls',hc:'#c99a4a',fh:'stubble',fhc:'#b0823c',eye:'#4f86b0',cl:'tee',cc:'white',bgi:2}},
+ {n:['深棕卷发胡茬','Dark curls and stubble','Caracóis escuros e barba curta'],o:{sk:3,h:'curls',hc:'dark',fh:'stubble',cl:'tee',cc:'white',bgi:6}},
+ {n:['亚麻金卷发','Ash-blond curls','Caracóis loiro-cinza'],o:{sk:0,h:'curls',hc:'ash',eye:'#3f6f9c',cl:'shirt',cc:'white',bgi:4}}
 ];
 let pendingLook=0;
 const lookIdx=()=>{const i=S&&S.look!=null?S.look:pendingLook;return PLAYER_LOOKS[i]?i:0};
