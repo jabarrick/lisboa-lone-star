@@ -121,61 +121,65 @@ function hat(t,col,fy,fw,fh){const top=fy-fh,c=col?(CLOTH[col]||col):null;
  if(t==='kufi'){const k=c||'#f4f2ee';return P(`M${50-fw+1} ${fy-9} Q${50-fw+1} ${top-4} 50 ${top-4.5} Q${50+fw-1} ${top-4} ${50+fw-1} ${fy-9} Z`,k,{stroke:sh(k,-0.12),stroke_width:0.6})}
  if(t==='visor'){const k=c||'#2f7470';return R(50-fw-1,fy-12,fw*2+2,3,k,{rx:1.4})+P(`M${50-fw} ${fy-9.5} Q50 ${fy-6} ${50+fw+8} ${fy-8} L${50+fw} ${fy-10} Z`,sh(k,-0.2))}
  return ''}
-/* the player: an angular, handsome face (long jaw, square chin, almond eyes, strong brows) — used only for PLAYER_LOOKS */
+/* the player: a lean, long, handsome face — narrow jaw, square chin, large eyes; the hair hugs the skull with a natural hairline */
 function hface(o){
- const sk=SKIN[o.sk||1],skD=sh(sk,-0.16),skDD=sh(sk,-0.3),skL=sh(sk,0.22),hc=HAIR[o.hc]||o.hc,hcD=sh(hc,-0.28),hcL=sh(hc,0.2),cc=CLOTH[o.cc]||o.cc,ccD=sh(cc,-0.22);
- const fw=15.4,fy=45,fh=20,chin=66.5,ey=fy+0.6,ex=6.1,iris=o.eye||'#5a3a22';
+ const sk=SKIN[o.sk||1],skD=sh(sk,-0.15),skDD=sh(sk,-0.3),skL=sh(sk,0.24),hc=HAIR[o.hc]||o.hc,hcD=sh(hc,-0.3),hcL=sh(hc,0.22),cc=CLOTH[o.cc]||o.cc,ccD=sh(cc,-0.22);
+ const fw=12.2,fy=44,fh=22,chin=70,ey=fy+0.9,ex=5.1,iris=o.eye||'#5a3a22';
  const bgc=C(50,50,50,BG[o.bgi||0]);let s='';
- // longer hair behind the head
- if(o.h==='mid')s+=P(`M${50-fw-3} 38 Q${50-fw-5} 48 ${50-fw-3} ${fy+9} Q${50-fw} ${fy+11} ${50-fw+1.5} ${fy+8} L${50+fw-1.5} ${fy+8} Q${50+fw} ${fy+11} ${50+fw+3} ${fy+9} Q${50+fw+5} 48 ${50+fw+3} 38 Z`,hc);
- if(o.h==='wavy')s+=P(`M${50-fw-3} 38 Q${50-fw-6} 56 ${50-fw-3.5} ${o.h==='wavy'?70:62} Q${50-fw} ${o.h==='wavy'?74:65} ${50-fw+2} ${o.h==='wavy'?70:60} L${50+fw-2} ${o.h==='wavy'?70:60} Q${50+fw} ${o.h==='wavy'?74:65} ${50+fw+3.5} ${o.h==='wavy'?70:62} Q${50+fw+6} 56 ${50+fw+3} 38 Z`,hc);
+ if(o.h==='mid')s+=P(`M${50-fw-3.4} 36 Q${50-fw-5.4} 48 ${50-fw-3.2} ${fy+10} Q${50-fw-0.6} ${fy+12.4} ${50-fw+1} ${fy+8.6} L${50+fw-1} ${fy+8.6} Q${50+fw+0.6} ${fy+12.4} ${50+fw+3.2} ${fy+10} Q${50+fw+5.4} 48 ${50+fw+3.4} 36 Z`,hc);
  // shoulders, neck, clothes
- s+=P('M3 100 Q7 75 31 69.5 Q50 76 69 69.5 Q93 75 97 100 Z',cc);
- s+=R(42.4,fy+12,15.2,15,skD,{rx:3})+P(`M42.4 ${fy+16} Q50 ${fy+21} 57.6 ${fy+16} L57.6 ${fy+19} Q50 ${fy+24} 42.4 ${fy+19} Z`,skDD,{opacity:.45});
+ s+=P('M4 100 Q8 76 31.5 70.5 Q50 77 68.5 70.5 Q92 76 96 100 Z',cc);
+ s+=R(44.6,fy+16,10.8,14,skD,{rx:3})+P(`M44.6 ${fy+20} Q50 ${fy+25} 55.4 ${fy+20} L55.4 ${fy+22.6} Q50 ${fy+27.4} 44.6 ${fy+22.6} Z`,skDD,{opacity:.45});
  s+=clothes(o,cc,ccD,sk,skD);
  // ears
- s+=E(50-fw+0.4,fy+1.5,2.5,4.3,skD)+E(50+fw-0.4,fy+1.5,2.5,4.3,skD)+L(`M${50-fw-0.6} ${fy} q-1 1.6 0 3.4`,skDD,0.6)+L(`M${50+fw+0.6} ${fy} q1 1.6 0 3.4`,skDD,0.6);
- // head: straight cheeks, angled jaw, square chin
- const head=`M${50-fw} ${fy-7} Q${50-fw} ${fy-fh} 50 ${fy-fh} Q${50+fw} ${fy-fh} ${50+fw} ${fy-7} L${50+fw} ${fy+4.5} Q${50+fw-0.4} ${fy+11} ${50+fw-3.6} ${fy+15} L${54.6} ${chin-0.8} Q50 ${chin+0.9} ${45.4} ${chin-0.8} L${50-fw+3.6} ${fy+15} Q${50-fw+0.4} ${fy+11} ${50-fw} ${fy+4.5} Z`;
+ s+=E(50-fw+0.3,fy+2.6,2.3,4.4,skD)+E(50+fw-0.3,fy+2.6,2.3,4.4,skD)+L(`M${50-fw-0.6} ${fy+1} q-0.9 1.6 0 3.4`,skDD,0.55)+L(`M${50+fw+0.6} ${fy+1} q0.9 1.6 0 3.4`,skDD,0.55);
+ // head: long and lean, straight cheeks, narrow angled jaw, square chin
+ const head=`M${50-fw} ${fy-8} Q${50-fw} ${fy-fh} 50 ${fy-fh} Q${50+fw} ${fy-fh} ${50+fw} ${fy-8} L${50+fw} ${fy+7} Q${50+fw-0.4} ${fy+14.5} ${50+fw-2.6} ${fy+19.2} L${53.8} ${chin-1} Q50 ${chin+0.8} ${46.2} ${chin-1} L${50-fw+2.6} ${fy+19.2} Q${50-fw+0.4} ${fy+14.5} ${50-fw} ${fy+7} Z`;
  s+=P(head,sk);
- // modelling: shadow side, cheekbones, jawline, chin dimple
- s+=P(`M${50+fw-3} ${fy-12} Q${50+fw+0.5} ${fy-2} ${50+fw} ${fy+4.5} Q${50+fw-0.4} ${fy+11} ${50+fw-3.6} ${fy+15} L54.6 ${chin-0.8} Q${51} ${chin-0.2} 52 ${chin-2} L${50+fw-5.4} ${fy+12.5} Q${50+fw-2.6} ${fy+3} ${50+fw-3} ${fy-12} Z`,skD,{opacity:.32});
- s+=L(`M${50-fw+0.6} ${fy+8} Q${50-fw+1.8} ${fy+13} ${50-fw+3.8} ${fy+15}`,skD,0.6,{opacity:.6})+L(`M48.6 ${chin-1.6} Q50 ${chin-0.9} 51.4 ${chin-1.6}`,skD,0.6,{opacity:.7});
- // eyes
+ s+=P(`M${50+fw-2.6} ${fy-13} Q${50+fw+0.4} ${fy-2} ${50+fw} ${fy+6} Q${50+fw-0.4} ${fy+14.5} ${50+fw-2.6} ${fy+19.2} L53.8 ${chin-1} Q51.4 ${chin-0.4} 52.2 ${chin-2.4} L${50+fw-4.4} ${fy+16.4} Q${50+fw-2.4} ${fy+4} ${50+fw-2.6} ${fy-13} Z`,skD,{opacity:.3});
+ s+=P(`M${50-fw+0.6} ${fy+7} Q${50-fw+3} ${fy+9} ${50-fw+4.4} ${fy+12.5} Q${50-fw+2} ${fy+11.6} ${50-fw+0.6} ${fy+9} Z`,skD,{opacity:.28})+P(`M${50+fw-0.6} ${fy+7} Q${50+fw-3} ${fy+9} ${50+fw-4.4} ${fy+12.5} Q${50+fw-2} ${fy+11.6} ${50+fw-0.6} ${fy+9} Z`,skD,{opacity:.38});
+ s+=L(`M48.8 ${chin-1.8} Q50 ${chin-1.1} 51.2 ${chin-1.8}`,skD,0.55,{opacity:.7});
+ // large eyes
  for(const d of [-1,1]){const x=50+d*ex;
-  s+=P(`M${x-2.9} ${ey} Q${x-0.2} ${ey-2.1} ${x+2.9} ${ey-0.2} Q${x} ${ey+1.5} ${x-2.9} ${ey} Z`,'#fbf8f3');
-  s+=C(x+0.15,ey-0.25,1.38,iris)+C(x+0.15,ey-0.25,0.7,'#15100c')+C(x+0.6,ey-0.8,0.42,'#fff');
-  s+=L(`M${x-3.1} ${ey+0.1} Q${x-0.2} ${ey-2.5} ${x+3.1} ${ey-0.3}`,'#1f1612',0.95)}
- // brows: thick, straight, slightly lifted at the outer end
- const bc=o.brow||(['blonde','ash','platinum'].includes(o.hc)?sh(hc,-0.42):hcD);
- s+=P(`M${50-ex-3.8} ${ey-3.2} L${50-ex+3.4} ${ey-4.5} L${50-ex+3.6} ${ey-3.4} L${50-ex-3.6} ${ey-2.4} Z`,bc)+P(`M${50+ex+3.8} ${ey-3.6} L${50+ex-3.4} ${ey-4.6} L${50+ex-3.6} ${ey-3.5} L${50+ex+3.6} ${ey-2.7} Z`,bc);
- // nose: bridge light, tip and nostrils
- s+=L(`M50.7 ${ey-0.6} L51.1 ${ey+6.2}`,skL,0.9,{opacity:.8})+L(`M51.8 ${ey+1} Q52.7 ${ey+5.4} 52.1 ${ey+7.3}`,skD,0.7,{opacity:.7})+L(`M47.9 ${ey+7.6} Q49.2 ${ey+8.7} 50.4 ${ey+8.3} Q51.6 ${ey+8.8} 52.7 ${ey+7.7}`,skDD,0.8,{opacity:.75});
- // mouth: a confident half-smile
- s+=L(`M46.3 ${ey+11.6} Q49.6 ${ey+12.9} 53.9 ${ey+11}`,'#6b382c',1.15)+L(`M47.8 ${ey+13.6} Q50.2 ${ey+14.4} 52.6 ${ey+13.5}`,skD,0.9,{opacity:.85})+L(`M53.9 ${ey+11} l0.7 -0.5`,'#6b382c',0.8);
+  s+=P(`M${x-3.1} ${ey+0.2} Q${x-0.4} ${ey-2.9} ${x+3.1} ${ey-0.3} Q${x+0.2} ${ey+2} ${x-3.1} ${ey+0.2} Z`,'#fcfaf6');
+  s+=C(x+0.2,ey-0.35,1.8,iris)+C(x+0.2,ey-0.35,1.8,'none',{stroke:sh(iris,-0.4),stroke_width:0.35})+C(x+0.2,ey-0.35,0.95,'#120d0a')+C(x+0.85,ey-1.1,0.62,'#fff')+C(x-0.4,ey+0.5,0.28,'#fff',{opacity:.8});
+  s+=L(`M${x-3.3} ${ey+0.3} Q${x-0.4} ${ey-3.3} ${x+3.3} ${ey-0.4}`,'#1c1310',1.05);
+  s+=L(`M${x-2.8} ${ey-3.6} Q${x} ${ey-4.6} ${x+2.8} ${ey-3.5}`,skD,0.45,{opacity:.6})}
+ // brows: thick, straight, close to the eyes
+ const bc=o.brow||(['blonde','ash','platinum'].includes(o.hc)||/^#c/.test(o.hc)?sh(hc,-0.45):hcD);
+ s+=P(`M${50-ex-3.5} ${ey-4.2} L${50-ex+3} ${ey-5.4} L${50-ex+3.2} ${ey-4.3} L${50-ex-3.3} ${ey-3.3} Z`,bc)+P(`M${50+ex+3.5} ${ey-4.5} L${50+ex-3} ${ey-5.5} L${50+ex-3.2} ${ey-4.4} L${50+ex+3.3} ${ey-3.6} Z`,bc);
+ // nose: long and straight
+ s+=L(`M50.6 ${ey-0.4} L51 ${ey+7.6}`,skL,0.9,{opacity:.8})+L(`M51.7 ${ey+1.4} Q52.5 ${ey+6.4} 52 ${ey+8.6}`,skD,0.7,{opacity:.7})+L(`M48 ${ey+8.8} Q49.2 ${ey+9.9} 50.3 ${ey+9.5} Q51.4 ${ey+10} 52.5 ${ey+8.9}`,skDD,0.8,{opacity:.72});
+ // mouth: well-shaped lips, a half-smile
+ s+=L(`M46.6 ${ey+13.2} Q49.6 ${ey+14.5} 53.6 ${ey+12.7}`,'#6b382c',1.15)+L(`M47.9 ${ey+15.1} Q50.1 ${ey+15.9} 52.4 ${ey+15}`,skD,0.9,{opacity:.8})+L(`M53.6 ${ey+12.7} l0.6 -0.5`,'#6b382c',0.75);
  // facial hair
- const fhc=HAIR[o.fhc]||o.fhc||hc,beard=`M${50-fw+0.3} ${fy+4} Q${50-fw+0.6} ${fy+12} ${50-fw+3.6} ${fy+15} L45.4 ${chin-0.8} Q50 ${chin+0.9} 54.6 ${chin-0.8} L${50+fw-3.6} ${fy+15} Q${50+fw-0.6} ${fy+12} ${50+fw-0.3} ${fy+4} Q${50+fw-3} ${fy+9.6} ${50+fw-6} ${ey+10.8} Q50 ${ey+9.4} ${50-fw+6} ${ey+10.8} Q${50-fw+3} ${fy+9.6} ${50-fw+0.3} ${fy+4} Z`;
- const stache=`M45.4 ${ey+10.9} Q50 ${ey+8.4} 54.6 ${ey+10.6} Q52 ${ey+10.4} 50 ${ey+9.9} Q48 ${ey+10.6} 45.4 ${ey+10.9} Z`;
- if(o.fh==='stubble')s+=P(beard,fhc,{opacity:.26})+P(stache,fhc,{opacity:.32});
- if(o.fh==='beard')s+=P(beard,fhc,{opacity:.92})+P(stache,fhc)+L(`M46.3 ${ey+11.6} Q49.6 ${ey+12.9} 53.9 ${ey+11}`,'#6b382c',1.1);
- if(o.fh==='mustache')s+=P(stache,fhc)+P(beard,fhc,{opacity:.18});
- // hair
+ const fhc=HAIR[o.fhc]||o.fhc||hc,beard=`M${50-fw+0.2} ${fy+5} Q${50-fw+0.4} ${fy+15} ${50-fw+2.6} ${fy+19.2} L46.2 ${chin-1} Q50 ${chin+0.8} 53.8 ${chin-1} L${50+fw-2.6} ${fy+19.2} Q${50+fw-0.4} ${fy+15} ${50+fw-0.2} ${fy+5} Q${50+fw-2.6} ${fy+11} ${50+fw-5.2} ${ey+12.4} Q50 ${ey+11} ${50-fw+5.2} ${ey+12.4} Q${50-fw+2.6} ${fy+11} ${50-fw+0.2} ${fy+5} Z`;
+ const stache=`M45.8 ${ey+12.5} Q50 ${ey+10.1} 54.2 ${ey+12.2} Q52 ${ey+12} 50 ${ey+11.5} Q48 ${ey+12.2} 45.8 ${ey+12.5} Z`;
+ if(o.fh==='stubble')s+=P(beard,fhc,{opacity:.24})+P(stache,fhc,{opacity:.3});
+ if(o.fh==='beard')s+=P(beard,fhc,{opacity:.9})+P(stache,fhc)+L(`M46.6 ${ey+13.2} Q49.6 ${ey+14.5} 53.6 ${ey+12.7}`,'#6b382c',1.1);
+ if(o.fh==='mustache')s+=P(stache,fhc)+P(beard,fhc,{opacity:.16});
  s+=hhair(o,hc,hcD,hcL,fy,fw,fh);
- return bgc+`<g transform="translate(50 60) scale(1.16) translate(-50 -60)">${s}</g>`}
+ return bgc+`<g transform="translate(50 60) scale(1.1) translate(-50 -60)">${s}</g>`}
 function hhair(o,hc,hcD,hcL,fy,fw,fh){const t=o.h,top=fy-fh;let s='';
- const base=(lift,hl)=>P(`M${50-fw-1.4} ${fy-1} Q${50-fw-2} ${top-1-lift} 50 ${top-2.6-lift} Q${50+fw+2} ${top-1-lift} ${50+fw+1.4} ${fy-1} L${50+fw-0.4} ${fy-5} Q${50+fw-2} ${fy-(hl||10)} ${50+fw-6} ${fy-(hl||10)-1} Q50 ${fy-(hl||10)-3} ${50-fw+6} ${fy-(hl||10)-1} Q${50-fw+2} ${fy-(hl||10)} ${50-fw+0.4} ${fy-5} Z`,hc);
- const shine=(d)=>L(d,hcL,1,{opacity:.55});
- if(t==='textured'){s+=P(`M${50-fw-1.4} ${fy-1} Q${50-fw-2.4} ${top+1} ${50-fw+3} ${top-2.4} Q${50-6} ${top-5.6} ${50-2} ${top-3.6} Q${50+2} ${top-6.4} ${50+6} ${top-3.8} Q${50+fw-1} ${top-4.4} ${50+fw+1.4} ${top+1} Q${50+fw+2.2} ${fy-6} ${50+fw+1.4} ${fy-1} L${50+fw-0.4} ${fy-5} Q${50+fw-2} ${fy-10} ${50+fw-6} ${fy-11} Q50 ${fy-13.4} ${50-fw+6} ${fy-11} Q${50-fw+2} ${fy-10} ${50-fw+0.4} ${fy-5} Z`,hc)+L(`M${50-9} ${top+2.6} q2 -3.4 4.4 -4.4 M${50-3} ${top+2} q1.6 -3.6 4.2 -5 M${50+3} ${top+2.4} q1.8 -3 4.6 -4 M${50+8} ${top+3.6} q1.2 -2 3 -2.8`,hcD,0.9,{opacity:.6})+shine(`M${50-6} ${top-0.4} Q${50-1} ${top-3} ${50+5} ${top-1.2}`)}
- if(t==='quiff'){s+=base(1,11)+P(`M${50-fw+3} ${fy-11} Q${50-fw+1} ${top-8} ${50+3} ${top-8.5} Q${50+fw+1} ${top-7} ${50+fw-1} ${fy-9} Q${50+4} ${top-2} ${50-fw+3} ${fy-11} Z`,hc)+shine(`M${50-8} ${top-5.6} Q${50+1} ${top-8} ${50+9} ${top-5}`)}
- if(t==='undercut'){s+=P(`M${50-fw-0.8} ${fy-1} Q${50-fw-1} ${fy-9} ${50-fw+2} ${fy-12} L${50+fw-2} ${fy-12} Q${50+fw+1} ${fy-9} ${50+fw+0.8} ${fy-1} L${50+fw-0.4} ${fy-5} L${50-fw+0.4} ${fy-5} Z`,hc,{opacity:.45})+P(`M${50-fw+1} ${fy-10.5} Q${50-fw} ${top-5} 50 ${top-6} Q${50+fw+1} ${top-5} ${50+fw-0.5} ${fy-10} Q${50+4} ${fy-14} ${50-fw+1} ${fy-10.5} Z`,hc)+shine(`M${50-7} ${top-2.4} Q${50+2} ${top-4.6} ${50+fw-3} ${top-0.4} M${50-5} ${top} Q${50+3} ${top-1.6} ${50+fw-4} ${top+2.4}`)}
- if(t==='fringe'){s+=base(1.2)+P(`M${50-fw+0.5} ${fy-5} Q${50-fw+1} ${top+1} ${50+2} ${top} Q${50+fw-1} ${top+1} ${50+fw} ${fy-7} Q${50+5} ${fy-10} ${50-2} ${fy-9.4} Q${50-fw+4} ${fy-8} ${50-fw+0.5} ${fy-5} Z`,hc)+L(`M${50-4} ${fy-9.5} L${50+3} ${top+2} M${50+2} ${fy-9.8} L${50+7} ${top+3}`,hcD,0.7,{opacity:.6})}
- if(t==='manbun'){s+=P(`M${50-fw-1} ${fy-1} Q${50-fw-1.6} ${top-1} 50 ${top-2} Q${50+fw+1.6} ${top-1} ${50+fw+1} ${fy-1} L${50+fw-0.4} ${fy-5} Q${50+fw-2} ${fy-12} 50 ${fy-13} Q${50-fw+2} ${fy-12} ${50-fw+0.4} ${fy-5} Z`,hc)+C(50+2,top-4.4,5.2,hc)+C(50+2,top-4.4,5.2,'none',{stroke:hcD,stroke_width:0.5})+shine(`M${50-8} ${top+2.4} Q${50} ${top} ${50+8} ${top+2.6}`)}
- if(t==='curlytop'){s+=base(1.6);
-  for(let r=0;r<2;r++)for(let i=0;i<7;i++){const x=50-fw+3+i*(fw*2-6)/6,y=top+3.2-r*4.2-Math.sin(i/6*Math.PI)*1.6;s+=C(x+(r?2:0),y,3.4,hc)+C(x+(r?2:0)-0.8,y-0.9,1.1,hcL,{opacity:.45})}}
- if(t==='side'){s+=base(0.6)+P(`M${50-fw+3} ${fy-10.5} Q${50-3} ${top+0.6} ${50+fw} ${fy-8} Q${50+2} ${fy-13.5} ${50-fw+3} ${fy-10.5} Z`,hc)+L(`M${50-4.6} ${top-1.8} Q${50-5.6} ${fy-12.5} ${50-7.6} ${fy-11}`,hcD,0.8)+shine(`M${50-2} ${top} Q${50+5} ${top-0.6} ${50+fw-3} ${top+3}`)}
- if(t==='slick'){s+=base(1.4,12)+L(`M${50-fw+2.5} ${fy-12} Q50 ${top-2.6} ${50+fw-2.5} ${fy-12} M${50-fw+4.5} ${fy-14.5} Q50 ${top-3.4} ${50+fw-4.5} ${fy-14.5}`,hcD,0.7)+shine(`M${50-6} ${top-1.6} Q50 ${top-3} ${50+6} ${top-1.4}`)}
- if(t==='buzz')s+=P(`M${50-fw+0.3} ${fy-5} Q${50-fw} ${top+0.6} 50 ${top-0.2} Q${50+fw} ${top+0.6} ${50+fw-0.3} ${fy-5} Q${50+fw-2} ${fy-11.4} 50 ${fy-12.4} Q${50-fw+2} ${fy-11.4} ${50-fw+0.3} ${fy-5} Z`,hc,{opacity:.78});
- if(t==='wavy'||t==='mid'){s+=P(`M${50-fw-2.6} ${fy+5} Q${50-fw-3} ${top-3} 50 ${top-3.4} Q${50+fw+3} ${top-3} ${50+fw+2.6} ${fy+5} Q${50+fw-0.4} ${fy-6} ${50+fw-5} ${fy-10.5} Q${50+3} ${fy-15} ${50-4} ${fy-12.4} Q${50-fw+3} ${fy-10.4} ${50-fw+0.6} ${fy-3} Q${50-fw} ${fy+1} ${50-fw-0.6} ${fy+5} Z`,hc)+L(`M${50-fw-1.6} ${fy-6} q-1.4 4 0.2 8 M${50+fw+1.6} ${fy-6} q1.4 4 -0.2 8`,hcD,0.7,{opacity:.6})+shine(`M${50-7} ${top} Q${50} ${top-2.2} ${50+7} ${top+0.2}`)}
+ // hair that hugs the skull: crown outline + a natural hairline with slight temples, down to sideburns at the ears
+ const hairline=(dip)=>`L${50+fw-0.1} ${fy+1} Q${50+fw-0.3} ${fy-7} ${50+fw-3.4} ${fy-11.6} Q50 ${fy-14.6+(dip||0)} ${50-fw+3.4} ${fy-11.6} Q${50-fw+0.3} ${fy-7} ${50-fw+0.1} ${fy+1}`;
+ const crown=(lift,w)=>`M${50-fw-(w||1.3)} ${fy+1} Q${50-fw-(w||1.3)-1.1} ${top-0.6-lift*0.5} 50 ${top-2.2-lift} Q${50+fw+(w||1.3)+1.1} ${top-0.6-lift*0.5} ${50+fw+(w||1.3)} ${fy+1}`;
+ const base=(lift,op)=>P(crown(lift)+hairline()+'Z',hc,op?{opacity:op}:{});
+ const burns=()=>R(50-fw-0.3,fy-3,1.4,6,hc,{rx:0.6})+R(50+fw-1.1,fy-3,1.4,6,hc,{rx:0.6});
+ const shine=(d)=>L(d,hcL,1,{opacity:.5});
+ const strands=(n,y0,col,op)=>{let r='';for(let i=0;i<n;i++){const x=50-fw+3.6+i*(fw*2-9)/(n-1);r+=L(`M${x-1} ${y0+2.6} Q${x+0.4} ${y0-0.6} ${x+1.8} ${y0-1.6}`,col||hcD,0.7,{opacity:op||0.5})}return r};
+ if(t==='textured'){s+=P(`M${50-fw-1.3} ${fy+1} Q${50-fw-2.6} ${top} ${50-fw+2.6} ${top-2.8} Q${50-6} ${top-5.2} ${50-2.2} ${top-3.6} Q${50+1.6} ${top-6} ${50+5.6} ${top-3.8} Q${50+fw-0.6} ${top-4.2} ${50+fw+1.6} ${top+0.6} Q${50+fw+2.4} ${fy-6} ${50+fw+1.3} ${fy+1}`+hairline()+'Z',hc)+burns()+strands(5,top+3)+shine(`M${50-6} ${top-0.8} Q${50-1} ${top-3.2} ${50+5} ${top-1.4}`)}
+ if(t==='quiff'){s+=P(crown(1)+hairline(1.2)+'Z',hc)+burns()+P(`M${50-fw+2.6} ${fy-11.8} Q${50-fw+0.6} ${top-6.4} ${50+2} ${top-8} Q${50+fw+1.6} ${top-6.6} ${50+fw-0.6} ${fy-9.4} Q${50+3.4} ${top-1.4} ${50-2} ${fy-13.8} Q${50-fw+4.2} ${fy-12.8} ${50-fw+2.6} ${fy-11.8} Z`,hc)+shine(`M${50-7} ${top-4.6} Q${50+1} ${top-7.4} ${50+8.6} ${top-4.4}`)+strands(4,top+3.4)}
+ if(t==='undercut'){s+=base(0,0.5)+P(`M${50-fw+1.6} ${fy-9.4} Q${50-fw+0.6} ${top-4.6} 50 ${top-5.8} Q${50+fw+0.8} ${top-4.6} ${50+fw-1.2} ${fy-9.8} Q${50+fw-3.4} ${fy-12} ${50+fw-3.6} ${fy-11.8} Q50 ${fy-14.6} ${50-fw+3.6} ${fy-11.6} Q${50-fw+2.2} ${fy-10.6} ${50-fw+1.6} ${fy-9.4} Z`,hc)+shine(`M${50-7} ${top-2.4} Q${50+2} ${top-4.8} ${50+fw-3} ${top-0.6} M${50-5} ${top+0.4} Q${50+3} ${top-1.4} ${50+fw-4} ${top+2.6}`)}
+ if(t==='fringe'){s+=base(1.4)+burns();const locks=[[-9,fy-9.2],[-5.2,fy-8],[-1.4,fy-8.6],[2.4,fy-9.6],[6.2,fy-10.4]];
+  s+=P(`M${50-fw+1} ${fy-9} Q${50-fw+2} ${top+1.6} 50 ${top+0.6} Q${50+fw-1} ${top+1.6} ${50+fw-0.4} ${fy-9}`+locks.slice().reverse().map(([dx,y])=>` L${50+dx+1.8} ${y-1.8} L${50+dx} ${y}`).join('')+` L${50-fw+2} ${fy-10.6} Z`,hc)+L(locks.map(([dx,y],k)=>`M${50+dx+0.6} ${y-0.6} L${50+dx+3.4} ${top+3}`).join(' '),hcD,0.6,{opacity:.55})+shine(`M${50-5} ${top+2} Q${50+1} ${top} ${50+7} ${top+2.4}`)}
+ if(t==='manbun'){s+=P(crown(0.2,0.9)+hairline()+'Z',hc)+burns()+C(50+1,top-3.4,4.6,hc)+C(50+1,top-3.4,4.6,'none',{stroke:hcD,stroke_width:0.5})+L(`M${50-fw+2.6} ${fy-10} Q${50-3} ${top+0.6} ${50+1} ${top} M${50+fw-2.6} ${fy-10} Q${50+4} ${top+0.8} ${50+1} ${top}`,hcD,0.6,{opacity:.55})+shine(`M${50-7} ${top+2} Q50 ${top-0.4} ${50+7} ${top+2.2}`)}
+ if(t==='curlytop'){s+=base(1.2)+burns();for(let r=0;r<2;r++)for(let i=0;i<6;i++){const x=50-fw+2.6+i*(fw*2-5.2)/5+(r?1.6:0),y=top+(r?1.6:-1.2)-Math.sin(i/5*Math.PI)*1.8;s+=C(x,y,3,hc)+L(`M${x-1.6} ${y+0.4} q1.6 -2 3.2 0`,hcD,0.55,{opacity:.6})+C(x-0.8,y-1,0.9,hcL,{opacity:.4})}
+  for(let i=0;i<4;i++){const x=50-6+i*4;s+=C(x,fy-12.4+(i%2)*0.8,2.2,hc)}}
+ if(t==='side'){s+=base(0.8)+burns()+P(`M${50-fw+3} ${fy-11.2} Q${50-3} ${top+0.2} ${50+fw-0.2} ${fy-8.6} Q${50+3} ${fy-14.2} ${50-fw+3} ${fy-11.2} Z`,hc)+L(`M${50-4.6} ${top-1.6} Q${50-5.4} ${fy-12.8} ${50-7.6} ${fy-11.6}`,hcD,0.8)+shine(`M${50-2} ${top} Q${50+5} ${top-0.6} ${50+fw-3} ${top+3}`)+strands(4,top+4.4)}
+ if(t==='slick'){s+=P(crown(1.6)+hairline(-1.2)+'Z',hc)+burns()+L(`M${50-fw+2.6} ${fy-12.6} Q50 ${top-2.8} ${50+fw-2.6} ${fy-12.6} M${50-fw+4.6} ${fy-15} Q50 ${top-3.6} ${50+fw-4.6} ${fy-15}`,hcD,0.7)+shine(`M${50-6} ${top-1.6} Q50 ${top-3.2} ${50+6} ${top-1.4}`)}
+ if(t==='buzz')s+=P(crown(-1.2,0.2)+hairline()+'Z',hc,{opacity:.72})+R(50-fw-0.2,fy-3,1.4,5,hc,{rx:0.6,opacity:.72})+R(50+fw-1.2,fy-3,1.4,5,hc,{rx:0.6,opacity:.72});
+ if(t==='mid'){s+=P(crown(1.6,2.4)+`L${50+fw+1.6} ${fy+8} Q${50+fw-0.2} ${fy+9} ${50+fw-0.6} ${fy+5} Q${50+fw-0.6} ${fy-6} ${50+fw-3.6} ${fy-11.4} Q${50+2} ${fy-14.8} ${50-3} ${fy-12.4} Q${50-fw+2.6} ${fy-10.4} ${50-fw+0.6} ${fy-2} L${50-fw+0.6} ${fy+5} Q${50-fw+0.2} ${fy+9} ${50-fw-1.6} ${fy+8} Z`,hc)+L(`M${50-fw-1.2} ${fy-4} q-0.8 4 0.6 8.4 M${50+fw+1.2} ${fy-4} q0.8 4 -0.6 8.4 M${50-2} ${fy-12.6} Q${50-5} ${fy-10} ${50-6.6} ${fy-7.6}`,hcD,0.7,{opacity:.6})+shine(`M${50-7} ${top} Q${50} ${top-2.2} ${50+7} ${top+0.2}`)}
  return s}
 const SV=(inner,cls)=>`<svg class="art art-face ${cls||''}" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><defs><clipPath id="fc"><circle cx="50" cy="50" r="50"/></clipPath></defs><g clip-path="url(#fc)">${inner}</g></svg>`;
 return {face,hface,SV};
