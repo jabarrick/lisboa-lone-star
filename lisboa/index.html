@@ -5039,7 +5039,7 @@ STORY.push({id:'p6_fest',when:()=>!S.where&&S.week===46&&S.day===5&&S.slot===1&&
  return o}}
 })();
 
-/* p7 — two Chinese-American and four Black Texan characters.
+/* p7 — two Chinese-American Texans, three Black Texans and a county health inspector.
    San Luís: Rev. Zeke Washington & Angela Brooks (Zion AME church), Dr. Naomi Carter (county health office), Marcus Bell (county rodeo arena)
    Cities: Wei Huang (College Station, AgriLife extension — visits the Reyes ranch), Xiuying Li (El Paso, railroad-worker descendant)
    Events: p7_june (Juneteenth, W2 Sat midday), p7_fest (W46 d3 s1 → c4_fs).
@@ -6644,7 +6644,7 @@ function haulers(c){const s=ST('hutchins'),T=t(`哈钦斯夫妇`,`The Hutchinses
 /* ---- Otis: the old Greyhound driver ---- */
 function otisScene(c){const s=ST('otis'),T=t(`灰狗巴士的老司机`,`The old Greyhound driver`,`O velho motorista da Greyhound`);
  if(s===0){const bus=!canDrive();return sc(T,RM(c,'i35'),[
-  bus?t(`司机从后视镜里看了你好几次，到了休息站终于开口：“圣鲁伊斯。夏天第一个礼拜，加油站下的车，行李箱少一个轮子。我记得你。”`,`The driver keeps glancing at you in the mirror; at the rest stop he finally speaks. "San Luís. First week of summer, got off at the gas station, suitcase missing a wheel. I remember you."`,`O motorista olha para ti várias vezes pelo espelho; na paragem acaba por falar. «San Luís. Primeira semana do verão, saíste na bomba de gasolina, mala sem uma roda. Lembro-me de ti.»`):t(`休息站里停着一辆灰狗巴士。司机是个瘦高的黑人老头，正在擦后视镜。他看见你，眯起眼：“圣鲁伊斯。夏天第一个礼拜，行李箱少一个轮子。现在你自己开车了？”`,`A Greyhound sits at the rest stop. The driver, a tall, lean old Black man, is wiping a mirror. He sees you and squints. "San Luís. First week of summer, suitcase missing a wheel. You driving yourself now?"`,`Há um autocarro da Greyhound na área de serviço. O motorista, um negro velho, alto e magro, está a limpar um espelho. Vê-te e semicerra os olhos. «San Luís. Primeira semana do verão, mala sem uma roda. Agora já conduzes?»`),
+  bus?t(`司机从后视镜里看了你好几次，到了休息站终于开口：“圣鲁伊斯。夏天第一个礼拜，加油站下的车，行李箱少一个轮子。我记得你。”`,`The driver keeps glancing at you in the mirror; at the rest stop he finally speaks. "San Luís. First week of summer, got off at the gas station, suitcase missing a wheel. I remember you."`,`O motorista olha para ti várias vezes pelo espelho; na paragem acaba por falar. «San Luís. Primeira semana do verão, saíste na bomba de gasolina, mala sem uma roda. Lembro-me de ti.»`):t(`休息站里停着一辆灰狗巴士。司机是个瘦高的老头，正在擦后视镜。他看见你，眯起眼：“圣鲁伊斯。夏天第一个礼拜，行李箱少一个轮子。现在你自己开车了？”`,`A Greyhound sits at the rest stop. The driver, a tall, lean old man, is wiping a mirror. He sees you and squints. "San Luís. First week of summer, suitcase missing a wheel. You driving yourself now?"`,`Há um autocarro da Greyhound na área de serviço. O motorista, um velho alto e magro, está a limpar um espelho. Vê-te e semicerra os olhos. «San Luís. Primeira semana do verão, mala sem uma roda. Agora já conduzes?»`),
   t(`他叫奥蒂斯·弗里曼，在这条路上开了三十多年。“我记人不记脸，”他说，“我记箱子。”`,`His name is Otis Freeman, thirty-odd years on this road. "I don't remember faces," he says. "I remember luggage."`,`Chama-se Otis Freeman, mais de trinta anos nesta estrada. «Não me lembro de caras», diz. «Lembro-me de malas.»`)],[
   {t:t(`请他喝杯咖啡`,`Buy him a coffee`,`Pagar-lhe um café`),fx:()=>{MEET('otis');addLike('otis',2);ADV('otis');log('认识了灰狗巴士司机奥蒂斯','Met Otis the Greyhound driver','Conheceste o Otis, motorista da Greyhound')},next:()=>say(T,t(`“不加糖，”他说，“三十年前加，现在医生不让了。”他看了看表：“还有四分钟。下次碰见，我给你讲一只箱子的故事。”`,`"No sugar," he says. "Took it thirty years back. Doctor won't let me now." He checks his watch. "Four minutes. Next time we cross paths I'll tell you about a suitcase."`,`«Sem açúcar», diz. «Há trinta anos punha. Agora o médico não deixa.» Olha para o relógio. «Quatro minutos. Da próxima vez que nos cruzarmos conto-te a história de uma mala.»`),t(`认识了奥蒂斯`,`Met Otis`,`Conheceste o Otis`))},
   {t:t(`问他最喜欢哪一条线`,`Ask which route he loves best`,`Perguntar qual é a linha de que mais gosta`),fx:()=>{MEET('otis');addTrust('otis',1);stat('tex',1);ADV('otis');log('认识了灰狗巴士司机奥蒂斯','Met Otis the Greyhound driver','Conheceste o Otis, motorista da Greyhound')},next:()=>say(T,t(`“往西去的夜车。车里人都睡了，只有我和路。”他笑了，“还有偶尔一个睡不着、盯着窗外的外国小子。”`,`"The night run west. Everyone's asleep, it's just me and the road." He grins. "And now and then some foreign kid who can't sleep, staring out the window."`,`«O noturno para oeste. Toda a gente a dormir, só eu e a estrada.» Sorri. «E de vez em quando um miúdo estrangeiro que não consegue dormir, a olhar pela janela.»`),t(`认识了奥蒂斯`,`Met Otis`,`Conheceste o Otis`))}]);}
@@ -8621,7 +8621,7 @@ const lorraineDone=()=>doneScene(LO,[
 const AM=t(`玫瑰园`,`The rose garden`,`O roseiral`);
 const ambrose=[
  ()=>{const w=W();return sc(t(`玫瑰田里的手`,`Hands from the rose fields`,`Mãos dos campos de rosas`),'',[
-  t(`一个八十岁上下的黑人老先生跪在花圃里修剪，膝盖下垫着一块旧轮胎皮。“别光站着看。拿着剪子。剪在芽眼上面一点点，斜着剪，让雨水流走。”`,`An old Black man of about eighty kneels in a bed of roses, an old piece of tyre under his knees. "Don't just stand there. Take the shears. Cut a little above the bud eye, on a slant, so the rain runs off."`,`Um velho negro de uns oitenta anos está ajoelhado num canteiro, um pedaço de pneu velho debaixo dos joelhos. «Não fiques aí parado. Pega na tesoura. Corta um pouco acima do olho, na diagonal, para a chuva escorrer.»`),
+  t(`一个八十岁上下的老先生跪在花圃里修剪，膝盖下垫着一块旧轮胎皮。“别光站着看。拿着剪子。剪在芽眼上面一点点，斜着剪，让雨水流走。”`,`An old man of about eighty kneels in a bed of roses, an old piece of tyre under his knees. "Don't just stand there. Take the shears. Cut a little above the bud eye, on a slant, so the rain runs off."`,`Um velho de uns oitenta anos está ajoelhado num canteiro, um pedaço de pneu velho debaixo dos joelhos. «Não fiques aí parado. Pega na tesoura. Corta um pouco acima do olho, na diagonal, para a chuva escorrer.»`),
   t(`他叫安布罗斯，在泰勒周围的玫瑰田里干了四十年。“二十世纪初这儿种桃子，一场病把桃园全毁了，人们才改种玫瑰。人们常说，有一阵子全美国一半的玫瑰苗都出自这一带的沙土地。我十二岁开始芽接，一天接两千株。”他伸出手：拇指上一道一道全是旧刀口。`,`His name is Ambrose and he spent forty years in the rose fields around Tyler. "Early nineteen-hundreds this was peach country, till a blight killed the orchards and folks turned to roses. They say for a while half the rose bushes in America came out of this sandy ground. I started budding at twelve. Two thousand a day." He holds out his hands: the thumbs are crossed with old knife scars.`,`Chama-se Ambrose e passou quarenta anos nos campos de rosas à volta de Tyler. «No início do século XX isto eram pessegueiros, até uma praga matar os pomares e o pessoal passar às rosas. Diz-se que houve um tempo em que metade das roseiras da América saía desta terra arenosa. Comecei a enxertar aos doze anos. Duas mil por dia.» Estende as mãos: os polegares estão cruzados de cicatrizes antigas.`),
   t(`你说起圣鲁伊斯要办的圣安东尼节，六月十三日，里斯本人送罗勒盆栽，插纸康乃馨。他摇摇头：“纸花？孩子，纸花是给没有园丁的地方用的。”`,`You tell him about San Luís's Santo António festival — June 13th, Lisbon folk giving pots of basil stuck with paper carnations. He shakes his head. "Paper flowers? Son, paper flowers are for places that don't have a gardener."`,`Contas-lhe da festa de Santo António em San Luís — 13 de junho, os lisboetas a oferecer manjericos com cravos de papel. Ele abana a cabeça. «Flores de papel? Filho, flores de papel são para terras sem jardineiro.»`)],[
   {t:t(`跟他修剪一下午`,`Prune with him all afternoon`,`Podar com ele a tarde toda`),fx:()=>{stat('tex',2);stat('oficio',1);addLike('ambrose',1)},next:()=>say(AM,t(`他检查了你剪的每一枝，改了你三十七处。最后一处他没改，只是嗯了一声。你觉得这比奖杯还值钱。`,`He checks every cut you make and corrects thirty-seven of them. The last one he leaves alone, just a grunt. It feels better than a trophy.`,`Ele verifica cada corte e corrige-te trinta e sete. O último deixa ficar, só um resmungo. Sabe melhor do que um troféu.`),t(`德州味 +2 · 手艺 +1`,`Texanness +2 · Craft +1`,`Texanidade +2 · Ofício +1`))},
@@ -9405,7 +9405,7 @@ const FACE={
  p1_bea:{sk:1,h:'bob',hc:'dark',g:'thick',cl:'sweater',cc:'rust',bgi:6},
  p1_ruthann:{sk:1,h:'curly',hc:'silver',cl:'shirt',cc:'pink',age:2,bgi:2},
  p1_ray:{sk:1,h:'buzz',hc:'white',hat:'cap',hatc:'navy',cl:'shirt',cc:'khaki',age:2,mouth:'flat',bgi:0},
- p1_deshawn:{sk:8,h:'curly',hc:'black',cl:'tee',cc:'orange',mouth:'grin',bgi:1},
+ p1_deshawn:{sk:1,h:'side',hc:'brown',freckles:1,cl:'tee',cc:'orange',mouth:'grin',bgi:1},
  // p4 neighbours
  p4_carmen:{sk:3,h:'bun',hc:'dark',cl:'apron',cc:'pink',ac:'white',acc:['earrings','cross'],age:1,bgi:3},
  p4_isabel:{sk:3,h:'ponytail',hc:'black',cl:'scrubs',cc:'sky',bgi:6},
@@ -9430,7 +9430,7 @@ const FACE={
  // p7
  p7_zeke:{sk:8,h:'balding',hc:'gray',fh:'beard',fhc:'gray',g:'gold',cl:'clergy',cc:'charcoal',age:2,bgi:1},
  p7_angela:{sk:8,h:'curly',hc:'white',g:'gold',cl:'blazer',cc:'purple',ic:'cream',acc:['necklace','earrings'],age:2,bgi:4},
- p7_naomi:{sk:7,h:'locs',hc:'black',g:'square',cl:'labcoat',ic:'navy',acc:['badge'],bgi:6},
+ p7_naomi:{sk:0,h:'bun_low',hc:'auburn',g:'square',cl:'labcoat',ic:'navy',acc:['badge'],bgi:6},
  p7_marcus:{sk:9,h:'buzz',hc:'black',fh:'goatee',hat:'cowboy',hatc:'black',cl:'western',cc:'rust',bgi:5},
  p7_wei:{sk:2,h:'short',hc:'black',g:'square',hat:'cap',hatc:'maroon',cl:'shirt',cc:'khaki',age:1,bgi:2},
  p7_xiuying:{sk:2,h:'pixie',hc:'white',g:'gold',cl:'sweater',cc:'teal',acc:['necklace'],age:2,bgi:3},
@@ -9447,7 +9447,7 @@ const FACE={
  june:{sk:0,h:'braids',hc:'ash',hat:'straw',cl:'overalls',cc:'cream',ac:'denim',freckles:1,age:1,bgi:2},
  walt:{sk:0,h:'balding',hc:'white',fh:'full',fhc:'white',cl:'vest',cc:'white',ac:'brown',age:2,bgi:5},
  hutchins:{pair:[{sk:1,h:'short',hc:'brown',fh:'mustache',hat:'cap',hatc:'red',cl:'tee',cc:'denim',age:1},{sk:1,h:'curly',hc:'ash',cl:'shirt',cc:'pink',acc:['earrings'],age:1}],bgi:7},
- otis:{sk:8,h:'balding',hc:'gray',fh:'mustache',fhc:'gray',hat:'cap',hatc:'navy',cl:'uniform',cc:'gray',f:'n',age:2,bgi:0},
+ otis:{sk:1,h:'balding',hc:'gray',fh:'mustache',fhc:'gray',hat:'cap',hatc:'navy',cl:'uniform',cc:'gray',f:'n',age:2,bgi:0},
  gabi:{sk:2,h:'bun_low',hc:'black',hat:'cowboy',hatc:'cream',cl:'uniform',cc:'tan',acc:['badge'],bgi:7},
  maricela:{sk:2,h:'wavy',hc:'dark',g:'square',cl:'blazer',cc:'rust',ic:'cream',acc:['earrings'],age:1,bgi:3},
  nora:{sk:1,h:'braids',hc:'brown',hat:'cowboy',hatc:'khaki',cl:'uniform',cc:'khaki',acc:['badge'],bgi:2},
@@ -9467,7 +9467,7 @@ const FACE={
  ada:{sk:0,h:'curly_long',hc:'red',g:'round',cl:'sweater',cc:'mustard',freckles:1,bgi:4},
  lupe:{sk:5,h:'braids',hc:'gray',hat:'straw',cl:'shirt',cc:'khaki',age:2,bgi:7},
  lorraine:{sk:2,h:'curly',hc:'silver',g:'square',cl:'blouse',cc:'teal',acc:['necklace'],age:2,bgi:6},
- ambrose:{sk:8,h:'short',hc:'white',fh:'mustache',fhc:'white',hat:'straw',cl:'overalls',cc:'white',ac:'olive',age:2,bgi:2},
+ ambrose:{sk:1,h:'short',hc:'white',fh:'mustache',fhc:'white',hat:'straw',cl:'overalls',cc:'white',ac:'olive',age:2,bgi:2},
  tessa:{sk:1,h:'ponytail',hc:'chestnut',cl:'flannel',cc:'maroon',freckles:1,bgi:5},
  chayo:{sk:5,h:'bun',hc:'white',hat:'straw',cl:'shirt',cc:'cream',acc:['earrings'],age:2,bgi:2},
  // not in NPCS but appear in scenes

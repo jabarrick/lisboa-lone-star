@@ -156,7 +156,7 @@ const FACE={
  p1_bea:{sk:1,h:'bob',hc:'dark',g:'thick',cl:'sweater',cc:'rust',bgi:6},
  p1_ruthann:{sk:1,h:'curly',hc:'silver',cl:'shirt',cc:'pink',age:2,bgi:2},
  p1_ray:{sk:1,h:'buzz',hc:'white',hat:'cap',hatc:'navy',cl:'shirt',cc:'khaki',age:2,mouth:'flat',bgi:0},
- p1_deshawn:{sk:8,h:'curly',hc:'black',cl:'tee',cc:'orange',mouth:'grin',bgi:1},
+ p1_deshawn:{sk:1,h:'side',hc:'brown',freckles:1,cl:'tee',cc:'orange',mouth:'grin',bgi:1},
  // p4 neighbours
  p4_carmen:{sk:3,h:'bun',hc:'dark',cl:'apron',cc:'pink',ac:'white',acc:['earrings','cross'],age:1,bgi:3},
  p4_isabel:{sk:3,h:'ponytail',hc:'black',cl:'scrubs',cc:'sky',bgi:6},
@@ -181,7 +181,7 @@ const FACE={
  // p7
  p7_zeke:{sk:8,h:'balding',hc:'gray',fh:'beard',fhc:'gray',g:'gold',cl:'clergy',cc:'charcoal',age:2,bgi:1},
  p7_angela:{sk:8,h:'curly',hc:'white',g:'gold',cl:'blazer',cc:'purple',ic:'cream',acc:['necklace','earrings'],age:2,bgi:4},
- p7_naomi:{sk:7,h:'locs',hc:'black',g:'square',cl:'labcoat',ic:'navy',acc:['badge'],bgi:6},
+ p7_naomi:{sk:0,h:'bun_low',hc:'auburn',g:'square',cl:'labcoat',ic:'navy',acc:['badge'],bgi:6},
  p7_marcus:{sk:9,h:'buzz',hc:'black',fh:'goatee',hat:'cowboy',hatc:'black',cl:'western',cc:'rust',bgi:5},
  p7_wei:{sk:2,h:'short',hc:'black',g:'square',hat:'cap',hatc:'maroon',cl:'shirt',cc:'khaki',age:1,bgi:2},
  p7_xiuying:{sk:2,h:'pixie',hc:'white',g:'gold',cl:'sweater',cc:'teal',acc:['necklace'],age:2,bgi:3},
@@ -198,7 +198,7 @@ const FACE={
  june:{sk:0,h:'braids',hc:'ash',hat:'straw',cl:'overalls',cc:'cream',ac:'denim',freckles:1,age:1,bgi:2},
  walt:{sk:0,h:'balding',hc:'white',fh:'full',fhc:'white',cl:'vest',cc:'white',ac:'brown',age:2,bgi:5},
  hutchins:{pair:[{sk:1,h:'short',hc:'brown',fh:'mustache',hat:'cap',hatc:'red',cl:'tee',cc:'denim',age:1},{sk:1,h:'curly',hc:'ash',cl:'shirt',cc:'pink',acc:['earrings'],age:1}],bgi:7},
- otis:{sk:8,h:'balding',hc:'gray',fh:'mustache',fhc:'gray',hat:'cap',hatc:'navy',cl:'uniform',cc:'gray',f:'n',age:2,bgi:0},
+ otis:{sk:1,h:'balding',hc:'gray',fh:'mustache',fhc:'gray',hat:'cap',hatc:'navy',cl:'uniform',cc:'gray',f:'n',age:2,bgi:0},
  gabi:{sk:2,h:'bun_low',hc:'black',hat:'cowboy',hatc:'cream',cl:'uniform',cc:'tan',acc:['badge'],bgi:7},
  maricela:{sk:2,h:'wavy',hc:'dark',g:'square',cl:'blazer',cc:'rust',ic:'cream',acc:['earrings'],age:1,bgi:3},
  nora:{sk:1,h:'braids',hc:'brown',hat:'cowboy',hatc:'khaki',cl:'uniform',cc:'khaki',acc:['badge'],bgi:2},
@@ -218,7 +218,7 @@ const FACE={
  ada:{sk:0,h:'curly_long',hc:'red',g:'round',cl:'sweater',cc:'mustard',freckles:1,bgi:4},
  lupe:{sk:5,h:'braids',hc:'gray',hat:'straw',cl:'shirt',cc:'khaki',age:2,bgi:7},
  lorraine:{sk:2,h:'curly',hc:'silver',g:'square',cl:'blouse',cc:'teal',acc:['necklace'],age:2,bgi:6},
- ambrose:{sk:8,h:'short',hc:'white',fh:'mustache',fhc:'white',hat:'straw',cl:'overalls',cc:'white',ac:'olive',age:2,bgi:2},
+ ambrose:{sk:1,h:'short',hc:'white',fh:'mustache',fhc:'white',hat:'straw',cl:'overalls',cc:'white',ac:'olive',age:2,bgi:2},
  tessa:{sk:1,h:'ponytail',hc:'chestnut',cl:'flannel',cc:'maroon',freckles:1,bgi:5},
  chayo:{sk:5,h:'bun',hc:'white',hat:'straw',cl:'shirt',cc:'cream',acc:['earrings'],age:2,bgi:2},
  // not in NPCS but appear in scenes
