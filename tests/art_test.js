@@ -10,6 +10,8 @@ for(const k in VEHICLES){const s=carArt(k);if(!s)miss.push('car '+k);else if(!ok
 for(const k in NPCS){const f=npcFace(k);if(!f)miss.push('face '+k);else if(!ok(f))broken.push('face '+k)}
 // scenes that belong to a person get the portrait
 {S=newState('T','中');const sc=talkScene('lucia');if(!sc.art)broken.push('talkScene without portrait');if(actNpc({id:'p4_carmen'})!=='p4_carmen'||actNpc({id:'p7_arc_zeke'})!=='p7_zeke'||actNpc({id:'talk-earl'})!=='earl')broken.push('actNpc mapping')}
+// player look: six presets, picked before a new game, used for the player's portrait
+{if(PLAYER_LOOKS.length<6)broken.push('player looks');pendingLook=4;const s2=newState('T','中');if(s2.look!==4)broken.push('new game keeps the picked look');S=s2;if(!ok(playerFace())||npcFace('tiago')!==playerFace())broken.push('player portrait');S.look=undefined;if(lookIdx()!==4)broken.push('old saves fall back');pendingLook=0}
 console.log('dishes',Object.keys(DISH).length,'vehicles',Object.keys(VEHICLES).length,'portraits',Object.keys(NPCS).length);
 if(miss.length)console.log('MISSING',miss.join(', '));if(broken.length)console.log('BROKEN',broken.join(', '));
 console.log(miss.length||broken.length?'ART PROBLEMS':'ART OK');`;

@@ -245,3 +245,26 @@ function actNpc(a){if(!a||!a.id)return null;const id=String(a.id);
 {const m0=meetScene;meetScene=function(id){const sc=m0(id);if(sc&&!sc.art)sc.art=npcFace(id);return sc}}
 {const t0=talkScene;talkScene=function(id){const sc=t0(id);if(sc&&!sc.art)sc.art=npcFace(id);return sc}}
 if(typeof truthScene==='function'){const u0=truthScene;truthScene=function(id){const sc=u0(id);if(sc&&!sc.art)sc.art=npcFace(id);return sc}}
+
+/* ---------- the player's look: pick one of a few handsome Lisboetas (start screen, or the people panel later) ---------- */
+const PLAYER_LOOKS=[
+ {n:['黑色卷发','Dark curls','Caracóis escuros'],o:{sk:2,h:'curly',hc:'dark',fh:'stubble',cl:'apron',cc:'navy',ac:'white',f:'o',bgi:0}},
+ {n:['利落背头','Slicked back','Cabelo para trás'],o:{sk:1,h:'slick',hc:'black',cl:'shirt',cc:'white',f:'w',bgi:6}},
+ {n:['及肩波浪','Shoulder-length waves','Ondas pelos ombros'],o:{sk:2,h:'wavy',hc:'chestnut',fh:'stubble',fhc:'chestnut',cl:'western',cc:'denim',f:'o',bgi:5}},
+ {n:['修剪络腮胡','Trimmed beard','Barba aparada'],o:{sk:3,h:'side',hc:'dark',fh:'beard',cl:'flannel',cc:'green',f:'w',bgi:2}},
+ {n:['清爽侧分','Neat side parting','Risca ao lado'],o:{sk:1,h:'side',hc:'brown',cl:'sweater',cc:'navy',f:'o',bgi:4}},
+ {n:['寸头胡茬','Buzz cut and stubble','Cabelo rapado e barba curta'],o:{sk:3,h:'buzz',hc:'black',fh:'stubble',cl:'tee',cc:'black',f:'w',mouth:'grin',bgi:1}}
+];
+let pendingLook=0;
+const lookIdx=()=>{const i=S&&S.look!=null?S.look:pendingLook;return PLAYER_LOOKS[i]?i:0};
+function playerFace(cls){return FACES.SV(FACES.face(facePrep(PLAYER_LOOKS[lookIdx()].o)),cls)}
+FACE.tiago=PLAYER_LOOKS[0].o;
+{const nf0=npcFace;npcFace=function(id,cls){return id==='tiago'?playerFace(cls):nf0(id,cls)}}
+function lookPickerHTML(){const cur=lookIdx();
+ return `<div class="look-pick" role="radiogroup">${PLAYER_LOOKS.map((L,i)=>`<button type="button" class="look-opt${i===cur?' on':''}" data-look-pick="${i}" role="radio" aria-checked="${i===cur}" title="${tt(L.n)}">${FACES.SV(FACES.face(facePrep(L.o)),'face-pick')}<span>${tt(L.n)}</span></button>`).join('')}</div>`}
+function lookCardHTML(){return `<details class="look-card-d"><summary class="look-card">${playerFace('face-me')}<div><b>${S.name}</b><div class="mini">${t('点这里换形象','Tap here to change your look','Toca aqui para mudar de visual')}</div></div></summary>${lookPickerHTML()}</details>`}
+// a new game takes the look picked on the start screen
+{const ns0=newState;newState=function(...args){const s=ns0(...args);s.look=pendingLook;return s}}
+if(typeof document!=='undefined'&&document.addEventListener)document.addEventListener('click',e=>{const b=e.target&&e.target.closest&&e.target.closest('[data-look-pick]');if(!b)return;
+ const i=+b.dataset.lookPick;if(!PLAYER_LOOKS[i])return;
+ if(S){S.look=i;save();render()}else{pendingLook=i;document.querySelectorAll('[data-look-pick]').forEach(x=>{const on=+x.dataset.lookPick===i;x.classList.toggle('on',on);x.setAttribute('aria-checked',on)})}});
