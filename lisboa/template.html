@@ -1,4 +1,18 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>里斯本·孤星</title>
+<meta name="description" content="中英葡三语叙事经营游戏：里斯本青年在德州 35 号州际公路边的小镇经营葡萄牙烧烤店。A trilingual narrative management sim set in Texas.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://jabarrick.github.io/lisboa-lone-star/lisboa/">
+<meta property="og:title" content="里斯本·孤星 · LISBOA, LONE STAR">
+<meta property="og:description" content="中英葡三语叙事经营游戏：里斯本青年继承了舅舅在德州小镇的葡萄牙烧烤店。16 条恋爱线、30 座德州城市。">
+<meta property="og:image" content="https://jabarrick.github.io/lisboa-lone-star/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="claude:viewport-fit-sides" content="cover">
 <style>
 /* Layout: azulejo-tiled header band, scene "letter" left, town board right; stacks on phones */
@@ -233,7 +247,7 @@ select{font:inherit;font-size:13px;width:100%;background:var(--surface);color:va
 @media (min-width:861px){
  .pscroll{display:flex;flex-direction:column}
  .pmain{flex:none}
- .pfill{display:block;flex:1 1 0;min-height:0;overflow:hidden;border-top:2px solid var(--line);margin-top:10px;padding-top:2px;-webkit-mask-image:linear-gradient(#000 calc(100% - 28px),transparent);mask-image:linear-gradient(#000 calc(100% - 28px),transparent)}
+ .pfill{display:block;flex:1 1 0;min-height:0;overflow:hidden;border-top:2px solid var(--line);margin-top:10px;padding-top:2px;}
 }
 .pf-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px}
 .pf-c{border:1px solid var(--line);border-radius:7px;padding:3px 7px;display:flex;flex-direction:column;line-height:1.3;min-width:0}
@@ -272,7 +286,7 @@ select{font:inherit;font-size:13px;width:100%;background:var(--surface);color:va
  #app[data-mv="panel"] #panel{min-height:calc(100% - 8px);display:flex;flex-direction:column}
  #app[data-mv="panel"] .pscroll{flex:1 0 auto;display:flex;flex-direction:column}
  .pmain{flex:none}
- .pfill{display:block;flex:1 1 0;min-height:0;overflow:hidden;border-top:2px solid var(--line);margin-top:10px;padding-top:2px;-webkit-mask-image:linear-gradient(#000 calc(100% - 28px),transparent);mask-image:linear-gradient(#000 calc(100% - 28px),transparent)}
+ .pfill{display:block;flex:1 1 0;min-height:0;overflow:hidden;border-top:2px solid var(--line);margin-top:10px;padding-top:2px}
  .pf-c{padding:2px 5px}.pf-c b{font-size:12px}
  .views{flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:10px 0 calc(66px + env(safe-area-inset-bottom,0px));overscroll-behavior:contain}
  .main{display:block}.col-l{display:block}
@@ -290,6 +304,8 @@ select{font:inherit;font-size:13px;width:100%;background:var(--surface);color:va
  .mnav button:focus-visible{outline:2px solid var(--gold);outline-offset:-2px}
 }
 </style>
+</head>
+<body>
 
 <div class="wrap" id="app"></div>
 <div class="toast" id="toast" role="status"></div>
@@ -1969,7 +1985,7 @@ function render(){if(S&&S.flags&&S.flags.dbgInfEnergy)S.energy=10;
  const app=$('#app');
  if(!S){app.innerHTML=res(startHTML());bindStart();bindLang();return}
  app.dataset.mv=mview;app.dataset.idle=cur?'0':'1';app.innerHTML=res(headerHTML()+`<div class="views" id="views"><div class="main"><div class="col-l"><div class="card scene" aria-live="polite">${sceneHTML()}</div>${mapCardHTML()}</div><div class="card" id="panel"><div class="pscroll"><div class="pmain">${panelHTML()}</div>${tab==="log"?"":panelFill()}</div></div></div><div class="card board">${boardHTML()}</div></div>${mnavHTML()}`);
- bind();bindMini();gc();document.querySelectorAll('.mnav [data-mv]').forEach(b=>b.onclick=()=>setView(b.dataset.mv));bindLang();
+ bind();bindMini();gc();fitFill();document.querySelectorAll('.mnav [data-mv]').forEach(b=>b.onclick=()=>setView(b.dataset.mv));bindLang();
  // phones: when a new scene opens, bring it into view (the action board sits below it)
  if(cur&&cur!==render._last&&window.innerWidth<=860){const el=document.querySelector('.scene');if(el&&el.scrollIntoView&&el.getBoundingClientRect().top<0)el.scrollIntoView({block:'start'})}
  render._last=cur;
@@ -2009,13 +2025,16 @@ function boardHTML(){
   return `<div class="loc"><h3>${L[l]}</h3><div class="acts">${A.filter(a=>a.loc===l).map(a=>{const r=a.req?a.req():true;const c=costOf(a);const why=r!==true?r:S.energy<c?t(`精力不够（要 ${c} 点，现在 ${S.energy} 点）`,`Not enough energy (needs ${c}, you have ${S.energy})`,`Sem energia (precisa de ${c}, tens ${S.energy})`):'';return `<button class="act${!dis&&why?' off':''}" data-a="${a.loc}|${a.id}" ${dis?'disabled':why?`aria-disabled="true" data-why="${why}"`:''} title="${why||a.tip||''}">${a.n}<em>${c}⚡</em></button>`}).join('')}</div></div>`;
  }).join('')+(()=>{const lk=Object.keys(L).filter(l=>!locOpen(l));return lk.length?`<div class="loc loc-locked"><h3>${t('未解锁','Locked','Bloqueado')} <span>${lk.length}</span></h3><div class="mini">${lk.map(l=>L[l]).join(' · ')}</div></div>`:''})();
 }
+function fitFill(){document.querySelectorAll('.pfill').forEach(f=>{const items=[...f.querySelectorAll('.pf-item')];items.forEach(e=>e.style.display='');if(!f.clientHeight){return}const bottom=f.getBoundingClientRect().bottom;let cut=false;items.forEach(e=>{if(cut||e.getBoundingClientRect().bottom>bottom+0.5){cut=true;e.style.display='none'}});for(let i=items.length-1;i>=0;i--){const e=items[i];if(e.style.display==='none')continue;if(e.classList.contains('pf-h'))e.style.display='none';else break}})}
+window.addEventListener&&window.addEventListener('resize',()=>{clearTimeout(fitFill._t);fitFill._t=setTimeout(fitFill,80)});
 function panelFill(){
  const k=LANG==='en'?'e':LANG==='pt'?'p':'z';
  const cell=(l,v)=>`<div class="pf-c"><span>${l}</span><b>${v}</b></div>`;
  const prof=Math.round(S.wk.rev-S.wk.spend);
  const cells=[cell(t('本周营收','Revenue','Receita'),'$'+Math.round(S.wk.rev)),cell(t('本周支出','Spending','Despesa'),'$'+Math.round(S.wk.spend)),cell(t('毛利','Gross','Bruto'),(prof<0?'−$':'$')+Math.abs(prof)),cell(t('口碑','Reputation','Reputação'),Math.round(S.rep)),cell(t('线上','Online','Online'),Math.round(S.online)),cell(t('卫生','Hygiene','Higiene'),Math.round(S.clean==null?85:S.clean)+(S.grade?' · '+S.grade:'')),cell(t('员工','Staff','Equipa'),S.staff.length+'/'+STAFF_MAX),cell(t('精力','Energy','Energia'),S.energy+'/10')].join('');
  const inv=Object.keys(ING).map(i=>`<span class="pf-i">${tt(ING[i].n)} <b>${S.inv[i]}</b></span>`).join('');
- return `<div class="pfill"><h3 class="sub">${t('本周近况','This week','Esta semana')}</h3><div class="pf-grid">${cells}</div><div class="pf-inv">${inv}</div><h3 class="sub">${t('最近发生','Recently','Recentemente')}</h3><div class="log pf-log">${S.log.slice(0,40).map(l=>`<div>${l[k]}</div>`).join('')}</div>${S.log.length<25?`<h3 class="sub">${t('玩法提示','Tips','Dicas')}</h3>${GUIDE.map(([h,b])=>`<div class="wiki-e"><b>${tt(h)}</b><p class="mini">${tt(b)}</p></div>`).join('')}`:''}</div>`;
+ const tips=S.log.length<25?`<h3 class="sub pf-item pf-h">${t('玩法提示','Tips','Dicas')}</h3>${GUIDE.map(([h,b])=>`<div class="wiki-e pf-item"><b>${tt(h)}</b><p class="mini">${tt(b)}</p></div>`).join('')}`:'';
+ return `<div class="pfill"><h3 class="sub pf-item pf-h">${t('本周近况','This week','Esta semana')}</h3><div class="pf-grid pf-item">${cells}</div><div class="pf-inv pf-item">${inv}</div><h3 class="sub pf-item pf-h">${t('最近发生','Recently','Recentemente')}</h3><div class="log pf-log">${S.log.slice(0,40).map(l=>`<div class="pf-item">${l[k]}</div>`).join('')}</div>${tips}</div>`;
 }
 function panelHTML(){
  const tabs=[['shop',t('店铺','Shop','Restaurante')],['biz',t('经营','Business','Negócio')],['map',t('德州','Texas','Texas')],['people',t('人物','People','Pessoas')],['ach',t('成就','Achievements','Conquistas')],['log',t('日志','Log','Diário')],['wiki',t('百科','Wiki','Enciclopédia')],...(debugOn()?[['debug',t('调试','Debug','Depuração')]]:[])].map(([k,n])=>`<button class="tab ${tab===k?'on':''}" data-t="${k}">${n}</button>`).join('');
@@ -2106,3 +2125,5 @@ document.documentElement.lang={zh:'zh-CN',en:'en',pt:'pt-PT'}[LANG];
 document.title=res(t('里斯本·孤星','Lisboa, Lone Star','Lisboa, Estrela Solitária'));
 render();
 </script>
+</body>
+</html>
