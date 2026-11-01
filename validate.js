@@ -65,7 +65,7 @@ if(typeof CH5==='function'){let longest=0,ok=0;for(const id of PIDS){for(let r=0
 const BASE_NPCS=['lucia','jolene','savannah','clara','hannah','brooke','megan','colleen','wade','ashley','ines','roz','kyle','delphine','grace','maya','earl','albertina','dale','travis','beto','marisol'];
 for(const k of Object.keys(NPCS)){if(BASE_NPCS.includes(k))continue;const n=NPCS[k];
  for(const f of ['n','s','p','role'])if(!Array.isArray(n[f])||n[f].length!==3||n[f].some(x=>!x))P('NPC '+k+' needs '+f+' as [zh,en,pt]');
- if(!n.loc||!(CITIES[n.loc]||['shop','main','bar','gym','ranch','college','church'].includes(n.loc)))P('NPC '+k+' loc must be a city id: '+n.loc);
+ if(!n.loc||!(CITIES[n.loc]||['shop','main','bar','gym','ranch','college','church'].includes(n.loc)||(n.loc.startsWith('x:')&&EXTRA_LOCS.some(L=>'x:'+L.id===n.loc))))P('NPC '+k+' loc must be a city id, a home place or a registered extra place (x:id): '+n.loc);
  if(n.beats||n.romance||n.meet)P('NPC '+k+' must not have beats/romance/meet');
  if(/[A-Za-z]/.test(n.n[0])||/[A-Za-z]/.test(n.s[0])||/[A-Za-z]/.test(n.role[0]))P('NPC '+k+' Chinese name/role contains Latin letters');}
 // travel checks
