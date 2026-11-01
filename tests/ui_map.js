@@ -8,7 +8,7 @@ const {chromium}=require('playwright');
   await p.goto('file://'+require('path').resolve(__dirname,'../lisboa/index.html'));
   await p.click('#go');for(let i=0;i<3;i++){await p.click('.choice').catch(()=>{})}
   await p.evaluate(()=>{S.week=15;S.cash=4000;S.visited={waco:1,austin:2,galveston:1};cur=null;queue=[];render()});
-  const m1=await p.$('.tx-map');await m1.screenshot({path:`shots/txmap_home_${w}_${scheme}.png`});
+  await p.evaluate(()=>{mview='map';render()});const m1=await p.$('.tx-map');await m1.screenshot({path:`shots/txmap_home_${w}_${scheme}.png`});
   await p.evaluate(()=>{S.where='sanantonio';S.npc.maya.met=true;S.tripWith='maya';render()});
   const m2=await p.$('.tx-map');await m2.screenshot({path:`shots/txmap_sa_${w}_${scheme}.png`});
   await p.click('.txm-city[data-city="marfa"]');const tabNow=await p.evaluate(()=>tab);
