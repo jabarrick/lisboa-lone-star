@@ -14,11 +14,11 @@ const {chromium}=require('playwright');
   const where=await p.evaluate(()=>S.where);
   await p.screenshot({path:`shots/austin_${w}.png`,fullPage:true});
   // do the first enabled city action, play through its scene
-  await p.evaluate(()=>{mview='act';render()});const btn=await p.$('.act:not([disabled])');const label=btn?await btn.textContent():'-';if(btn)await btn.click();
+  await p.evaluate(()=>{mview='act';render()});const btn=await p.$('.act:not([disabled]):not(.off)');const label=btn?await btn.textContent():'-';if(btn)await btn.click();
   let n=0;while(await p.$('.choice')&&n++<10){await p.click('.choice:not([disabled])').catch(()=>{});}
   const after=await p.evaluate(()=>({where:S.where,slot:S.slot,mayaLike:S.npc.maya.like}));
   // go home
-  const home=await p.$('[data-a="austin:trip|home"]');if(home&&!(await home.isDisabled()))await home.click();
+  const home=await p.$('[data-a="austin:trip|home"]');if(home&&!(await home.isDisabled())&&!(await home.getAttribute('aria-disabled')))await home.click();
   n=0;while(await p.$('.choice')&&n++<10){await p.click('.choice:not([disabled])').catch(()=>{});}
   const back=await p.evaluate(()=>S.where);
   // overnight trip to Marfa

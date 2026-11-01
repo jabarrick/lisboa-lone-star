@@ -78,6 +78,7 @@ header{background:var(--surface);border:1px solid var(--line);border-radius:10px
 .act{font:inherit;font-size:13px;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:7px;padding:4px 10px;cursor:pointer}
 .act:hover:not(:disabled){border-color:var(--rust);color:var(--rust)}
 .act:disabled{opacity:.42;cursor:not-allowed}
+.act.off{opacity:.42;cursor:help}
 .act em{font-style:normal;font-family:var(--f-mono);font-size:11px;color:var(--muted);margin-left:4px}
 .tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin:-4px 0 12px;flex-wrap:wrap}
 .tab{font:inherit;font-size:13px;background:none;border:none;border-bottom:2px solid transparent;color:var(--muted);padding:6px 10px;cursor:pointer}
@@ -100,7 +101,7 @@ select{font:inherit;font-size:13px;width:100%;background:var(--surface);color:va
 .acc label{margin:0;border:1px solid var(--line);border-radius:8px;padding:8px 10px;cursor:pointer;color:var(--ink);font-size:13px}
 .acc input{margin-right:6px}
 .go{font:inherit;margin-top:16px;background:var(--rust);color:#fff;border:none;border-radius:8px;padding:10px 20px;cursor:pointer;font-size:15px}
-.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:8px 16px;border-radius:8px;font-size:13px;opacity:0;transition:opacity .2s;pointer-events:none;max-width:90vw}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:8px 16px;border-radius:8px;font-size:13px;opacity:0;transition:opacity .2s;pointer-events:none;max-width:90vw;z-index:40;text-align:center}
 .toast.on{opacity:1}
 @media (prefers-reduced-motion:reduce){.toast{transition:none}}
 .col-l{display:flex;flex-direction:column;gap:14px;min-width:0}
@@ -255,6 +256,7 @@ select{font:inherit;font-size:13px;width:100%;background:var(--surface);color:va
  .chips{-webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 28px),transparent);mask-image:linear-gradient(90deg,#000 calc(100% - 28px),transparent)}
  .chips::after{content:'';flex:none;width:20px}
  .chip{flex:none;font-size:11px;padding:0 8px}
+ .toast{bottom:calc(72px + env(safe-area-inset-bottom,0px))}
  #app[data-mv="panel"] #panel{min-height:calc(100% - 8px);display:flex;flex-direction:column}
  #app[data-mv="panel"] .pscroll{flex:1 0 auto;display:flex;flex-direction:column}
  .pmain{flex:none}
@@ -1366,7 +1368,7 @@ const DEBUG_KEY='lisboa-lone-star-debug';
 const debugOn=()=>{try{return localStorage.getItem(DEBUG_KEY)==='1'}catch(e){return !!window.__dbg}};
 function setDebug(v){try{localStorage.setItem(DEBUG_KEY,v?'1':'0')}catch(e){window.__dbg=v}if(!v&&tab==='debug')tab='wiki';render()}
 const GUIDE=[
- [['时间与精力','Time and energy','Tempo e energia'],['一天分早晨、午间、夜晚三个时段，每个时段做一件事。每天精力 10 点，行动消耗 1–4 点；睡觉恢复，乡愁太重会睡不好。周日夜里结算账本，一年 48 周，第 49 周迎来一周年结局。','A day has three slots — morning, midday, night — and you do one thing per slot. You get 10 energy a day; actions cost 1–4. Sleep restores it; heavy homesickness ruins sleep. The books close every Sunday night; the year is 48 weeks, with the one-year ending in week 49.','Um dia tem três períodos — manhã, almoço, noite — e fazes uma coisa por período. Tens 10 de energia por dia; as ações custam 1–4. O sono recupera-a; muita saudade estraga o sono. As contas fecham ao domingo à noite; o ano tem 48 semanas e o final de um ano chega na semana 49.']],
+ [['时间与精力','Time and energy','Tempo e energia'],['一天分早晨、午间、夜晚三个时段，每个时段做一件事。每天精力 10 点，行动消耗 1–4 点；灰色的行动点一下会告诉你还差什么。睡觉恢复，乡愁太重会睡不好。周日夜里结算账本，一年 48 周，第 49 周迎来一周年结局。','A day has three slots — morning, midday, night — and you do one thing per slot. You get 10 energy a day; actions cost 1–4, and tapping a greyed-out action tells you what\'s missing. Sleep restores it; heavy homesickness ruins sleep. The books close every Sunday night; the year is 48 weeks, with the one-year ending in week 49.','Um dia tem três períodos — manhã, almoço, noite — e fazes uma coisa por período. Tens 10 de energia por dia; as ações custam 1–4, e tocar numa ação a cinzento diz-te o que falta. O sono recupera-a; muita saudade estraga o sono. As contas fecham ao domingo à noite; o ano tem 48 semanas e o final de um ano chega na semana 49.']],
  [['四项属性','The four stats','Os quatro atributos'],['魅力（基础值加上口音、肌肉、衣着的加成，加成最多 +30）、手艺、德州味、乡愁。属性越高涨得越慢。德州味上升会压低乡愁，乡愁上升也会拖累德州味；德州味够高之后，不碰家乡的东西乡愁反而会下降。','Charm (base plus bonuses from accent, muscle and clothes, at most +30), Craft, Texanness and Homesickness. The higher a stat, the slower it grows. Rising Texanness pushes homesickness down and vice versa; once you are Texan enough, homesickness fades if you avoid things from home.','Charme (base mais bónus de sotaque, músculo e roupa, no máximo +30), Ofício, Texanidade e Saudade. Quanto mais alto um atributo, mais devagar sobe. A Texanidade empurra a saudade para baixo e vice-versa; quando já és texano o suficiente, a saudade desvanece se evitares coisas de casa.']],
  [['口音与肌肉','Accent and muscle','Sotaque e músculo'],['口音分浓、中、淡三档，每周只能在店里的镜子前挪一档。浓口音魅力最高，但正式场合吃亏、上错菜多、某些人信任涨得慢。肌肉 0–5 级，每级魅力 +4，要连续训练维持，两周不练掉一级。','Accent has three settings — heavy, medium, light — and you can move one step a week at the shop mirror. Heavy gives the most charm but hurts in formal settings, causes wrong orders and slows some people\'s trust. Muscle runs 0–5, +4 charm per level; keep training or lose a level after two weeks off.','O sotaque tem três níveis — carregado, médio, leve — e só podes mudar um passo por semana, ao espelho do restaurante. O carregado dá mais charme mas prejudica em contextos formais, causa pratos trocados e atrasa a confiança de algumas pessoas. O músculo vai de 0 a 5, +4 de charme por nível; continua a treinar ou perdes um nível ao fim de duas semanas.']],
  [['营业','Running the shop','O restaurante'],['三种营业方式：亲自招呼（魅力与口音生效、小费多）、下厨帮忙（烤架小游戏决定火候）、推荐贵菜。8 张桌子（露天座位升级后 12 张），客人有耐心和预算，等太久会走。每周房租 $250，另有营收 16% 的杂费。','Three ways to open: work the floor (charm and accent count, more tips), work the kitchen (the grill mini-game sets the quality) or upsell. Eight tables (twelve with the patio), and customers have patience and budgets — wait too long and they leave. Rent is $250 a week plus 16% of revenue in overheads.','Três maneiras de abrir: atender (contam o charme e o sotaque, mais gorjetas), cozinhar (o minijogo da grelha decide a qualidade) ou sugerir pratos caros. Oito mesas (doze com a esplanada); os clientes têm paciência e orçamento — se esperarem demais, vão-se embora. Renda de $250 por semana mais 16% da receita em despesas.']],
@@ -7740,7 +7742,7 @@ function boardHTML(){
  const A=actions(),dis=!!cur,L=boardLocs();
  return Object.keys(L).map(l=>{
   if(!locOpen(l))return '';
-  return `<div class="loc"><h3>${L[l]}</h3><div class="acts">${A.filter(a=>a.loc===l).map(a=>{const r=a.req?a.req():true;const c=costOf(a);return `<button class="act" data-a="${a.loc}|${a.id}" ${dis||r!==true||S.energy<c?'disabled':''} title="${r!==true?r:(a.tip||'')}">${a.n}<em>${c}⚡</em></button>`}).join('')}</div></div>`;
+  return `<div class="loc"><h3>${L[l]}</h3><div class="acts">${A.filter(a=>a.loc===l).map(a=>{const r=a.req?a.req():true;const c=costOf(a);const why=r!==true?r:S.energy<c?t(`精力不够（要 ${c} 点，现在 ${S.energy} 点）`,`Not enough energy (needs ${c}, you have ${S.energy})`,`Sem energia (precisa de ${c}, tens ${S.energy})`):'';return `<button class="act${!dis&&why?' off':''}" data-a="${a.loc}|${a.id}" ${dis?'disabled':why?`aria-disabled="true" data-why="${why}"`:''} title="${why||a.tip||''}">${a.n}<em>${c}⚡</em></button>`}).join('')}</div></div>`;
  }).join('')+(()=>{const lk=Object.keys(L).filter(l=>!locOpen(l));return lk.length?`<div class="loc loc-locked"><h3>${t('未解锁','Locked','Bloqueado')} <span>${lk.length}</span></h3><div class="mini">${lk.map(l=>L[l]).join(' · ')}</div></div>`:''})();
 }
 function panelFill(){
@@ -7817,7 +7819,7 @@ function bind(){
  const r2=$('#restart2');if(r2&&r2.addEventListener)r2.onclick=()=>{if(r2.dataset.sure){tryRemove();S=null;queue=[];cur=null;render()}else{r2.dataset.sure=1;r2.textContent=res(t('再点一次确认','Tap again to confirm','Toca outra vez para confirmar'))}};
  $('#restart').onclick=()=>{const b=$('#restart');if(b.dataset.sure){tryRemove();S=null;queue=[];cur=null;render()}else{b.dataset.sure=1;b.textContent=t('再点一次确认','Click again to confirm','Clica outra vez para confirmar')}};
  document.querySelectorAll('.choice').forEach(b=>b.onclick=()=>choose(+b.dataset.c));
- document.querySelectorAll('.act').forEach(b=>b.onclick=()=>{const [l,id]=b.dataset.a.split('|');const a=actions().find(x=>x.loc===l&&x.id===id);if(a)doAction(a)});
+ document.querySelectorAll('.act').forEach(b=>b.onclick=()=>{if(b.classList.contains('off')){toast(b.dataset.why||'');return}const [l,id]=b.dataset.a.split('|');const a=actions().find(x=>x.loc===l&&x.id===id);if(a)doAction(a)});
  document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{tab=b.dataset.t;render()});
  bindWikiDebug();
  document.querySelectorAll('select[data-m]').forEach(s=>s.onchange=()=>{const v=s.value||null;S.menu[+s.dataset.m]=v;save();toast(v?t('菜单加入 ','Added to menu: ','Na ementa: ')+tt(DISH[v].n):t('清空槽位','Slot cleared','Lugar vazio'))});
