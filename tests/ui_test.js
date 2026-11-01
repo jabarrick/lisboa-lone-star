@@ -11,19 +11,19 @@ const {chromium}=require('playwright');
   await p.evaluate(()=>{S.week=6;S.flags.gym=1;S.flags.ranch=1;S.muscle=3;S.cash=3000;mondaySystems();S.orders.push({id:'bake',due:dayIndex()+3,done:false});cur=null;queue=[];render()});
   await p.screenshot({path:`shots/idle_${w}.png`,fullPage:false});
   // grill minigame
-  await p.click('[data-a="shop|cook"]');await p.waitForSelector('#mbtn');
+  await p.evaluate(()=>{mview='act';render()});await p.click('[data-a="shop|cook"]');await p.waitForSelector('#mbtn');
   for(let i=0;i<3;i++){await p.waitForTimeout(350);await p.click('#mbtn')}
   await p.screenshot({path:`shots/grill_${w}.png`});
   await p.waitForTimeout(800);
   const t1=await p.textContent('.scene h2');
   // arm wrestling minigame
   while(await p.$('.choice')){await p.click('.choice');}
-  await p.click('[data-a="gym|arm"]').catch(e=>errs.push('arm click '+e.message));await p.waitForSelector('#mbtn');
+  await p.evaluate(()=>{mview='act';render()});await p.click('[data-a="gym|arm"]').catch(e=>errs.push('arm click '+e.message));await p.waitForSelector('#mbtn');
   await p.click('#mbtn');for(let i=0;i<30;i++)await p.click('#mbtn',{force:true}).catch(()=>{});
   await p.waitForTimeout(900);const t2=await p.textContent('.scene');
   while(await p.$('.choice')){await p.click('.choice');}
   // panels
-  await p.click('[data-t="biz"]');await p.screenshot({path:`shots/biz_${w}.png`,fullPage:true});
+  await p.evaluate(()=>{mview='panel';render()});await p.click('[data-t="biz"]');await p.screenshot({path:`shots/biz_${w}.png`,fullPage:true});
   await p.click('[data-up="neon"]');await p.click('[data-price="premium"]');
   await p.click('[data-t="ach"]');await p.screenshot({path:`shots/ach_${w}.png`});
   const wide=await p.evaluate(()=>document.documentElement.scrollWidth-window.innerWidth);

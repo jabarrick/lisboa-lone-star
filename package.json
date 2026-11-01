@@ -7,6 +7,9 @@
     "validate": "node validate.js story/*.js",
     "check": "python3 build.py && node validate.js story/*.js",
     "test:econ": "node tests/econ_bot.js",
-    "test:ui": "node tests/ui_wiki.js && node tests/ui_mappage.js"
+    "test:ui": "node tests/ui_wiki.js && node tests/ui_mappage.js",
+    "test": "bash tests/run_all.sh",
+    "test:quick": "bash tests/run_all.sh quick",
+    "test:balance": "node tests/balance_bot.js 16 0.5"
   }
 }

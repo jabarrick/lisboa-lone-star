@@ -12,6 +12,6 @@ const {chromium}=require('playwright');
  await p.click('.mnav [data-mv="map"]');await p.screenshot({path:`shots/phone_map_${lang}.png`});
  await p.click('.mnav [data-mv="panel"]');await p.screenshot({path:`shots/phone_panel_${lang}.png`});
  const docScroll=await p.evaluate(()=>({h:document.documentElement.scrollHeight-window.innerHeight,w:document.documentElement.scrollWidth-window.innerWidth}));
- await p.click('.mnav [data-mv="act"]');const act=await p.$('.act:not([disabled])');await act.click();const mv2=await p.evaluate(()=>mview);
+ await p.click('.mnav [data-mv="act"]');const act=await p.$('.act:not([disabled]):not(.off)');await act.click();const mv2=await p.evaluate(()=>mview);
  console.log(scheme,lang,'after first scenes view:',mv1,'| page overflow',JSON.stringify(docScroll),'| after action view:',mv2);}
  console.log('errors',errs.length?errs:'none');await b.close()})();

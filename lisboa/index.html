@@ -92,6 +92,7 @@ header{background:var(--surface);border:1px solid var(--line);border-radius:10px
 .act{font:inherit;font-size:13px;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:7px;padding:4px 10px;cursor:pointer}
 .act:hover:not(:disabled){border-color:var(--rust);color:var(--rust)}
 .act:disabled{opacity:.42;cursor:not-allowed}
+.act.off{opacity:.42;cursor:help}
 .act em{font-style:normal;font-family:var(--f-mono);font-size:11px;color:var(--muted);margin-left:4px}
 .tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin:-4px 0 12px;flex-wrap:wrap}
 .tab{font:inherit;font-size:13px;background:none;border:none;border-bottom:2px solid transparent;color:var(--muted);padding:6px 10px;cursor:pointer}
@@ -114,8 +115,20 @@ select{font:inherit;font-size:13px;width:100%;background:var(--surface);color:va
 .acc label{margin:0;border:1px solid var(--line);border-radius:8px;padding:8px 10px;cursor:pointer;color:var(--ink);font-size:13px}
 .acc input{margin-right:6px}
 .go{font:inherit;margin-top:16px;background:var(--rust);color:#fff;border:none;border-radius:8px;padding:10px 20px;cursor:pointer;font-size:15px}
-.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:8px 16px;border-radius:8px;font-size:13px;opacity:0;transition:opacity .2s;pointer-events:none;max-width:90vw}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:8px 16px;border-radius:8px;font-size:13px;opacity:0;transition:opacity .2s;pointer-events:none;max-width:90vw;z-index:40;text-align:center}
 .toast.on{opacity:1}
+/* illustrations (story/v2_art.js) */
+.art{display:block;flex:none}
+.scene-art{margin:2px 0 8px;display:flex;justify-content:center}.scene-art .art{width:100%;max-width:280px;height:auto}
+.scene-art .art-dish{max-width:200px}
+.art-ico{width:34px;height:26px}.art-empty{border:1px dashed var(--line);border-radius:50%;opacity:.6}
+#panel label.mini.menu-slot{display:flex;align-items:flex-end;gap:5px}#panel label.mini.menu-slot>span:last-child{flex:1;min-width:0}
+@media (max-width:760px){.menu-slot .art-ico{width:26px;height:20px}}#panel label.menu-slot select{width:100%}
+.car-row{justify-content:flex-start!important;align-items:center}.art-car-s{width:92px;height:62px}
+.wiki-pic{display:flex;gap:10px;align-items:flex-start}.wiki-pic>.art-dish{width:72px;height:54px}.wiki-pic>.art-car{width:104px;height:70px}
+.art-locked{filter:grayscale(1) brightness(.35);opacity:.35}
+.lot-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin:4px 0 10px}.lot-grid figure{margin:0;text-align:center;font-size:11.5px;line-height:1.3;color:var(--muted)}.lot-grid .art{width:100%;height:auto}.lot-grid b{color:var(--ink);font-weight:600}
+@media (prefers-color-scheme:dark){.art{filter:brightness(.92)}.art-locked{filter:grayscale(1) brightness(.5)}}
 @media (prefers-reduced-motion:reduce){.toast{transition:none}}
 .col-l{display:flex;flex-direction:column;gap:14px;min-width:0}
 .tx-map{padding:14px 16px}
@@ -191,15 +204,17 @@ select{font:inherit;font-size:13px;width:100%;background:var(--surface);color:va
 #panel{line-height:1.45}
 #panel .sub{margin:10px 0 4px;font-size:13.5px}
 #panel p,#panel p.mini{margin:3px 0 6px}
-#panel .grid2{grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:5px 8px}
+#panel .grid2{display:flex;flex-wrap:wrap;gap:5px 8px}
+#panel .grid2>*{flex:1 1 118px;min-width:0}
 #panel label.mini{display:block;line-height:1.3}
 #panel select{margin:2px 0 0;padding:2px 4px}
-#panel .grid2 .stat{border:1px solid var(--line);border-radius:7px;padding:4px 6px;gap:2px}
+#panel .grid2 .stat{border:1px solid var(--line);border-radius:7px;padding:4px 6px;gap:2px 10px;flex-direction:row;flex-wrap:wrap;align-items:center}
+#panel .grid2 .stat>.lab{flex:1 0 96px}#panel .grid2 .stat>.mini{flex:1 0 96px}#panel .grid2 .stat>.btn-s{flex:1 0 96px}
 #panel .grid2 .stat .btn-s{padding:2px 4px;font-size:11.5px}
 #panel .npc{padding:4px 0;gap:0 8px}
 #panel .npc .mini{line-height:1.35}
 #panel .acts{gap:4px}
-.achs{grid-template-columns:repeat(auto-fill,minmax(136px,1fr));gap:5px}
+.achs{display:flex;flex-wrap:wrap;gap:5px}.achs>.ach{flex:1 1 136px;min-width:0}
 .ach{padding:4px 7px;gap:0;line-height:1.3}.ach b{font-size:13px}.ach .mini{font-size:11px}
 .log{line-height:1.4;gap:0}.log div{padding:2px 0;border-bottom:1px dotted var(--line)}.log div b{font-family:var(--f-body);font-size:11px;color:var(--rust);margin-right:2px}
 .wiki-e{padding:4px 0;line-height:1.4}
@@ -223,8 +238,8 @@ select{font:inherit;font-size:13px;width:100%;background:var(--surface);color:va
  .msettings{margin:-2px 0 6px}
  .board{columns:auto}
  .log{max-height:none}
- #panel .grid2{grid-template-columns:repeat(2,minmax(0,1fr))}
- .achs{grid-template-columns:repeat(2,minmax(0,1fr))}
+ #panel .grid2>*{flex-basis:calc(50% - 4px)}
+ .achs>.ach{flex-basis:calc(50% - 3px)}
  .views{padding-top:8px}
  .col-l{display:block}.views .card+.card,.views .card{margin-bottom:8px}
 }
@@ -233,11 +248,11 @@ select{font:inherit;font-size:13px;width:100%;background:var(--surface);color:va
  .pscroll{display:flex;flex-direction:column}
  .pmain{flex:none}
  .pfill{display:block;flex:1 1 0;min-height:0;overflow:hidden;border-top:2px solid var(--line);margin-top:10px;padding-top:2px;}
- .pf-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px}
- .pf-c{border:1px solid var(--line);border-radius:7px;padding:3px 7px;display:flex;flex-direction:column;line-height:1.3}
- .pf-c span{font-size:11px;color:var(--muted)}.pf-c b{font-family:var(--f-mono);font-weight:500;font-size:13px}
- .pf-inv{display:flex;flex-wrap:wrap;gap:4px 12px;margin-top:6px;font-size:12px;color:var(--muted)}.pf-inv b{color:var(--ink);font-family:var(--f-mono);font-weight:500}
 }
+.pf-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px}
+.pf-c{border:1px solid var(--line);border-radius:7px;padding:3px 7px;display:flex;flex-direction:column;line-height:1.3;min-width:0}
+.pf-c span{font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.pf-c b{font-family:var(--f-mono);font-weight:500;font-size:13px}
+.pf-inv{display:flex;flex-wrap:wrap;gap:4px 12px;margin-top:6px;font-size:12px;color:var(--muted)}.pf-inv b{color:var(--ink);font-family:var(--f-mono);font-weight:500}
 /* phones: put the action board right under the scene, the long panel last; compact header */
 /* phones: one screen. compact header on top, one view at a time, tab bar at the bottom; only the view scrolls */
 .mnav{display:none}
@@ -252,7 +267,8 @@ select{font:inherit;font-size:13px;width:100%;background:var(--surface);color:va
  .hrow{padding:6px 10px;gap:4px 10px}
  .logo{font-size:15px}.logo small{display:none}
  .clock{font-size:11.5px}.money{font-size:15px}
- .pip{width:6px;height:11px}
+ .pip{width:4px;height:11px}.pips{gap:2px}
+ .seas{display:none}
  .langs button,.btn-s{font-size:11px;padding:2px 7px}
  .stats{grid-template-columns:repeat(4,minmax(0,1fr));gap:2px 8px;padding:0 10px 6px}
  .stat .lab{font-size:10.5px}.stat .lab b{font-size:11px}
@@ -263,11 +279,19 @@ select{font:inherit;font-size:13px;width:100%;background:var(--surface);color:va
  .bar{height:4px}
  .chips{flex-wrap:nowrap;overflow-x:auto;padding:0 10px 6px;scrollbar-width:none}
  .chips::-webkit-scrollbar{display:none}
+ .chips{-webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 28px),transparent);mask-image:linear-gradient(90deg,#000 calc(100% - 28px),transparent)}
+ .chips::after{content:'';flex:none;width:20px}
  .chip{flex:none;font-size:11px;padding:0 8px}
+ .toast{bottom:calc(72px + env(safe-area-inset-bottom,0px))}
+ #app[data-mv="panel"] #panel{min-height:calc(100% - 8px);display:flex;flex-direction:column}
+ #app[data-mv="panel"] .pscroll{flex:1 0 auto;display:flex;flex-direction:column}
+ .pmain{flex:none}
+ .pfill{display:block;flex:1 1 0;min-height:0;overflow:hidden;border-top:2px solid var(--line);margin-top:10px;padding-top:2px}
+ .pf-c{padding:2px 5px}.pf-c b{font-size:12px}
  .views{flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:10px 0 calc(66px + env(safe-area-inset-bottom,0px));overscroll-behavior:contain}
  .main{display:block}.col-l{display:block}
  .views .card{border-radius:10px}
- #app[data-mv="story"] .tx-map,#app[data-mv="story"] #panel,#app[data-mv="story"] .board{display:none}
+ #app[data-mv="story"] .tx-map,#app[data-mv="story"] #panel,#app[data-mv="story"][data-idle="0"] .board{display:none}
  #app[data-mv="act"] .scene,#app[data-mv="act"] .tx-map,#app[data-mv="act"] #panel{display:none}
  #app[data-mv="map"] .scene,#app[data-mv="map"] #panel,#app[data-mv="map"] .board{display:none}
  #app[data-mv="panel"] .scene,#app[data-mv="panel"] .tx-map,#app[data-mv="panel"] .board{display:none}
@@ -512,7 +536,7 @@ function accentBonus(first){
  const b={'浓':12,'中':6,'淡':Math.min(6,S.nightClasses*2)}[S.accent];
  return b+(first&&S.accent==='浓'?8:0);
 }
-function charmBonus(first){return Math.min(30,accentBonus(first)+S.muscle*4+S.dress)}
+function charmBonus(first){return Math.min(30,accentBonus(first)+S.muscle*4+S.dress+(CAR()&&S.course.drive>=2?CAR().charm:0))}
 function charm(first){return clamp(S.stats.charme+charmBonus(first),0,100)}
 function formalPenalty(){return {'浓':-15,'中':-5,'淡':5}[S.accent]}
 function talkCost(id){const r=rel(id);return 2+(S.accent==='浓'&&r.trust<6?1:0)}
@@ -568,10 +592,10 @@ function endDay(){
 }
 function weekly(){
  weeklySystems();
- const rent=250+Math.round(S.wk.rev*0.16),wages=S.staff.reduce((a,k)=>a+STAFF[k].wage,0);
- S.cash-=rent+wages;
- const profit=S.wk.rev-S.wk.spend-rent-wages;
- S.history.push({w:S.week,rev:Math.round(S.wk.rev),cost:Math.round(S.wk.spend+rent+wages),profit:Math.round(profit)});
+ const rent=250+Math.round(S.wk.rev*0.16),wages=S.staff.reduce((a,k)=>a+STAFF[k].wage,0),carUp=CAR()?CAR().upkeep:0;
+ S.cash-=rent+wages+carUp;
+ const profit=S.wk.rev-S.wk.spend-rent-wages-carUp;
+ S.history.push({w:S.week,rev:Math.round(S.wk.rev),cost:Math.round(S.wk.spend+rent+wages+carUp),profit:Math.round(profit)});
  const sp_=has('fridge')?0.5:1;const lf=Math.floor(S.inv.fish*0.3*sp_),ld=Math.floor(S.inv.dairy*0.2*sp_),lb=Math.floor(S.inv.beef*0.15*sp_),lost=lf+ld+lb;
  S.inv.fish-=lf;S.inv.dairy-=ld;S.inv.beef-=lb;
  if(S.incoming){const n=S.incoming;S.inv.imp+=n;log(`葡萄牙进口货到了 ${n} 份`,`${n} units of Portuguese imports arrived`,`Chegaram ${n} doses de produtos portugueses`);S.incoming=0}
@@ -581,11 +605,11 @@ function weekly(){
  S.cash<0?S.negWeeks++:S.negWeeks=0;
  S.rumor=pick(RUMORS);
  S.rep=clamp(S.rep,-20,100);
- const R_=Math.round(S.wk.rev),C_=Math.round(S.wk.spend+rent+wages),P_=Math.round(profit);
+ const R_=Math.round(S.wk.rev),C_=Math.round(S.wk.spend+rent+wages+carUp),P_=Math.round(profit);
  log(`周结算：营收 $${R_}，支出 $${C_}，${P_>=0?'盈利':'亏损'} $${Math.abs(P_)}`,`Week closed: revenue $${R_}, costs $${C_}, ${P_>=0?'profit':'loss'} $${Math.abs(P_)}`,`Fecho da semana: receita $${R_}, custos $${C_}, ${P_>=0?'lucro':'prejuízo'} $${Math.abs(P_)}`);
  const wkN=S.week, rum=S.rumor, rep=Math.round(S.rep), onl=Math.round(S.online), sp=Math.round(S.wk.spend);
  queue.push({title:t(`第 ${wkN} 周结算`,`Week ${wkN} closing`,`Fecho da semana ${wkN}`),meta:t('周日 · 账本','Sunday · The ledger','Domingo · O livro de contas'),text:[
-  t(`营收 $${R_}，进货 $${sp}，房租与杂费 $${rent}${wages?`，工资 $${wages}`:''}${lost?`，过期损耗 ${lost} 份`:''}。`,`Revenue $${R_}, stock $${sp}, rent & overheads $${rent}${wages?`, wages $${wages}`:''}${lost?`, ${lost} units spoiled`:''}.`,`Receita $${R_}, compras $${sp}, renda e despesas $${rent}${wages?`, salários $${wages}`:''}${lost?`, ${lost} doses estragadas`:''}.`),
+  t(`营收 $${R_}，进货 $${sp}，房租与杂费 $${rent}${wages?`，工资 $${wages}`:''}${carUp?`，车辆保险与保养 $${carUp}`:''}${lost?`，过期损耗 ${lost} 份`:''}。`,`Revenue $${R_}, stock $${sp}, rent & overheads $${rent}${wages?`, wages $${wages}`:''}${carUp?`, car insurance & upkeep $${carUp}`:''}${lost?`, ${lost} units spoiled`:''}.`,`Receita $${R_}, compras $${sp}, renda e despesas $${rent}${wages?`, salários $${wages}`:''}${carUp?`, seguro e manutenção do carro $${carUp}`:''}${lost?`, ${lost} doses estragadas`:''}.`),
   P_>=0?t(`这周赚了 $${P_}。若泽留下的那本账本，你第一次觉得能翻下去。`,`You made $${P_} this week. For the first time, José\'s old ledger feels like something you can keep writing in.`,`Ganhaste $${P_} esta semana. Pela primeira vez, o livro de contas do José parece algo que consegues continuar.`):t(`这周亏了 $${-P_}。账本上的红字像德州的太阳一样晒人。`,`You lost $${-P_} this week. The red ink burns like the Texas sun.`,`Perdeste $${-P_} esta semana. A tinta vermelha queima como o sol do Texas.`),
   t(`本地口碑 ${rep}，线上评分 ${onl}。镇上新流传的一句话：`,`Local reputation ${rep}, online rating ${onl}. New talk around town: `,`Reputação local ${rep}, avaliação online ${onl}. Na vila, a nova conversa é: `)+tt(rum)],
   choices:[{t:t('翻到下一周','On to next week','Virar a página')}]});
@@ -640,7 +664,7 @@ function serve(g,mode,sE,sH){
  if(mode==='host')tip=g.size*charm()/75*R(0.5,1.5);else if(sH)tip=g.size*sH*R(0.3,1);if(mode==='cook')tip=g.size*R(0.3,1)*S.grillQ*S.grillQ;
  if(err){m*=0.5;S.rep-=0.6;return {c:g.t,s:g.size,d:best,o:'error',ok:2,m,err:1,tip:0}}
  S.rep+=pref>=2?0.25*(1-Math.max(0,S.rep)/130)+(S.price==='cheap'?0.05:0):pref<1?-0.1:0.05*(1-Math.max(0,S.rep)/130);if(pref>=2){S.wk.happy++;S.happyTotal++}
- if(g.t==='student'||g.t==='oil')S.online=clamp(S.online+(pref>=2?0.4:-0.2)+(d.fusion?0.4:0),0,100);
+ if(g.t==='student'||g.t==='oil'){const up=(pref>=2?0.4:0)+(d.fusion?0.4:0);S.online=clamp(S.online+up*(1-S.online/110)-(pref>=2?0:0.2),0,100)}
  return {c:g.t,s:g.size,d:best,o:pref>=2?'happy':pref>=1?'ok':'meh',ok:1,m,tip};
 }
 const OUT=k=>({full:t('满座离开','Left: no tables','Saiu: sem mesa'),wait:t('等太久走了','Left: waited too long','Saiu: esperou demais'),closed:t('打烊没轮上','Didn\'t get served','Não foi atendido'),empty:t('没菜了','Nothing left to eat','Já não havia comida'),error:t('上错菜，打半价','Wrong order, half price','Prato trocado, meio preço'),happy:t('吃得很开心','Loved it','Adorou'),ok:t('还行','Fine','Razoável'),meh:t('有点失望','Disappointed','Desiludido')}[k]);
@@ -729,6 +753,9 @@ function hygieneHTML(){
 function ensureState(s){
  const d={up:{},price:'normal',special:null,market:{beef:1,pork:1,fish:1,dairy:1,imp:1},marketNews:null,orders:[],ordersDone:0,goals:[],ach:{},pet:null,happyTotal:0,grillQ:1,dailyLast:-1,dailySeen:{},where:null,tripNights:0,tripWith:null,visited:{},clean:85,grade:null,gradeWk:0,sm:{},contract:{beef:0,pork:0,fish:0,dairy:0}};
  for(const k in d)if(s[k]===undefined)s[k]=JSON.parse(JSON.stringify(d[k]));
+ if(s.up&&s.up.pickup){if(!s.car)s.car='pickup';delete s.up.pickup} // v0.9.3: the pickup moved from upgrades to vehicles
+ if(s.car===undefined)s.car=null;
+ if(s.car&&CAR_ALIAS[s.car])s.car=CAR_ALIAS[s.car]; // v0.9.4: generic vehicles became specific listings
  s.v=3;
  s.wk=Object.assign({rev:0,spend:0,happy:0,orders:0,trains:0,talks:0,hosts:0},s.wk||{});
  if(s.npc)Object.keys(NPCS).forEach(k=>{if(!s.npc[k])s.npc[k]={met:false,like:0,trust:0,talks:0,truth:false}});
@@ -745,10 +772,33 @@ const UPG={
  espresso:{n:['意式咖啡机','Espresso machine','Máquina de café expresso'],cost:350,d:['咖啡涨价 $2，卡车司机和学生更爱来','Coffee +$2; truckers and students like it more','Café +$2; camionistas e estudantes gostam mais']},
  fado:{n:['法多角','Fado corner','Canto do fado'],cost:300,d:['夜晚多来 2 组客人；夜里亲自招呼算接触家乡','+2 parties at night; working a night shift counts as something Portuguese','+2 grupos à noite; atender à noite conta como algo português']},
  tablet:{n:['外卖平板','Delivery tablet','Tablet de entregas'],cost:250,d:['午间多一笔外卖收入，线上评分每周 +2','Extra delivery income at midday; online rating +2 a week','Receita extra de entregas ao almoço; avaliação online +2 por semana']},
- pickup:{n:['二手皮卡','Used pickup truck','Carrinha usada'],cost:2500,d:['学会开车（第 2 课）后自己开车出门，只付油钱','Once you can drive (lesson 2), travel by road and pay only for gas','Quando souberes conduzir (2.ª aula), viajas de carro e só pagas gasolina']},
  azulejo:{n:['瓷砖翻新','Azulejo makeover','Renovação com azulejos'],cost:1200,d:['口碑立即 +8，口碑回落的底线提高 10','Reputation +8 now; reputation settles 10 points higher','Reputação +8 já; a reputação estabiliza 10 pontos acima']}
 };
 const has=k=>!!(S.up&&S.up[k]);
+/* ----- vehicles: bought at the frontage-road lot (story/v1_cars.js); you still need driving lesson 2 to use one -----
+   gas = $ per mile, upkeep = insurance + maintenance per week, brk = breakdown chance per trip out of town */
+/* VEHICLES = specific used listings, filled in story/v1_cars.js:
+   id:{make:[zh,en,pt], year, miles (odometer when listed), cost, gas ($/mile), upkeep ($/week), brk (breakdown chance per trip), charm, cargo, food, cls, quirk:[zh,en,pt]} */
+const VEHICLES={};
+const CAR_ALIAS={sedan:'civic98',moto:'rebel11',pickup:'f150_95',foodtruck:'stepvan99',newtruck:'f150_19'}; // ids used by v0.9.3 saves
+const carId=()=>{const id=S&&(S.car||(S.up&&S.up.pickup?'pickup':null));return id?(CAR_ALIAS[id]||id):null};
+const CAR=()=>VEHICLES[carId()]||null;
+const carName=()=>CAR()?tt(CAR().make):'';
+const carFull=v=>t(`${v.year} 年${v.make[0]}`,`${v.year} ${v.make[1]}`,`${v.make[2]} de ${v.year}`);
+const carOdo=()=>Math.round(S.carMi||(CAR()?CAR().miles:0));
+const fmtMi=n=>Math.round(n).toLocaleString('en-US');
+// trade-in: half the price, minus 1% for every 400 miles you put on it, never below a quarter of the price
+const carTrade=()=>{const v=CAR();if(!v)return 0;const driven=Math.max(0,carOdo()-v.miles);return Math.round(v.cost*0.5*Math.max(0.5,1-driven/40000))};
+const carBrk=()=>{const v=CAR();return v?v.brk*(S.carServ&&S.week-S.carServ<6?0.4:1):0};
+function carDrive(m){if(canDrive())S.carMi=carOdo()+m}
+function carPanel(){const v=CAR();
+ const body=v?`<div class="npc car-row">${carArt(carId(),'art-car-s')}<div><span class="nm">${carFull(v)}</span> <span class="grp">${S.course.drive>=2?t('能开','ready to drive','pronto a andar'):t('还不会开','can\'t drive yet','ainda não conduzes')}</span><div class="mini">${t(`里程表 ${fmtMi(carOdo())} 英里 · 油耗 每英里 $${v.gas.toFixed(2)} · 保险与保养 每周 $${v.upkeep}`,`Odometer ${fmtMi(carOdo())} mi · gas $${v.gas.toFixed(2)}/mile · insurance & upkeep $${v.upkeep}/week`,`Conta-quilómetros ${fmtMi(carOdo())} mi · gasolina $${v.gas.toFixed(2)}/milha · seguro e manutenção $${v.upkeep}/semana`)}${v.brk?t(` · 抛锚 ${Math.round(carBrk()*100)}%/趟`,` · breakdowns ${Math.round(carBrk()*100)}%/trip`,` · avarias ${Math.round(carBrk()*100)}%/viagem`):''}${v.charm?t(` · 魅力 ${v.charm>0?'+':''}${v.charm}`,` · charm ${v.charm>0?'+':''}${v.charm}`,` · charme ${v.charm>0?'+':''}${v.charm}`):''} · ${t(`折价 $${carTrade()}`,`trade-in $${carTrade()}`,`retoma $${carTrade()}`)}</div></div></div>`
+  :`<p class="mini">${t('还没有车，出门坐灰狗巴士。','No car yet — you ride the Greyhound.','Ainda sem carro — andas de Greyhound.')}</p>`;
+ return `<h3 class="sub">${t('车辆','Vehicle','Veículo')}</h3>${body}<p class="mini">${t('买车、卖车和保养都在行动板上的「辅路二手车场」，每周换一批车。','Buy, sell and service at the frontage-road car lot on the action board; the stock changes every week.','Compra, venda e manutenção no stand da via de serviço, no quadro de ações; os carros mudam todas as semanas.')}</p>`}
+function buyCar(k){const v=VEHICLES[k],price=v.cost-carTrade();S.cash-=price;S.wk.spend+=price;S.car=k;S.carMi=v.miles;if(S.up)delete S.up.pickup;S.carServ=0;
+ log(`买了${v.year} 年${v.make[0]}（实付 $${price}）`,`Bought: ${v.year} ${v.make[1]} ($${price} paid)`,`Compraste: ${v.make[2]} de ${v.year} ($${price} pagos)`)}
+function sellCar(){const g=carTrade(),v=CAR();S.cash+=g;S.car=null;S.carMi=0;if(S.up)delete S.up.pickup;
+ log(`把${v.year} 年${v.make[0]}卖了，拿回 $${g}`,`Sold: ${v.year} ${v.make[1]}, $${g}`,`Vendeste: ${v.make[2]} de ${v.year}, $${g}`)}
 function buyUpgrade(k){const u=UPG[k];if(has(k)||S.cash<u.cost)return;S.cash-=u.cost;S.wk.spend+=u.cost;S.up[k]=S.week;if(k==='azulejo')S.rep+=8;log('店铺升级：'+u.n[0],'Upgrade: '+u.n[1],'Melhoria: '+u.n[2]);toast(t('升级完成：','Upgrade done: ','Melhoria feita: ')+tt(u.n));checkAch()}
 
 /* ----- pricing & special ----- */
@@ -825,6 +875,7 @@ function goalsHTML(){
 /* ----- achievements ----- */
 const ACH=[
  {id:'profit',n:['开张大吉','Open for business','Casa aberta'],d:['第一次周盈利','First profitable week','Primeira semana com lucro'],f:()=>S.history.some(h=>h.profit>0)},
+ {id:'wheels',n:['有车一族','Got wheels','Já tens carro'],d:['买下第一辆车','Buy your first vehicle','Comprar o primeiro veículo'],f:()=>!!carId()},
  {id:'k5',n:['小有积蓄','Rainy-day fund','Pé-de-meia'],d:['现金达到 $5,000','Reach $5,000 cash','Chegar a $5.000'],f:()=>S.cash>=5000},
  {id:'k15',n:['圣鲁伊斯首富？','Richest in San Luís?','O mais rico de San Luís?'],d:['现金达到 $15,000','Reach $15,000 cash','Chegar a $15.000'],f:()=>S.cash>=15000},
  {id:'up3',n:['装修队长','Renovator','Renovador'],d:['买下 3 项店铺升级','Buy 3 upgrades','Comprar 3 melhorias'],f:()=>Object.keys(S.up).length>=3},
@@ -970,7 +1021,7 @@ function bizPanel(){
  const priceSel=Object.keys(PRICE).map(k=>`<button class="btn-s ${S.price===k?'on':''}" data-price="${k}">${tt(PRICE[k].n)} ×${PRICE[k].pm}</button>`).join(' ');
  const specOpts=`<option value="">${t('— 无 —','— none —','— nenhum —')}</option>`+S.menu.filter(Boolean).map(k=>`<option value="${k}" ${S.special===k?'selected':''}>${tt(DISH[k].n)}</option>`).join('');
  const mkt=Object.keys(ING).map(k=>{const p=unitPrice(k),m=S.market[k];const arrow=m>1.08?'▲':m<0.92?'▼':'·';return `<div class="stat"><div class="lab">${tt(ING[k].n)}<b>${S.inv[k]}${k==='imp'&&S.incoming?` (+${S.incoming})`:''}</b></div><div class="mini">${arrow} $${p.toFixed(2)}/${t('份','unit','dose')}</div><button class="btn-s" data-buy="${k}">${t('进 10 份','Buy 10','Comprar 10')} · $${Math.round(p*10)}</button></div>`}).join('');
- const ords=S.orders.filter(o=>!o.done&&!o.failed).map(o=>{const d=ORD(o.id),left=orderDayLeft(o);return `<div class="npc"><div><span class="nm">${tt(d.n)}</span><div class="mini">${t('需要','Needs','Precisa')} ${d.q} ${tt(ING[d.ing].n)}（${t('库存','in stock','em stock')} ${S.inv[d.ing]}） · $${d.pay} · ${left>=0?t(`还剩 ${left} 天`,`${left} days left`,`faltam ${left} dias`):''}</div></div></div>`}).join('')||`<p class="mini">${t('本周暂无订单。口碑 40 以上每周会有两笔。','No orders this week. At reputation 40+ you get two a week.','Sem encomendas esta semana. Com reputação 40+ recebes duas por semana.')}</p>`;
+ const ords=S.orders.filter(o=>!o.done&&!o.failed).map(o=>{const d=ORD(o.id),left=orderDayLeft(o);return `<div class="npc"><div><span class="nm">${tt(d.n)}</span><div class="mini">${t('需要','Needs','Precisa')} ${d.q} ${tt(ING[d.ing].n)} ${t(`（库存 ${S.inv[d.ing]}）`,`(in stock ${S.inv[d.ing]})`,`(em stock ${S.inv[d.ing]})`)} · $${d.pay} · ${left>=0?t(`还剩 ${left} 天`,`${left} days left`,`faltam ${left} dias`):''}</div></div></div>`}).join('')||`<p class="mini">${t('本周暂无订单。口碑 40 以上每周会有两笔。','No orders this week. At reputation 40+ you get two a week.','Sem encomendas esta semana. Com reputação 40+ recebes duas por semana.')}</p>`;
  const ups=Object.keys(UPG).map(k=>{const u=UPG[k];return `<div class="npc"><div><span class="nm">${tt(u.n)}</span> <span class="grp">${has(k)?t('已安装','installed','instalado'):'$'+u.cost}</span><div class="mini">${tt(u.d)}</div></div><div>${has(k)?'':`<button class="btn-s" data-up="${k}" ${S.cash>=u.cost?'':'disabled'}>${t('购买','Buy','Comprar')}</button>`}</div></div>`}).join('');
  return `<h3 class="sub">${t('定价策略','Pricing','Preços')}</h3><div class="acts">${priceSel}</div><p class="mini">${t('平价：客流 +20%，售价 ×0.8。高档：售价 ×1.25，客流 −15%，口碑低于 50 时客人更挑剔。','Budget: +20% customers, prices ×0.8. Premium: prices ×1.25, −15% customers, and pickier diners below reputation 50.','Económico: +20% clientes, preços ×0,8. Premium: preços ×1,25, −15% clientes e clientes mais exigentes com reputação abaixo de 50.')}</p>
  <h3 class="sub">${t('本周招牌菜','House special','Prato da casa')}</h3><label class="mini" for="special">${t('所有客人都更想点它，售价 +$2','Everyone is more likely to order it; +$2','Toda a gente o pede mais; +$2')}<select id="special">${specOpts}</select></label>
@@ -978,7 +1029,7 @@ function bizPanel(){
  ${Object.keys(S.perks||{}).length?`<p class="mini">${t('长期供货：','Supply deals: ','Acordos de fornecimento: ')}${Object.keys(S.perks).map(k=>`${tt(ING[k].n)} ×${S.perks[k]}${S.perkNotes[k]?'（'+tt(S.perkNotes[k])+'）':''}`).join(' · ')}</p>`:''}
  <h3 class="sub">${t('外烩订单','Catering orders','Encomendas de catering')}</h3><p class="mini">${t('备好食材后，在店里选「准备外烩订单」交付。过期会掉口碑。','Stock the ingredients, then choose "Prepare a catering order" at the shop. Missed deadlines cost reputation.','Junta os ingredientes e escolhe «Preparar encomenda» no restaurante. Prazos falhados custam reputação.')}</p>${ords}
  ${hygieneHTML()}${contractHTML()}
- <h3 class="sub">${t('店铺升级','Upgrades','Melhorias')}</h3>${ups}`;
+ <h3 class="sub">${t('店铺升级','Upgrades','Melhorias')}</h3>${ups}${carPanel()}`;
 }
 
 /* ---------- actions ---------- */
@@ -1038,7 +1089,7 @@ function doAction(a){
 function autoShop(){if(S.staff.length&&S.slot>0){const r=simShop(null);log(`员工独自营业（${SLOT()[S.slot]}）：收入 $${r.rev+r.tips}，走掉 ${r.left} 组`,`Staff ran the ${SLOT()[S.slot]} shift: $${r.rev+r.tips}, ${r.left} parties left`,`A equipa abriu sozinha (${SLOT()[S.slot]}): $${r.rev+r.tips}, ${r.left} grupos saíram`)}}
 function shopRun(mode){
  const r=simShop(mode);if(mode==='host'){S.wk.hosts++;if(has('fado')&&S.slot===2)S.lusoThisWeek=true}
- if(mode==='cook')stat('oficio',2);if(mode==='host'&&Math.random()<0.5)stat('charme',1);if(mode==='upsell')stat('oficio',1);
+ if(mode==='cook')stat('oficio',1);if(mode==='host'&&Math.random()<0.3)stat('charme',1);if(mode==='upsell'&&Math.random()<0.5)stat('oficio',1);
  if(mode==='cook'&&S.menu.some(k=>k&&DISH[k].luso))S.lusoThisWeek=true;
  log(`${SLOT()[r.slot]}营业：收入 $${r.rev+r.tips}`,`${SLOT()[r.slot]} service: $${r.rev+r.tips}`,`Serviço (${SLOT()[r.slot]}): $${r.rev+r.tips}`);
  const sc={title:LOCS().shop,meta:{host:t('亲自招呼','Working the floor','A atender as mesas'),cook:t('下厨帮忙','In the kitchen','Na cozinha'),upsell:t('推荐贵菜','Upselling','A sugerir pratos caros')}[mode],html:reportHTML(r),text:[],choices:[{t:t('收工','Close up','Fechar')}]};
@@ -1157,8 +1208,8 @@ const CITIES={}, EXTRA_LOCS=[], ROAD_EVENTS=[];
 const REGION=k=>({central:t('德州中部','Central Texas','Texas Central'),north:t('北德州','North Texas','Norte do Texas'),coast:t('墨西哥湾沿岸','Gulf Coast','Costa do Golfo'),hill:t('德州山地','Hill Country','Hill Country'),west:t('西德州','West Texas','Oeste do Texas')}[k]||k);
 const inSeason=(a,b)=>S.week>=a&&S.week<=b;
 const away=()=>!!S.where;
-function canDrive(){return has('pickup')&&S.course.drive>=2}
-function fare(c){if(S&&S.flags&&S.flags.dbgFreeTravel)return 0;return canDrive()?Math.round(c.miles*2*0.12):Math.round(12+c.miles*0.18)}
+function canDrive(){return !!carId()&&S.course.drive>=2}
+function fare(c){if(S&&S.flags&&S.flags.dbgFreeTravel)return 0;return canDrive()?Math.round(c.miles*2*CAR().gas):Math.round(12+c.miles*0.18)}
 // helpers for city content
 function popupSell(max,mult){const P={beef:14,pork:8,fish:11,dairy:5};let sold=0,cash=0;for(const k of ['beef','pork','fish','dairy']){while(sold<max&&S.inv[k]>0){S.inv[k]--;sold++;cash+=P[k]*(mult||1)}}cash=Math.round(cash);S.cash+=cash;S.wk.rev+=cash;S.online=clamp(S.online+sold/6,0,100);return {sold,cash}}
 function cityBuy(ing,qty,mult){const cost=Math.round(unitPrice(ing)*qty*(mult||1));if(S.cash<cost)return 0;S.cash-=cost;S.wk.spend+=cost;S.inv[ing]+=qty;return cost}
@@ -1175,15 +1226,17 @@ function goTrip(id,withId){
  S.cash-=f;S.wk.spend+=f;S.energy-=2;autoShop();
  S.where=id;S.tripNights=0;S.tripLegs=0;S.innTonight=null;S.tripWith=withId||null;S.visited[id]=(S.visited[id]||0)+1;S.wk.trips=(S.wk.trips||0)+1;
  log('出发去'+res(c.n,'zh'),'Set off for '+res(c.n,'en'),'Partiste para '+res(c.n,'pt'));
- const how=canDrive()?t(`你开着自己的皮卡上了州际公路，油钱 $${f}。`,`You take your own pickup onto the interstate. Gas: $${f}.`,`Pegas na tua carrinha e entras na autoestrada. Gasolina: $${f}.`):t(`你坐灰狗巴士去，往返车票 $${f}。`,`You take the Greyhound. Round-trip fare: $${f}.`,`Vais de Greyhound. Ida e volta: $${f}.`);
+ const how=canDrive()?t(`你开着自己的${carName()}上了州际公路，油钱 $${f}。`,`You take your ${carName()} onto the interstate. Gas: $${f}.`,`Pegas no volante (${carName()}) e entras na autoestrada. Gasolina: $${f}.`):t(`你坐灰狗巴士去，往返车票 $${f}。`,`You take the Greyhound. Round-trip fare: $${f}.`,`Vais de Greyhound. Ida e volta: $${f}.`);
+ carDrive(c.miles*2);const brk=canDrive()&&Math.random()<carBrk()?RI(60,140):0;if(brk){S.cash-=brk;S.wk.spend+=brk;log(`${CAR().make[0]}半路抛锚，修车 $${brk}`,`The ${CAR().make[1]} broke down: $${brk} to fix`,`Avaria pelo caminho: $${brk} de reparação`)}
  const extra=c.arrive?c.arrive():[];const vt=viaText(c);if(vt)extra.unshift(t(`一路走${vt}。`,`Route: ${vt}.`,`Percurso: ${vt}.`));
+ const breakdown=brk?[t(`开到半路，仪表盘亮起一盏你不认识的灯。路边修车铺的老头钻到车底下看了十分钟：“$${brk}，下午就好。”`,`Halfway there a dashboard light you've never seen comes on. The old man at a roadside garage spends ten minutes under the car. "$${brk}. Ready this afternoon."`,`A meio do caminho acende-se no painel uma luz que nunca viste. O velhote de uma oficina à beira da estrada passa dez minutos debaixo do carro. «$${brk}. Fica pronto à tarde.»`)]:[];
  const comp=withId?[t(`${SH(withId)}坐在你旁边，一路上把收音机调来调去。`,`${SH(withId)} rides beside you, fiddling with the radio the whole way.`,`${SH(withId)} vai ao teu lado, sempre a mexer no rádio.`)]:[];
  const road=ROAD_EVENTS.filter(e=>!e.cond||e.cond(c));
  pendingAdvance=true;
- push({title:c.n,meta:REGION(c.region)+` · ${c.miles} ${t('英里','miles','milhas')}`,text:[how,tt(c.desc),...comp,...extra],choices:[{t:t('到了','Arrive','Chegar'),next:()=>road.length&&Math.random()<0.35?pick(road).run(c):null}]});
+ push({title:c.n,meta:REGION(c.region)+` · ${c.miles} ${t('英里','miles','milhas')}`,art:canDrive()?carArt(carId(),'art-wide'):'',text:[how,...breakdown,tt(c.desc),...comp,...extra],choices:[{t:t('到了','Arrive','Chegar'),next:()=>road.length&&Math.random()<0.35?pick(road).run(c):null}]});
 }
 function goHome(){
- const c=CITIES[S.where];const was=S.where;let legBack=0;if(S.tripLegs>0){legBack=legFare(legMiles(was,'home'));S.cash-=legBack;S.wk.spend+=legBack}S.tripLegs=0;S.where=null;S.tripNights=0;S.innTonight=null;const w=S.tripWith;S.tripWith=null;
+ const c=CITIES[S.where];const was=S.where;let legBack=0;if(S.tripLegs>0){legBack=legFare(legMiles(was,'home'));S.cash-=legBack;S.wk.spend+=legBack;carDrive(legMiles(was,'home'))}S.tripLegs=0;S.where=null;S.tripNights=0;S.innTonight=null;const w=S.tripWith;S.tripWith=null;
  log('回到圣鲁伊斯','Back in San Luís','De volta a San Luís');
  return say(t('回家','Heading home','A caminho de casa'),[...(legBack?[t(`从${res(c.n,'zh')}开回圣鲁伊斯，路费 $${legBack}。`,`From ${res(c.n,'en')} back to San Luís: $${legBack}.`,`De ${res(c.n,'pt')} de volta a San Luís: $${legBack}.`)]:[]),t(`州际公路上，圣鲁伊斯的水塔从地平线上冒出来。你突然发现，自己把这里叫做“家”了。`,`On the interstate, the San Luís water tower rises over the horizon. You notice you\'ve started calling this place home.`,`Na autoestrada, a torre de água de San Luís aparece no horizonte. Reparas que começaste a chamar a isto casa.`),...(w?[t(`${SH(w)}在副驾上睡着了。`,`${SH(w)} has fallen asleep in the passenger seat.`,`${SH(w)} adormeceu no lugar do pendura.`)]:[])]);
 }
@@ -1233,6 +1286,11 @@ function cityActions(){
  for(const L of c.locs){for(const a of L.acts){A.push(Object.assign({},a,{loc:S.where+':'+L.id,city:1}))}}
  A.push({loc:S.where+':inn',id:'book',n:t('订房 / 续住','Book a room / stay on','Reservar / ficar mais'),cost:0,noSlot:1,run:innScene,city:1});
  A.push({loc:S.where+':inn',id:'lobby',n:t('在大堂打听本地消息','Ask around in the lobby','Perguntar no átrio'),cost:1,run:lobbyScene,city:1,req:()=>S.flags['lobby'+dayIndex()]?t('今天已经聊过了','Already chatted today','Já conversaste hoje'):true,pre:()=>{S.flags['lobby'+dayIndex()]=1}});
+ if(CAR()&&CAR().food&&canDrive())A.push({loc:S.where+':trip',id:'foodtruck',n:t('支起餐车卖一轮','Open the food truck for a round','Abrir a roulote para uma ronda'),cost:2,city:1,
+  req:()=>S.flags.ftDay===dayIndex()?t('今天已经出过摊了','Already sold today','Já vendeste hoje'):S.inv.beef+S.inv.pork+S.inv.fish+S.inv.dairy<6?t('冷库里的货不够 6 份','Fewer than 6 portions in stock','Menos de 6 doses em stock'):true,
+  run:()=>{S.flags.ftDay=dayIndex();const r=popupSell(24,1.4);S.rep+=1;
+   return Object.assign(say(t('餐车','Food truck','Roulote'),[t(`你把餐车停在${res(CITIES[S.where].n,'zh')}最热闹的那条街上，掀开窗板。炭烟一飘出去，队就排起来了。`,`You park the truck on the busiest street in ${res(CITIES[S.where].n,'en')} and prop open the hatch. The moment the charcoal smoke drifts out, a line forms.`,`Estacionas a roulote na rua mais movimentada de ${res(CITIES[S.where].n,'pt')} e abres a janela. Mal o fumo do carvão se espalha, forma-se uma fila.`),
+    t(`卖出 ${r.sold} 份，进账 $${r.cash}。`,`${r.sold} portions sold, $${r.cash} taken.`,`${r.sold} doses vendidas, $${r.cash} de receita.`)],t('口碑 +1 · 线上评分上涨','Reputation +1 · online rating up','Reputação +1 · avaliação online sobe')),{art:carArt(carId(),'art-wide')})}});
  A.push({loc:S.where+':trip',id:'roadtrip',n:t('继续上路去别的城市','Drive on to another city','Seguir para outra cidade'),cost:0,noSlot:1,run:roadTripScene,city:1});
  A.push({loc:S.where+':trip',id:'home',n:t('回圣鲁伊斯','Go back to San Luís','Voltar para San Luís'),cost:1,run:goHome,city:1});
  return A;
@@ -1351,11 +1409,11 @@ function roadName(k){return ROADS[k]?tt(ROADS[k].n):''}
 function viaText(c){const v=(c&&c.via)||[];return v.length?v.map(roadName).join(' → '):''}
 function cityPos(id){return id==='home'?TX_PT.home:TX_PT[id]}
 function legMiles(a,b){const A=cityPos(a),B=cityPos(b);if(!A||!B)return 0;const r=Math.PI/180,R=3959;const dLa=(B[1]-A[1])*r,dLo=(B[0]-A[0])*r;const h=Math.sin(dLa/2)**2+Math.cos(A[1]*r)*Math.cos(B[1]*r)*Math.sin(dLo/2)**2;return Math.round(2*R*Math.asin(Math.sqrt(h))*1.25)}
-function legFare(m){if(S&&S.flags&&S.flags.dbgFreeTravel)return 0;return canDrive()?Math.round(m*0.12):Math.round(8+m*0.12)}
+function legFare(m){if(S&&S.flags&&S.flags.dbgFreeTravel)return 0;return canDrive()?Math.round(m*CAR().gas):Math.round(8+m*0.12)}
 // keep driving to another city without going home first
 function roadTripScene(){
  const here=S.where;const ids=Object.keys(CITIES).filter(k=>k!==here&&cityPos(k)).sort((a,b)=>legMiles(here,a)-legMiles(here,b));
- const ch=ids.slice(0,8).map(id=>{const m=legMiles(here,id),f=legFare(m);return {t:t(`${res(CITIES[id].n,'zh')} · ${m} 英里 · $${f}`,`${res(CITIES[id].n,'en')} · ${m} mi · $${f}`,`${res(CITIES[id].n,'pt')} · ${m} mi · $${f}`),req:()=>S.slot>1?t('太晚了，明早再走','Too late — leave in the morning','É tarde — parte de manhã'):S.energy<2?t('精力不够','Not enough energy','Sem energia'):MONEY(f)(),fx:()=>{pendingAdvance=true;S.cash-=f;S.wk.spend+=f;S.energy-=2;S.tripLegs=(S.tripLegs||0)+1;const from=S.where;S.where=id;S.innTonight=null;S.visited[id]=(S.visited[id]||0)+1;log(`从${res(CITIES[from].n,'zh')}开到${res(CITIES[id].n,'zh')}`,`Drove on from ${res(CITIES[from].n,'en')} to ${res(CITIES[id].n,'en')}`,`Seguiste de ${res(CITIES[from].n,'pt')} para ${res(CITIES[id].n,'pt')}`)},
+ const ch=ids.slice(0,8).map(id=>{const m=legMiles(here,id),f=legFare(m);return {t:t(`${res(CITIES[id].n,'zh')} · ${m} 英里 · $${f}`,`${res(CITIES[id].n,'en')} · ${m} mi · $${f}`,`${res(CITIES[id].n,'pt')} · ${m} mi · $${f}`),req:()=>S.slot>1?t('太晚了，明早再走','Too late — leave in the morning','É tarde — parte de manhã'):S.energy<2?t('精力不够','Not enough energy','Sem energia'):MONEY(f)(),fx:()=>{pendingAdvance=true;S.cash-=f;S.wk.spend+=f;S.energy-=2;S.tripLegs=(S.tripLegs||0)+1;carDrive(m);const from=S.where;S.where=id;S.innTonight=null;S.visited[id]=(S.visited[id]||0)+1;log(`从${res(CITIES[from].n,'zh')}开到${res(CITIES[id].n,'zh')}`,`Drove on from ${res(CITIES[from].n,'en')} to ${res(CITIES[id].n,'en')}`,`Seguiste de ${res(CITIES[from].n,'pt')} para ${res(CITIES[id].n,'pt')}`)},
   next:()=>{const c=CITIES[id];const road=ROAD_EVENTS.filter(e=>!e.cond||e.cond(c));const v=viaText(c);return {title:c.n,meta:REGION(c.region)+(v?' · '+v:''),text:[t('你没有回家，而是继续往前开。','You don\'t head home — you keep driving.','Não voltas para casa — continuas a conduzir.'),tt(c.desc),...(c.arrive?c.arrive():[])],choices:[{t:t('到了','Arrive','Chegar'),next:()=>road.length&&Math.random()<0.4?pick(road).run(c):null}]}}}});
  ch.push({t:t('算了，留在这里','Never mind, stay here','Deixa, ficar aqui')});
  return {title:t('继续上路','Keep driving','Seguir viagem'),meta:t('公路旅行','Road trip','Viagem de estrada'),text:[t(`从${res(CITIES[here].n,'zh')}出发，按距离列出最近的八座城市。一路开下去，不必先回圣鲁伊斯；回家时按最后所在城市的距离付路费。`,`From ${res(CITIES[here].n,'en')}, the eight nearest cities by road. Drive on without going back to San Luís; when you finally head home you pay the fare from wherever you are.`,`A partir de ${res(CITIES[here].n,'pt')}, as oito cidades mais próximas por estrada. Segue sem voltar a San Luís; quando voltares, pagas a viagem a partir de onde estiveres.`)],choices:ch};
@@ -1372,19 +1430,19 @@ const DEBUG_KEY='lisboa-lone-star-debug';
 const debugOn=()=>{try{return localStorage.getItem(DEBUG_KEY)==='1'}catch(e){return !!window.__dbg}};
 function setDebug(v){try{localStorage.setItem(DEBUG_KEY,v?'1':'0')}catch(e){window.__dbg=v}if(!v&&tab==='debug')tab='wiki';render()}
 const GUIDE=[
- [['时间与精力','Time and energy','Tempo e energia'],['一天分早晨、午间、夜晚三个时段，每个时段做一件事。每天精力 10 点，行动消耗 1–4 点；睡觉恢复，乡愁太重会睡不好。周日夜里结算账本，一年 48 周，第 49 周迎来一周年结局。','A day has three slots — morning, midday, night — and you do one thing per slot. You get 10 energy a day; actions cost 1–4. Sleep restores it; heavy homesickness ruins sleep. The books close every Sunday night; the year is 48 weeks, with the one-year ending in week 49.','Um dia tem três períodos — manhã, almoço, noite — e fazes uma coisa por período. Tens 10 de energia por dia; as ações custam 1–4. O sono recupera-a; muita saudade estraga o sono. As contas fecham ao domingo à noite; o ano tem 48 semanas e o final de um ano chega na semana 49.']],
+ [['时间与精力','Time and energy','Tempo e energia'],['一天分早晨、午间、夜晚三个时段，每个时段做一件事。每天精力 10 点，行动消耗 1–4 点；灰色的行动点一下会告诉你还差什么。睡觉恢复，乡愁太重会睡不好。周日夜里结算账本，一年 48 周，第 49 周迎来一周年结局。','A day has three slots — morning, midday, night — and you do one thing per slot. You get 10 energy a day; actions cost 1–4, and tapping a greyed-out action tells you what\'s missing. Sleep restores it; heavy homesickness ruins sleep. The books close every Sunday night; the year is 48 weeks, with the one-year ending in week 49.','Um dia tem três períodos — manhã, almoço, noite — e fazes uma coisa por período. Tens 10 de energia por dia; as ações custam 1–4, e tocar numa ação a cinzento diz-te o que falta. O sono recupera-a; muita saudade estraga o sono. As contas fecham ao domingo à noite; o ano tem 48 semanas e o final de um ano chega na semana 49.']],
  [['四项属性','The four stats','Os quatro atributos'],['魅力（基础值加上口音、肌肉、衣着的加成，加成最多 +30）、手艺、德州味、乡愁。属性越高涨得越慢。德州味上升会压低乡愁，乡愁上升也会拖累德州味；德州味够高之后，不碰家乡的东西乡愁反而会下降。','Charm (base plus bonuses from accent, muscle and clothes, at most +30), Craft, Texanness and Homesickness. The higher a stat, the slower it grows. Rising Texanness pushes homesickness down and vice versa; once you are Texan enough, homesickness fades if you avoid things from home.','Charme (base mais bónus de sotaque, músculo e roupa, no máximo +30), Ofício, Texanidade e Saudade. Quanto mais alto um atributo, mais devagar sobe. A Texanidade empurra a saudade para baixo e vice-versa; quando já és texano o suficiente, a saudade desvanece se evitares coisas de casa.']],
  [['口音与肌肉','Accent and muscle','Sotaque e músculo'],['口音分浓、中、淡三档，每周只能在店里的镜子前挪一档。浓口音魅力最高，但正式场合吃亏、上错菜多、某些人信任涨得慢。肌肉 0–5 级，每级魅力 +4，要连续训练维持，两周不练掉一级。','Accent has three settings — heavy, medium, light — and you can move one step a week at the shop mirror. Heavy gives the most charm but hurts in formal settings, causes wrong orders and slows some people\'s trust. Muscle runs 0–5, +4 charm per level; keep training or lose a level after two weeks off.','O sotaque tem três níveis — carregado, médio, leve — e só podes mudar um passo por semana, ao espelho do restaurante. O carregado dá mais charme mas prejudica em contextos formais, causa pratos trocados e atrasa a confiança de algumas pessoas. O músculo vai de 0 a 5, +4 de charme por nível; continua a treinar ou perdes um nível ao fim de duas semanas.']],
  [['营业','Running the shop','O restaurante'],['三种营业方式：亲自招呼（魅力与口音生效、小费多）、下厨帮忙（烤架小游戏决定火候）、推荐贵菜。8 张桌子（露天座位升级后 12 张），客人有耐心和预算，等太久会走。每周房租 $250，另有营收 16% 的杂费。','Three ways to open: work the floor (charm and accent count, more tips), work the kitchen (the grill mini-game sets the quality) or upsell. Eight tables (twelve with the patio), and customers have patience and budgets — wait too long and they leave. Rent is $250 a week plus 16% of revenue in overheads.','Três maneiras de abrir: atender (contam o charme e o sotaque, mais gorjetas), cozinhar (o minijogo da grelha decide a qualidade) ou sugerir pratos caros. Oito mesas (doze com a esplanada); os clientes têm paciência e orçamento — se esperarem demais, vão-se embora. Renda de $250 por semana mais 16% da receita em despesas.']],
  [['经营面板','The Business panel','O painel Negócio'],['定价（平价 / 正常 / 高档）、本周招牌菜（+$2、所有人更想点）、浮动市价（每周一变动，偶有紧缺或降价）、外烩订单（备齐食材后交付，过期掉口碑）、店铺升级、长期供货（在各地结交的人给的永久折扣）。','Pricing (budget / standard / premium), the house special (+$2, everyone orders it more), a market whose prices change every Monday (with shortages and sales), catering orders (stock the ingredients and deliver; missed deadlines cost reputation), upgrades, and supply deals — permanent discounts from people you befriend around Texas.','Preços (económico / normal / premium), prato da casa (+$2, toda a gente o pede mais), um mercado que muda todas as segundas (com faltas e promoções), encomendas de catering (junta os ingredientes e entrega; prazos falhados custam reputação), melhorias e acordos de fornecimento — descontos permanentes de pessoas que conheces pelo Texas.']],
  [['卫生、员工与订货','Hygiene, staff and standing orders','Higiene, equipa e encomendas fixas'],['每次营业都会弄脏厨房，太脏出错多；县卫生检查大约每月一次，评级影响客流。最多可雇 5 名员工（乔琳、玛丽索尔、汤米，以及认识后可雇的德肖恩和露丝·安）。员工有士气与培训等级：员工餐和培训能提升，发不出工资士气会掉，降到零会辞职。长期订货每周一按固定价送到，不受市价影响。','Every service dirties the kitchen, and a dirty kitchen makes mistakes; county health inspections come roughly monthly and the grade changes foot traffic. You can hire up to five staff (Jolene, Marisol, Tommy, and — once you know them — DeShawn and Ruth Ann). Staff have morale and training: family meals and training raise them, missed payroll lowers morale, and at zero they quit. Standing orders arrive every Monday at a fixed price, whatever the market does.','Cada serviço suja a cozinha, e uma cozinha suja erra mais; a inspeção sanitária do condado vem mais ou menos uma vez por mês e a nota muda a clientela. Podes contratar até cinco pessoas (Jolene, Marisol, Tommy e, depois de os conheceres, o DeShawn e a Ruth Ann). A equipa tem moral e formação: refeições do pessoal e formação melhoram-nas, salários em atraso baixam a moral e, a zero, despedem-se. As encomendas fixas chegam todas as segundas a preço fixo, faça o mercado o que fizer.']],
- [['出行、旅店与公路旅行','Travel, lodging and road trips','Viagens, alojamento e viagens de estrada'],['早晨或午间可以出门，花 2 点精力。没车坐灰狗巴士；买二手皮卡并跟厄尔学会开车后只付油钱。近处城市当天往返，远处要过夜；每座城市都有三档旅店，订房就能多住（一趟最多 7 晚）。在外地可以“继续上路去别的城市”，回家时按所在城市的距离付路费。你不在时，有员工就照常营业，没员工就关门掉口碑。','Leave in the morning or at midday for 2 energy. Without a car you take the Greyhound; buy a used pickup and learn to drive with Earl and you only pay for gas. Nearby cities are day trips, far ones need a night; every city has three tiers of lodging, and booking lets you stay longer (up to 7 nights a trip). From any city you can drive on to another; the trip home is priced from wherever you are. While you are away, staff keep the shop open — without staff it stays shut and reputation slips.','Parte de manhã ou ao almoço, por 2 de energia. Sem carro vais de Greyhound; compra uma carrinha usada e aprende a conduzir com o Earl e só pagas gasolina. As cidades perto são ida e volta, as longe pedem dormida; todas têm três níveis de alojamento e reservar deixa-te ficar mais (até 7 noites por viagem). De qualquer cidade podes seguir para outra; o regresso paga-se a partir de onde estiveres. Enquanto estás fora, a equipa mantém o restaurante aberto — sem equipa fica fechado e a reputação cai.']],
+ [['出行、旅店与公路旅行','Travel, lodging and road trips','Viagens, alojamento e viagens de estrada'],['早晨或午间可以出门，花 2 点精力。没车坐灰狗巴士；在镇上的辅路二手车场买辆车并跟厄尔学会开车后只付油钱。车场每周换一批具体的二手车，从 1968 年的福特野马到 2019 年的福特皮卡，各有年份、里程、价钱、油耗和每周保险保养费；便宜的老车会半路抛锚，开得越多折价越低，餐车能在外地城市出摊卖菜。近处城市当天往返，远处要过夜；每座城市都有三档旅店，订房就能多住（一趟最多 7 晚）。在外地可以“继续上路去别的城市”，回家时按所在城市的距离付路费。你不在时，有员工就照常营业，没员工就关门掉口碑。','Leave in the morning or at midday for 2 energy. Without a car you take the Greyhound; buy one at the frontage-road car lot and learn to drive with Earl and you only pay for gas. The lot gets a new batch of specific used vehicles every week, from a 1968 Ford Mustang to a 2019 Ford F-150, each with its own year, mileage, price, gas and weekly insurance; cheap old ones break down on the road, every mile you drive lowers the trade-in, and a food truck lets you sell food in other cities. Nearby cities are day trips, far ones need a night; every city has three tiers of lodging, and booking lets you stay longer (up to 7 nights a trip). From any city you can drive on to another; the trip home is priced from wherever you are. While you are away, staff keep the shop open — without staff it stays shut and reputation slips.','Parte de manhã ou ao almoço, por 2 de energia. Sem carro vais de Greyhound; compra um no stand da via de serviço e aprende a conduzir com o Earl e só pagas gasolina. O stand recebe todas as semanas um lote de veículos usados concretos, de um Ford Mustang de 1968 a uma Ford F-150 de 2019, cada um com ano, milhas, preço, gasolina e seguro semanal; os velhos e baratos avariam na estrada, cada milha baixa o valor de retoma, e uma roulote deixa-te vender comida noutras cidades. As cidades perto são ida e volta, as longe pedem dormida; todas têm três níveis de alojamento e reservar deixa-te ficar mais (até 7 noites por viagem). De qualquer cidade podes seguir para outra; o regresso paga-se a partir de onde estiveres. Enquanto estás fora, a equipa mantém o restaurante aberto — sem equipa fica fechado e a reputação cai.']],
  [['恋爱','Romance','Romance'],['16 位恋爱对象各有 7 段剧情、一次真话时刻、一场约会、一场关系危机。魅力只加好感，信任要靠真心话；用“靠脸”捷径会记轻浮计数，满 3 次全镇流言、所有人信任 −1。同时好感 ≥5 的超过 3 人会出事。信任 ≥8 时可以“定下来”，之后可以求婚、在圣安东尼节结婚，一周年选择留下进入第五章「家」。','Sixteen romance options, each with seven story beats, a moment of truth, a date and a crisis. Charm only raises affection; trust comes from honesty. Using the charm shortcut adds to a flirt count — three and the whole town talks, costing everyone\'s trust. More than three people at affection 5+ means trouble. At trust 8 you can settle down, then propose, marry at the Santo António festival and, staying at the one-year mark, enter Chapter 5, "Home".','Dezasseis romances, cada um com sete momentos, um momento da verdade, um encontro e uma crise. O charme só sobe o afeto; a confiança vem da sinceridade. O atalho do charme soma ao contador de namoricos — à terceira, a vila inteira fala e toda a gente perde confiança. Mais de três pessoas com afeto 5+ dá problemas. Com confiança 8 podes assentar, depois pedir em casamento, casar na festa de Santo António e, ficando ao fim de um ano, entrar no Capítulo 5, «Casa».']],
  [['主线与结局','Main story and endings','História e finais'],['四章主线围绕若泽的 12 封信、罐头厂的污染和特拉维斯的阴谋。第四章议会投票看证据、证人、执照、冰暴时是否开火、牧师的信任和口碑；你在德州各地收集的旁证和结交的朋友也会算进去。一周年结局：回里斯本需要乡愁 ≥70；去奥斯汀需要玛雅好感 ≥7；留下时——魅力 ≥80 且信任总和 <20 是「花瓶」，德州味 ≥70 且乡愁 ≤40 是「孤星之子」，德州味与乡愁都 ≥50 且信任总和 ≥40 是「两个家」，其余是「体面的异乡人」。','Four chapters follow José\'s 12 letters, the cannery\'s pollution and Travis\'s scheme. The chapter-4 council vote weighs evidence, witnesses, the liquor license, whether you lit the fire in the ice storm, Pastor Dale\'s trust and your reputation — side evidence and friends from around Texas count too. One-year endings: going home needs homesickness 70+; Austin needs Maya\'s affection 7+; if you stay — charm 80+ with total trust under 20 is "Pretty face", Texanness 70+ with homesickness 40 or less is "Son of the Lone Star", both 50+ with total trust 40+ is "Two homes", anything else is "A decent stranger".','Quatro capítulos seguem as 12 cartas do José, a poluição da fábrica e o esquema do Travis. A votação da câmara no capítulo 4 pesa provas, testemunhas, a licença, se acendeste a lareira na tempestade de gelo, a confiança do pastor e a tua reputação — provas e amigos de todo o Texas também contam. Finais de um ano: voltar a casa pede saudade 70+; Austin pede afeto da Maya 7+; se ficares — charme 80+ com confiança total abaixo de 20 é «Cara bonita», Texanidade 70+ com saudade até 40 é «Filho da Estrela Solitária», ambos 50+ com confiança total 40+ é «Duas casas», e o resto é «Um estrangeiro digno».']]
 ];
 function wikiMatch(...xs){if(!WIKI_Q)return true;const q=WIKI_Q.toLowerCase();return xs.some(x=>['zh','en','pt'].some(l=>res(x,l).toLowerCase().includes(q)))}
 function wikiPanel(){
- const secs=[['guide',t('玩法','Guide','Guia')],['people',t('人物','People','Pessoas')],['cities',t('城市','Cities','Cidades')],['roads',t('公路','Roads','Estradas')],['dishes',t('菜谱','Recipes','Receitas')],['letters',t('信','Letters','Cartas')]];
+ const secs=[['guide',t('玩法','Guide','Guia')],['people',t('人物','People','Pessoas')],['cities',t('城市','Cities','Cidades')],['roads',t('公路','Roads','Estradas')],['dishes',t('菜谱','Recipes','Receitas')],['cars',t('车辆','Vehicles','Veículos')],['letters',t('信','Letters','Cartas')]];
  const nav=`<div class="acts wiki-nav">${secs.map(([k,n])=>`<button class="btn-s ${WIKI_SEC===k?'on':''}" data-wsec="${k}">${n}</button>`).join('')}</div><label class="mini" for="wikiq">${t('搜索','Search','Pesquisar')}<input type="search" id="wikiq" class="wiki-q" value="${WIKI_Q.replace(/"/g,'&quot;')}"></label>`;
  const one=sec=>{let body='';
  if(sec==='guide')body=GUIDE.filter(([h,b])=>wikiMatch(tt(h),tt(b))).map(([h,b])=>`<div class="wiki-e"><b>${tt(h)}</b><p class="mini">${tt(b)}</p></div>`).join('');
@@ -1395,7 +1453,8 @@ function wikiPanel(){
   return `<div class="wiki-e"><b>${c.n}</b> <span class="grp">${REGION(c.region)} · ${c.miles} ${t('英里','mi','mi')}</span><p class="mini">${tt(c.desc)}</p><p class="mini">${t('地点：','Places: ','Locais: ')}${c.locs.map(L=>L.n).join(' · ')}${c.via?' · '+t('路线：','Route: ','Percurso: ')+viaText(c):''}${v?' · '+t(`去过 ${v} 次`,`visited ${v}×`,`visitado ${v}×`):''}</p></div>`}).join('');
  if(sec==='roads')body=Object.keys(ROADS).filter(k=>wikiMatch(tt(ROADS[k].n))).map(k=>{const r=ROADS[k];const on=Object.keys(CITIES).filter(id=>(CITIES[id].via||[]).includes(k));return `<div class="wiki-e"><b>${tt(r.n)}</b> <span class="grp">${r.n[1]}</span><p class="mini">${on.length?t('经过这条路去：','Taken to reach: ','Usada para ir a: ')+on.map(id=>CITIES[id].n).join(' · '):''}</p></div>`}).join('');
  if(sec==='dishes')body=Object.keys(DISH).filter(k=>wikiMatch(tt(DISH[k].n))).map(k=>{const d=DISH[k];const locked=(d.unlock&&!S.flags['dish_'+k])||(d.fusion&&!S.fusion.unlocked);const fans=Object.keys(d.pref||{}).filter(c=>d.pref[c]>=3).map(c=>tt(CUST[c].n)).join('、');
-  return `<div class="wiki-e"><b>${locked&&!debugOn()?'？？？':tt(d.n)}</b> <span class="grp">$${d.price} · ${d.ing?tt(ING[d.ing].n):t('无需食材','no ingredient','sem ingrediente')}${d.luso?' · '+t('葡萄牙菜','Portuguese','português'):''}${d.fusion?' · '+t('融合菜','fusion','fusão'):''}</span><p class="mini">${locked?(d.fusion?t('研发融合菜后解锁','Unlocks once you develop fusion dishes','Desbloqueia ao criar pratos de fusão'):t('在德州某地学会后解锁','Learn it somewhere in Texas to unlock','Aprende-o algures no Texas para desbloquear')):(fans?t('最爱的客人：','Favourite with: ','Preferido de: ')+fans:'')}</p></div>`}).join('');
+  return `<div class="wiki-e wiki-pic">${dishArt(k,locked&&!debugOn()?'art-locked':'')}<div><b>${locked&&!debugOn()?'？？？':tt(d.n)}</b> <span class="grp">$${d.price} · ${d.ing?tt(ING[d.ing].n):t('无需食材','no ingredient','sem ingrediente')}${d.luso?' · '+t('葡萄牙菜','Portuguese','português'):''}${d.fusion?' · '+t('融合菜','fusion','fusão'):''}</span><p class="mini">${locked?(d.fusion?t('研发融合菜后解锁','Unlocks once you develop fusion dishes','Desbloqueia ao criar pratos de fusão'):t('在德州某地学会后解锁','Learn it somewhere in Texas to unlock','Aprende-o algures no Texas para desbloquear')):(fans?t('最爱的客人：','Favourite with: ','Preferido de: ')+fans:'')}</p></div></div>`}).join('');
+ if(sec==='cars')body=`<p class="mini">${t('辅路二手车场每周挂出其中 6 辆。','The frontage-road lot shows six of these each week.','O stand da via de serviço mostra seis destes por semana.')}</p>`+Object.keys(VEHICLES).sort((x,y)=>VEHICLES[x].cost-VEHICLES[y].cost).filter(k=>wikiMatch(carFull(VEHICLES[k]))).map(k=>{const v=VEHICLES[k];return `<div class="wiki-e wiki-pic">${carArt(k)}<div><b>${carFull(v)}</b> <span class="grp">$${fmtMi(v.cost)} · ${fmtMi(v.miles)} ${t('英里','mi','mi')}</span><p class="mini">${tt(v.quirk)}</p></div></div>`}).join('');
  if(sec==='letters')body=`<p class="mini">${t(`你已找到若泽的 ${S.letters}/12 封信。信的全文只在剧情里出现——留意第一到第四章的每一个抽屉、保险柜和旧箱子。`,`You have found ${S.letters}/12 of José's letters. Their full text appears only in the story — watch every drawer, safe and old crate from Chapter 1 to 4.`,`Encontraste ${S.letters}/12 cartas do José. O texto completo só aparece na história — atenção a cada gaveta, cofre e caixa velha do capítulo 1 ao 4.`)}</p><div class="room">${Array.from({length:12},(_,i)=>`<span class="seat ${i<S.letters?'s-happy':'s-gone'}" title="${i+1}"></span>`).join('')}</div>`;
  return body};
  let body;if(WIKI_Q){body=secs.filter(([k])=>k!=='letters').map(([k,n])=>{const b=one(k);return b&&b.includes('wiki-e')?`<h3 class="sub">${n}</h3>`+b:''}).join('')}else body=one(WIKI_SEC);
@@ -1419,7 +1478,7 @@ const CHEATS=[
  ['love',['所有关系拉满（好感、信任 10）','Max every relationship (affection & trust 10)','Todas as relações no máximo (afeto e confiança 10)'],()=>{Object.keys(S.npc).forEach(k=>{const r=S.npc[k];r.met=true;r.like=10;r.trust=10;r.talks=Math.max(r.talks,5)})}],
  ['dishes',['解锁全部菜和融合菜','Unlock every dish and fusion','Desbloquear todos os pratos e fusão'],()=>{S.fusion.unlocked=true;Object.keys(DISH).forEach(k=>{if(DISH[k].unlock)S.flags['dish_'+k]=1})}],
  ['stock',['每种食材 +50','+50 of every ingredient','+50 de cada ingrediente'],()=>{Object.keys(S.inv).forEach(k=>S.inv[k]+=50)}],
- ['upgrades',['全部店铺升级','Every upgrade','Todas as melhorias'],()=>{Object.keys(UPG).forEach(k=>{S.up[k]=S.week});S.course.drive=Math.max(S.course.drive,2)}],
+ ['upgrades',['全部店铺升级','Every upgrade','Todas as melhorias'],()=>{Object.keys(UPG).forEach(k=>{S.up[k]=S.week});S.course.drive=Math.max(S.course.drive,2);if(!S.car){S.car='f150_95';S.carMi=VEHICLES.f150_95.miles}}],
  ['crew',['雇满五名员工','Hire a full crew of five','Contratar uma equipa completa de cinco'],()=>{const ks=Object.keys(STAFF);ks.forEach(k=>{if(NPCS[k])rel(k).met=true});S.staff=ks.slice(0,STAFF_MAX);S.staff.forEach(smOf)}],
  ['clean',['厨房一尘不染','Spotless kitchen','Cozinha impecável'],()=>{S.clean=100}],
  ['letters',['拿到全部 12 封信','All 12 letters','As 12 cartas'],()=>{S.letters=12}],
@@ -1454,7 +1513,7 @@ function mapPanel(){
  const all=Object.keys(CITIES).sort((a,b)=>CITIES[a].miles-CITIES[b].miles);
  const partners=Object.keys(NPCS).filter(k=>NPCS[k].romance&&rel(k).met&&rel(k).like>=5&&rel(k).trust>=3);
  const comp=partners.length?`<label class="mini" for="tripwith">${t('同行的人（一路上会更亲近）','Bring someone along (you\'ll grow closer)','Levar alguém (vão aproximar-se)')}<select id="tripwith"><option value="">${t('一个人去','Go alone','Ir sozinho')}</option>${partners.map(k=>`<option value="${k}">${NM(k)}</option>`).join('')}</select></label>`:'';
- const how=canDrive()?t('你有皮卡，也会开车：自己开，只付油钱。','You have a pickup and can drive: you only pay for gas.','Tens carrinha e sabes conduzir: só pagas gasolina.'):has('pickup')?t('你有皮卡，但还没学会开（跟厄尔学开车到第 2 课）。现在只能坐巴士。','You own a pickup but can\'t drive yet (reach lesson 2 with Earl). Bus for now.','Tens carrinha mas ainda não conduzes (chega à 2.ª aula com o Earl). Por agora, autocarro.'):t('没车就坐灰狗巴士。买一辆二手皮卡（「经营」面板）并学会开车，出门会便宜很多。','No car means the Greyhound. Buy a used pickup (Business panel) and learn to drive to travel far cheaper.','Sem carro, vais de Greyhound. Compra uma carrinha usada (painel Negócio) e aprende a conduzir para viajares muito mais barato.');
+ const how=canDrive()?t(`你开${carName()}，自己开只付油钱（每英里 $${CAR().gas.toFixed(2)}）。`,`You drive your ${carName()}: gas only ($${CAR().gas.toFixed(2)} a mile).`,`Vais de ${carName()}: só pagas gasolina ($${CAR().gas.toFixed(2)} por milha).`):carId()?t(`你有${carName()}，但还没学会开（跟厄尔学开车到第 2 课）。现在只能坐巴士。`,`You own a ${carName()} but can't drive yet (reach lesson 2 with Earl). Bus for now.`,`Tens ${carName()} mas ainda não conduzes (chega à 2.ª aula com o Earl). Por agora, autocarro.`):t('没车就坐灰狗巴士。去镇上的辅路二手车场买辆车，再跟厄尔学会开车，出门会便宜很多。','No car means the Greyhound. Buy one at the frontage-road car lot in town and learn to drive with Earl to travel far cheaper.','Sem carro, vais de Greyhound. Compra um no stand da via de serviço e aprende a conduzir com o Earl para viajares muito mais barato.');
  const here=away()?`<p class="mini">${t('你现在在','You are in','Estás em')} <b>${CITIES[S.where].n}</b>${S.tripWith?' · '+t('同行：','with ','com ')+SH(S.tripWith):''}。${t('在下方的行动板上选「回圣鲁伊斯」回家。','Choose "Go back to San Luís" on the board below to return.','Escolhe «Voltar para San Luís» no painel de ações para regressar.')}</p>`:'';
  const regs=['all',...['central','hill','north','coast','west'].filter(r=>all.some(id=>CITIES[id].region===r))];
  const ids=all.filter(id=>MAP_RG==='all'||CITIES[id].region===MAP_RG);
@@ -4009,6 +4068,92 @@ STORY.push(
   {t:t(`安静地陪他坐到打烊`,`Sit with him quietly till closing`,`Ficar com ele em silêncio até fechar`),fx:()=>{addTrust('earl',1);stat('saud',2)}}]};
 }}
 );
+
+/* ===== p3 · Sheriff Pruitt: the deputy who took the jar (W8–39) =====
+ Four STORY events, prefix p3_:
+  p3_pt1  W8–10   midnight steak — he sits on José's stool
+  p3_pt2  W17–19  blue norther, I-35 closed, stranded drivers on the frontage road
+  p3_pt3  W32     1998: as a young deputy he took José's jar of creek water and handed it to Hank Boyd
+  p3_pt4  W39     council morning — he'll sit in the third row (and maybe speak)
+ Public flags:
+  S.flags.p3_pt        number   how far Pruitt trusts you (0–6)
+  S.flags.p3_norther   'free'|'cost'|'road'|'no'
+  S.flags.p3_notebook  1        you hold a copy of his 1998 notebook page
+  S.flags.p3_speak     1|'sit'|'deal'   what he does at the council (1 → c4_witness='pruitt' if none yet)
+*/
+const P3={
+ at:(w,d,s,span)=>()=>!S.where&&S.week>=w&&S.week<=w+(span==null?1:span)&&(S.week>w||S.day>d||(S.day===d&&S.slot>=s)),
+ pt(n){S.flags.p3_pt=Math.max(0,Math.min(6,(S.flags.p3_pt||0)+n))},
+ M:t(`普鲁伊特警长`,`Sheriff Pruitt`,`O xerife Pruitt`)
+};
+
+STORY.push(
+/* ---------- 1 · midnight steak ---------- */
+{id:'p3_pt1',when:P3.at(8,5,2,2),run:()=>({title:t(`午夜的牛排`,`Midnight steak`,`Bife à meia-noite`),meta:P3.M,text:[
+ t(`快打烊了，门铃响了一下。普鲁伊特警长摘下帽子，没看菜单，径直坐到柜台最里面那张凳子上——那张凳子的皮面磨得发亮，厄尔说过那是若泽的位置。`,`You're about to close when the bell over the door rings. Sheriff Pruitt takes off his hat, ignores the menu and sits on the last stool at the counter — the one with the seat worn shiny. Earl once told you that was José's spot.`,`Estás quase a fechar quando a campainha da porta toca. O xerife Pruitt tira o chapéu, ignora a ementa e senta-se no último banco do balcão — o do assento gasto e brilhante. O Earl disse-te uma vez que era o lugar do José.`),
+ t(`“值了十四个钟头的班，”他说，“一块牛排。若泽那种做法，你要是会的话。”`,`"Fourteen-hour shift," he says. "One steak. The way José did it, if you know how."`,`«Turno de catorze horas», diz ele. «Um bife. Como o José fazia, se souberes.»`),
+ rel('savannah').met?t(`他的手指上还有一圈浅浅的白印，是戒指留下的。你想起萨凡纳说起他时那种说天气的口气。`,`There's still a pale band on his finger where a ring used to be. You think of the way Savannah talks about him, like she's talking about the weather.`,`Ainda tem no dedo uma marca pálida onde esteve uma aliança. Lembras-te do tom com que a Savannah fala dele, como quem fala do tempo.`):t(`他的手指上还有一圈浅浅的白印，是戒指留下的。`,`There's still a pale band on his finger where a ring used to be.`,`Ainda tem no dedo uma marca pálida onde esteve uma aliança.`)],choices:[
+ {t:t(`[手艺 25] 煎一块葡式煎蛋牛排，蛋黄要流心`,`[Craft 25] Make a bitoque — steak with a runny fried egg on top`,`[Ofício 25] Fazer um bitoque, com o ovo a escorrer`),req:()=>S.stats.oficio>=25||NEED(t(`手艺 25`,`Craft 25`,`Ofício 25`)),fx:()=>{P3.pt(2);stat('oficio',1);S.lusoThisWeek=true},
+  next:()=>say(t(`日出`,`Sunrise`,`Nascer do sol`),t(`他用刀尖戳破蛋黄，看着它流到牛排上，半天没动。“他也放一个蛋。说半夜一个人吃饭的男人，该有个日出。”他吃得一点不剩，留下的小费比饭钱还多。`,`He breaks the yolk with the tip of his knife and watches it run over the steak, not moving for a while. "He put an egg on it too. Said a man eating alone at midnight deserves a sunrise." He clears the plate and leaves a tip bigger than the bill.`,`Fura a gema com a ponta da faca e fica a vê-la escorrer pelo bife, sem se mexer. «Ele também punha um ovo. Dizia que um homem a comer sozinho à meia-noite merece um nascer do sol.» Limpa o prato e deixa uma gorjeta maior do que a conta.`),t(`手艺 +1 · 警长对你有了点印象`,`Craft +1 · The sheriff takes note of you`,`Ofício +1 · O xerife fica com boa impressão`))},
+ {t:t(`边煎肉边问他：您跟若泽熟吗？`,`Ask while the meat's on: "Did you know José well?"`,`Perguntar enquanto o bife grelha: «Conhecia bem o José?»`),fx:()=>{P3.pt(1);S.flags.p3_ptJose=1},
+  next:()=>say(t(`两种语言`,`Two languages`,`Duas línguas`),t(`“全县只有他一个人，敢用两种语言跟我吵架。”他用叉子敲了敲盘子边，“我年轻的时候办过一件跟他有关的差事。”他停住了，“改天再说。牛排很好。”`,`"Only man in this county who ever argued with me in two languages." He taps the rim of the plate with his fork. "When I was young I handled a call that had to do with him." He stops. "Another time. Steak's good."`,`«Era o único homem do condado que discutia comigo em duas línguas.» Bate com o garfo na borda do prato. «Quando eu era novo, tratei de um caso que tinha a ver com ele.» Para. «Fica para outro dia. O bife está bom.»`))},
+ {t:t(`给他续上咖啡，让他一个人安静吃完`,`Top up his coffee and let him eat in peace`,`Encher-lhe o café e deixá-lo comer em paz`),fx:()=>{P3.pt(1);stat('saud',1)},
+  next:()=>say(t(`安静`,`Quiet`,`Silêncio`),t(`你擦着烤架，他看着窗外的空地。走的时候他在门口站了一下：“这地方晚上终于又有灯了。”`,`You scrub the grill; he looks out the window at the empty lot. On his way out he pauses in the doorway. "Good to see a light on in this place at night again."`,`Esfregas a grelha; ele olha pela janela para o terreno vazio. À saída, para à porta. «É bom voltar a ver uma luz acesa aqui à noite.»`))}]})},
+
+/* ---------- 2 · blue norther ---------- */
+{id:'p3_pt2',when:()=>!!S.flags.ev_p3_pt1&&P3.at(17,3,2,2)(),run:()=>({title:t(`蓝色北风`,`Blue norther`,`Vento norte azul`),meta:P3.M,text:[
+ t(`下午还是短袖天，傍晚北边的天空变成一块铁青色，气温一个钟头掉了十一度。德州人管这叫“蓝色北风”。`,`It was T-shirt weather at lunch. By evening the northern sky has gone the color of a bruise and the temperature has dropped twenty degrees in an hour. Texans call it a blue norther.`,`Ao almoço estava calor de t-shirt. Ao fim da tarde o céu a norte ficou cor de nódoa negra e a temperatura caiu onze graus numa hora. Os texanos chamam-lhe um «blue norther».`),
+ t(`九点，电话响了。“一辆十八轮大卡车在 35 号州际公路北行道上横过来了，”普鲁伊特警长的声音夹着风声，“路封到明天早上。辅路上堵了四十多辆车，有孩子，有老人，谁都没带外套。你的烤架还热吗？”`,`At nine the phone rings. "Eighteen-wheeler jackknifed on I-35 northbound," says Sheriff Pruitt over the wind. "Road's closed till morning. Forty-some cars backed up on the frontage road. Kids, old folks, nobody brought a coat. Your grill still hot?"`,`Às nove, o telefone toca. «Um camião de dezoito rodas atravessou-se na I-35, sentido norte», diz o xerife Pruitt, com o vento por trás. «Estrada fechada até de manhã. Mais de quarenta carros parados na via de serviço. Crianças, velhos, ninguém trouxe casaco. A tua grelha ainda está quente?»`)],choices:[
+ {t:t(`[$120] 通宵开门，咖啡和羽衣甘蓝汤全免费`,`[$120] Stay open all night — coffee and caldo verde on the house`,`[$120] Abrir a noite toda — café e caldo verde por conta da casa`),req:MONEY(120),fx:()=>{S.cash-=120;S.rep+=3;P3.pt(2);S.energy=Math.max(0,S.energy-2);S.flags.p3_norther='free';log('蓝色北风之夜，通宵免费招待被困的司机','Blue norther: kept the shop open all night for stranded drivers, free','Vento norte: restaurante aberto a noite toda para os condutores retidos, de graça')},
+  next:()=>say(t(`凌晨三点`,`Three a.m.`,`Três da manhã`),t(`店里坐满了陌生人。一个卡车司机睡在你的长椅上，一个小女孩趴在柜台上画你的烤架。警长一夜进出了六趟，每次都把外面冻僵的人带进来一个。天亮时他站在门口说：“若泽那年冰暴也是这么干的。”`,`The shop fills with strangers. A trucker sleeps on your bench; a little girl lies on the counter drawing your grill. The sheriff comes and goes six times in the night, each time bringing in someone half frozen. At dawn he stands in the doorway. "José did exactly this the year of the big ice storm."`,`O restaurante enche-se de desconhecidos. Um camionista dorme no teu banco; uma menina, debruçada no balcão, desenha a tua grelha. O xerife entra e sai seis vezes durante a noite, de cada vez com alguém meio congelado. De madrugada, para à porta. «O José fez exatamente isto no ano do grande gelo.»`),t(`现金 −$120 · 口碑 +3 · 精力 −2`,`Cash −$120 · Reputation +3 · Energy −2`,`Dinheiro −$120 · Reputação +3 · Energia −2`))},
+ {t:t(`开门，按成本价收钱`,`Open up and charge cost price`,`Abrir e cobrar a preço de custo`),fx:()=>{S.cash+=60;S.rep+=1;P3.pt(1);S.energy=Math.max(0,S.energy-1);S.flags.p3_norther='cost'},
+  next:()=>say(t(`成本价`,`Cost price`,`Preço de custo`),t(`一杯咖啡一块钱，一碗汤三块。没人抱怨，有人多塞了一张二十块进小费罐。警长付了自己那杯的钱，一分不少。`,`A dollar a coffee, three for a bowl of soup. Nobody complains; someone stuffs a twenty in the tip jar. The sheriff pays for his own cup, to the cent.`,`Um dólar o café, três a tigela de sopa. Ninguém se queixa; alguém enfia uma nota de vinte no frasco das gorjetas. O xerife paga o café dele, até ao último cêntimo.`),t(`现金 +$60 · 口碑 +1`,`Cash +$60 · Reputation +1`,`Dinheiro +$60 · Reputação +1`))},
+ {t:t(`[德州味 30] 借厄尔的皮卡，把咖啡桶直接送到辅路上`,`[Texanness 30] Borrow Earl's pickup and take the coffee urn straight to the frontage road`,`[Texanidade 30] Pedir a carrinha ao Earl e levar o termo de café à via de serviço`),req:()=>S.stats.tex>=30&&rel('earl').met||NEED(t(`德州味 30 · 认识厄尔`,`Texanness 30 · Know Earl`,`Texanidade 30 · Conhecer o Earl`)),fx:()=>{stat('tex',2);S.rep+=2;P3.pt(2);addTrust('earl',1);S.energy=Math.max(0,S.energy-2);S.flags.p3_norther='road'},
+  next:()=>say(t(`车灯`,`Headlights`,`Faróis`),t(`你和警长沿着辅路一辆一辆敲车窗，倒咖啡。风把纸杯吹得满地跑。最后一辆车里是个从俄克拉何马来的老太太，她握着杯子哭了。警长把自己的外套盖在她腿上，回到巡逻车里，冻得说不出话。`,`You and the sheriff work down the frontage road car by car, knocking on windows, pouring coffee. The wind chases paper cups across the asphalt. In the last car is an old woman from Oklahoma who cries holding her cup. The sheriff lays his own jacket over her knees and gets back in the cruiser too cold to talk.`,`Tu e o xerife descem a via de serviço carro a carro, a bater nos vidros e a servir café. O vento faz voar os copos de papel pelo alcatrão. No último carro está uma senhora de Oklahoma que chora agarrada ao copo. O xerife põe-lhe o próprio casaco sobre os joelhos e volta para o carro-patrulha, gelado de mais para falar.`),t(`德州味 +2 · 口碑 +2 · 厄尔信任 +1 · 精力 −2`,`Texanness +2 · Reputation +2 · Earl's trust +1 · Energy −2`,`Texanidade +2 · Reputação +2 · Confiança do Earl +1 · Energia −2`))},
+ {t:t(`“抱歉，警长，我已经站了十二个钟头。”`,`"Sorry, Sheriff. I've been on my feet twelve hours."`,`«Desculpe, xerife. Estou de pé há doze horas.»`),fx:()=>{S.flags.p3_norther='no';S.energy=Math.min(10,S.energy+1)},
+  next:()=>say(t(`挂断`,`Click`,`Desligar`),t(`电话那头停了两秒。“说得对。”他挂了。后来你听说，那一夜教堂地下室开了门，戴尔牧师煮了四十人的咖啡。`,`Two seconds of silence on the line. "Fair enough." He hangs up. Later you hear the church basement opened that night and Pastor Dale made coffee for forty.`,`Dois segundos de silêncio. «Tem razão.» Desliga. Mais tarde ouves dizer que nessa noite a cave da igreja abriu e o Pastor Dale fez café para quarenta.`))}]})},
+
+/* ---------- 3 · 1998 ---------- */
+{id:'p3_pt3',when:()=>!!S.flags.ev_p3_pt2&&(S.flags.p3_pt||0)>=2&&P3.at(32,4,2,1)(),run:()=>{const told=!!S.flags.p3_ptJose;
+ return {title:t(`一九九八年八月`,`August 1998`,`Agosto de 1998`),meta:P3.M,text:[
+  t(`他没穿制服，进门时手里拿着一个旧的警用记事本，封皮被汗水泡得发软。他点了一杯波特酒——你从没见他喝过酒。`,`He comes in out of uniform, holding an old police pocket notebook, its cover soft from years of sweat. He orders a glass of port. You've never seen him drink.`,`Entra sem farda, com um velho bloco de notas da polícia na mão, a capa mole de anos de suor. Pede um cálice de vinho do Porto. Nunca o viste beber.`),
+  told?t(`“上次说改天再说，”他把本子放在柜台上，“今天就是改天。”`,`"I said another time," he says, setting the notebook on the counter. "This is another time."`,`«Disse que ficava para outro dia», diz, pousando o bloco no balcão. «Hoje é esse dia.»`):t(`“有件事，我欠你舅舅的。”他把本子放在柜台上。`,`"There's something I owe your uncle," he says, setting the notebook on the counter.`,`«Há uma coisa que devo ao teu tio», diz, pousando o bloco no balcão.`),
+  t(`“我那年二十三岁，当副警长的第一年。汉克·博伊德打电话到局里，说有个葡萄牙工人在罐头厂门口闹事。我去的时候，若泽站在大门外，手里举着一个玻璃罐，罐里的水是橙色的。他说：‘你看看这个颜色，就看一眼。’”`,`"I was twenty-three. First year as a deputy. Hank Boyd called the station: Portuguese worker raising hell at the cannery gate. When I got there José was standing outside the fence holding up a mason jar, and the water in it was orange. He said, 'Look at the color. Just look.'"`,`«Eu tinha vinte e três anos. Primeiro ano como adjunto. O Hank Boyd ligou para a esquadra: um operário português a armar confusão ao portão da fábrica. Quando cheguei, o José estava do lado de fora da vedação com um frasco de vidro levantado, e a água lá dentro era cor de laranja. Disse-me: "Olhe para esta cor. Só olhe."»`),
+  t(`“我看了。然后我把罐子从他手里拿走，交给了汉克。因为汉克说那是厂里的财产。”他翻开本子，那一页的字很小、很工整：“八月十四日，夜。罐头厂后沟。水样一罐，已交厂方。”`,`"I looked. Then I took the jar out of his hands and gave it to Hank, because Hank said it was company property." He opens the notebook. The handwriting on the page is small and careful: Aug 14, night. Cannery rear ditch. One water sample, returned to company.`,`«Olhei. Depois tirei-lhe o frasco das mãos e dei-o ao Hank, porque o Hank disse que era propriedade da fábrica.» Abre o bloco. A letra na página é pequena e cuidadosa: 14 de agosto, noite. Vala traseira da fábrica. Uma amostra de água, devolvida à empresa.`),
+  t(`“二十多年，我每次开车经过那块空地都要放慢。”`,`"Twenty-some years, and I slow down every time I drive past that lot."`,`«Mais de vinte anos, e abrando sempre que passo por aquele terreno.»`)],choices:[
+  {t:t(`告诉他，若泽在信里提过他：“那个年轻警察的手在抖。”`,`Tell him José mentioned him in a letter: "The young deputy's hands were shaking."`,`Dizer-lhe que o José falou dele numa carta: «As mãos do jovem polícia tremiam.»`),req:()=>S.letters>=8||NEED(t(`若泽的信 8 封`,`8 of José's letters`,`8 cartas do José`)),fx:()=>{P3.pt(2);S.flags.p3_notebook=1;stat('saud',2);log('普鲁伊特警长把一九九八年的记事本那一页复印给了你','Sheriff Pruitt gave you a copy of his 1998 notebook page','O xerife Pruitt deu-te uma cópia da página do bloco de 1998')},
+   next:()=>say(t(`他的手在抖`,`His hands were shaking`,`As mãos tremiam`),t(`警长低头看着自己的手，过了很久才笑了一下。“他连这个都记得。”他撕下那一页，又想了想，把它塞回本子里，“原件我留着。明天我去复印店，给你一份。上面有日期，有我的警号。”`,`The sheriff looks down at his hands for a long time, then almost smiles. "He remembered that." He tears out the page, thinks, and tucks it back into the notebook. "I'll keep the original. Tomorrow I'll get you a copy. It has the date and my badge number on it."`,`O xerife olha para as próprias mãos muito tempo e quase sorri. «Ele lembrava-se disso.» Arranca a página, pensa e volta a metê-la no bloco. «Fico com o original. Amanhã tiro-te uma cópia. Tem a data e o meu número de distintivo.»`),t(`乡愁 +2 · 拿到了记事本复印件`,`Homesickness +2 · You have a copy of the notebook page`,`Saudade +2 · Tens uma cópia da página do bloco`))},
+  {t:t(`“那就写下来，签上您的名字。”`,`"Then write it down and sign your name."`,`«Então escreva isso e assine.»`),req:()=>S.stats.tex>=35||(S.flags.p3_pt||0)>=4||NEED(t(`德州味 35 或警长足够信任你`,`Texanness 35, or the sheriff trusts you enough`,`Texanidade 35, ou o xerife confiar o suficiente em ti`)),fx:()=>{P3.pt(1);S.flags.p3_notebook=1;stat('tex',1);log('普鲁伊特警长签了一份书面陈述','Sheriff Pruitt signed a written statement','O xerife Pruitt assinou uma declaração escrita')},
+   next:()=>say(t(`签名`,`Signature`,`Assinatura`),t(`他向你要了一张点菜单的背面，写了半页，签名的时候停顿了一下，又把警号也写上了。“我爸说过，警察最值钱的就是这个名字。”他把纸推给你，“现在它归你了。”`,`He asks for the back of an order slip, writes half a page, hesitates at the signature, then adds his badge number too. "My daddy said the only thing a lawman owns is his name." He slides the paper over. "Now it's yours."`,`Pede-te as costas de um talão de pedidos, escreve meia página, hesita na assinatura e acrescenta o número do distintivo. «O meu pai dizia que a única coisa que um homem da lei tem é o nome.» Empurra o papel para ti. «Agora é teu.»`),t(`德州味 +1 · 拿到了书面陈述`,`Texanness +1 · You have a written statement`,`Texanidade +1 · Tens uma declaração escrita`))},
+  {t:t(`“您把它还给了他。”`,`"You gave it back to him."`,`«Devolveu-lho.»`),fx:()=>{P3.pt(-1);S.flags.p3_ptAngry=1;stat('saud',1)},
+   next:()=>say(t(`帽子`,`The hat`,`O chapéu`),t(`他没反驳，把酒喝完，戴上帽子。“是。所以我今天才来。”门在他身后合上。那一页记事本，他带走了。`,`He doesn't argue. He finishes the port and puts on his hat. "Yes. That's why I came." The door swings shut behind him. He takes the notebook page with him.`,`Não discute. Acaba o Porto e põe o chapéu. «Sim. Foi por isso que vim.» A porta fecha-se atrás dele. Leva a página do bloco consigo.`))},
+  {t:t(`什么都不说，再给他倒一杯`,`Say nothing and pour him another`,`Não dizer nada e servir-lhe outro`),fx:()=>{stat('saud',2);P3.pt(1);if((S.flags.p3_pt||0)>=4)S.flags.p3_notebook=1},
+   next:()=>say(t(`第二杯`,`Second glass`,`O segundo cálice`),(S.flags.p3_pt||0)>=4?t(`第二杯他喝得很慢。走的时候，那个本子留在了柜台上，翻开着，压在糖罐底下。`,`He drinks the second glass slowly. When he leaves, the notebook stays on the counter, open, weighed down under the sugar bowl.`,`Bebe o segundo cálice devagar. Quando sai, o bloco fica no balcão, aberto, preso debaixo do açucareiro.`):t(`第二杯他喝得很慢，喝完把本子揣回口袋，冲你点了点头。有些话，今晚说到这里就够了。`,`He drinks the second glass slowly, then pockets the notebook and nods to you. Some things are enough said for one night.`,`Bebe o segundo cálice devagar, guarda o bloco no bolso e acena-te. Há coisas que, por uma noite, já chega.`))}]};
+}},
+
+/* ---------- 4 · council morning ---------- */
+{id:'p3_pt4',when:()=>!!S.flags.p3_notebook&&!S.where&&S.week===39&&S.day===4&&S.slot<2,run:()=>{const deal=typeof c4_path==='function'&&c4_path()==='deal';
+ return {title:t(`第三排`,`Third row`,`Terceira fila`),meta:t(`镇议会投票当天`,`Council vote day`,`Dia da votação na câmara`),text:[
+  t(`早上六点，巡逻车停在店门口。普鲁伊特警长没下车，摇下车窗，手里一杯你昨天卖给他的冷咖啡。`,`Six a.m., the cruiser pulls up outside the shop. Sheriff Pruitt doesn't get out; he rolls the window down, holding a cold coffee you sold him yesterday.`,`Seis da manhã, o carro-patrulha para à porta. O xerife Pruitt não sai; baixa o vidro, com um café frio que lhe vendeste ontem.`),
+  deal?t(`“听说你跟特拉维斯谈好了。”他看着前面的路，“我今晚还是坐第三排。不是为你，是为那一罐水。”`,`"Heard you made your deal with Travis." He keeps his eyes on the road. "I'll still be in the third row tonight. Not for you. For that jar of water."`,`«Ouvi dizer que fizeste o negócio com o Travis.» Não tira os olhos da estrada. «Hoje à noite vou estar na terceira fila na mesma. Não por ti. Por aquele frasco de água.»`)
+   :t(`“我今晚不当班，”他说，“会坐在第三排。特拉维斯坐第一排，他会回头看见我。”`,`"I'm off duty tonight," he says. "I'll be in the third row. Travis sits up front. He'll turn around and see me."`,`«Hoje à noite estou de folga», diz. «Vou estar na terceira fila. O Travis senta-se à frente. Vai virar-se e ver-me.»`)],
+  choices:deal?[
+  {t:t(`说实话：你还没想好今晚会不会坐着不动`,`Tell the truth: you still don't know if you'll stay in your seat tonight`,`Dizer a verdade: ainda não sabes se vais ficar sentado esta noite`),fx:()=>{S.flags.p3_speak='deal';stat('saud',2)},
+   next:()=>say(t(`车窗`,`The window`,`O vidro`),t(`他点点头，好像这是他今天听到的第一句真话。“若泽那天也没想好。后来他想好了。”车窗摇上去了。`,`He nods, as if it's the first true thing he's heard all day. "José didn't know either, that day. Then he did." The window rolls up.`,`Acena, como se fosse a primeira coisa verdadeira que ouve hoje. «O José também não sabia, nesse dia. Depois soube.» O vidro sobe.`))},
+  {t:t(`“生意就是生意，警长。”`,`"Business is business, Sheriff."`,`«Negócios são negócios, xerife.»`),fx:()=>{S.flags.p3_speak='deal';P3.pt(-2);stat('tex',1)},
+   next:()=>say(t(`冷咖啡`,`Cold coffee`,`Café frio`),t(`他把冷咖啡倒在路边的草里，开走了。`,`He pours the cold coffee out onto the grass by the curb and drives off.`,`Despeja o café frio na relva da berma e arranca.`))}]:[
+  {t:t(`“您会站起来说话吗？”`,`"Will you stand up and speak?"`,`«Vai levantar-se e falar?»`),req:()=>(S.flags.p3_pt||0)>=3||NEED(t(`警长足够信任你`,`The sheriff trusts you enough`,`O xerife confiar o suficiente em ti`)),fx:()=>{S.flags.p3_speak=1;if(!S.flags.c4_witness)S.flags.c4_witness='pruitt';S.rep+=1;log('普鲁伊特警长答应在议会上讲一九九八年那一夜','Sheriff Pruitt will tell the council about that night in 1998','O xerife Pruitt vai contar à câmara aquela noite de 1998')},
+   next:()=>say(t(`警号`,`Badge number`,`Número do distintivo`),t(`“明年就要选警长了，”他说，“我在这个县干了二十多年，就想有一次，把罐子交给对的人。”他把冷咖啡一口喝干，“七点开会。别迟到，葡萄牙。”`,`"Sheriff's election next year," he says. "Twenty-some years in this county, and I'd like one time to hand that jar to the right people." He drains the cold coffee. "Meeting's at seven. Don't be late, Portugal."`,`«Para o ano há eleições para xerife», diz. «Mais de vinte anos neste condado, e gostava de uma vez entregar aquele frasco às pessoas certas.» Bebe o café frio de um trago. «A reunião é às sete. Não te atrases, Portugal.»`),t(`警长会在议会上作证`,`The sheriff will testify at the council`,`O xerife vai testemunhar na câmara`))},
+  {t:t(`“别冒这个险，您还有工作，明年还要选举。”`,`"Don't risk it. You've got a job, and an election next year."`,`«Não arrisque. Tem um emprego e eleições para o ano.»`),fx:()=>{S.flags.p3_speak='sit';S.rep+=1;stat('saud',1)},
+   next:()=>say(t(`正因为`,`That's why`,`É por isso`),t(`“正因为这样。”他发动了车，“不过你说得对，我就坐着。让他们都看见我坐在那儿，就够了。”`,`"That's exactly why." He starts the engine. "But you're right. I'll just sit. Let them all see me sitting there. That'll do."`,`«É exatamente por isso.» Liga o motor. «Mas tens razão. Fico só sentado. Que me vejam todos ali sentado. Chega.»`))}]};
+}}
+);
+
+/* ---------- one extra ending paragraph ---------- */
+{const p3_end0=ENDING_EXTRA;ENDING_EXTRA=ch=>{const out=p3_end0(ch),f=S.flags;
+ if(f.p3_speak===1)out.push(t(`第二年，普鲁伊特警长以多出四百票连任。他在法院台阶上接受采访时只说了一句：“这一次，罐子交对了人。”`,`The next year Sheriff Pruitt was re-elected by four hundred votes. Interviewed on the courthouse steps, he said only one thing: "This time the jar went to the right people."`,`No ano seguinte, o xerife Pruitt foi reeleito por quatrocentos votos. Entrevistado nas escadas do tribunal, disse apenas: «Desta vez, o frasco foi parar às mãos certas.»`));
+ else if(f.p3_norther==='free'||f.p3_norther==='road')out.push(t(`每年第一场蓝色北风刮起来的晚上，普鲁伊特警长都会打电话来，只问一句：“烤架还热吗？”`,`Every year, on the night of the first blue norther, Sheriff Pruitt calls and asks just one thing: "Grill still hot?"`,`Todos os anos, na noite do primeiro vento norte, o xerife Pruitt liga e pergunta só uma coisa: «A grelha ainda está quente?»`));
+ return out}}
 
 /* ===== Writer E — romance lines: lucia jolene savannah clara hannah brooke megan colleen ===== */
 const rE_busy=()=>[12,24,36,48].includes(S.week)||S.week>=49;
@@ -7170,9 +7315,386 @@ ROAD_EVENTS.push({id:'tx9_flares',cond:c=>c===CITIES.beaumont,run:c=>sc(t(`内�
 })();
 
 // routes from San Luís along roads drawn on the map; applied after every city file so the map shows a real, connected path
-(function(){const V={austin:['i35'],waco:['i35'],lockhart:['i35','us183'],gruene:['i35'],fredericksburg:['i35','us290'],sanantonio:['i35'],dallas:['i35','i35e'],fortworth:['i35'],houston:['us190','i45'],galveston:['us190','i45'],marfa:['i35','i10','tx17'],elpaso:['i35','i10'],bigbend:['i35','i10','us385'],lubbock:['i35','i20','us87'],amarillo:['i35','us287'],corpus:['i35','i37'],padre:['i35','i37','us77','tx100'],laredo:['i35'],nacogdoches:['us190','us59'],jefferson:['i35e','i20','us59'],
- permian:['i35','i20'],sanangelo:['us190','us87'],abilene:['i35','i20'],delrio:['i35','us90'],beaumont:['us190','i45','i10'],tyler:['i35','i35e','i20'],aggieland:['us190'],valley:['i35','us281'],sanmarcos:['i35'],luckenbach:['i35','us290']};
+(function(){const V={austin:['i35'],waco:['i35'],lockhart:['i35','us183'],gruene:['i35'],fredericksburg:['i35','us290'],sanantonio:['i35'],dallas:['i35','i35e'],fortworth:['i35'],houston:['i35','us190','i45'],galveston:['i35','us190','i45'],marfa:['i35','i10','tx17'],elpaso:['i35','i10'],bigbend:['i35','i10','us385'],lubbock:['i35','i20','us87'],amarillo:['i35','us287'],corpus:['i35','i37'],padre:['i35','i37','us77','tx100'],laredo:['i35'],nacogdoches:['i35','us190','us59'],jefferson:['i35','i35e','i20','us59'],
+ permian:['i35','i20'],sanangelo:['i35','us190','us87'],abilene:['i35','i20'],delrio:['i35','us90'],beaumont:['i35','us190','i45','i10'],tyler:['i35','i35e','i20'],aggieland:['i35','us190'],valley:['i35','us281'],sanmarcos:['i35'],luckenbach:['i35','us290']};
  Object.keys(V).forEach(k=>{if(CITIES[k])CITIES[k].via=V[k]})})();
+
+/* ===== v1 · the frontage-road car lot: specific used vehicles, weekly stock, trade-ins, service =====
+ Engine side: VEHICLES (filled here), CAR_ALIAS, carId, CAR, carFull, carOdo, carTrade, carBrk, buyCar, sellCar.
+ State: S.car (listing id or null), S.carMi (odometer), S.carServ (week of last service → breakdowns ×0.4 for 6 weeks)
+ Real makes and models only (no dealerships or real businesses); prices are this game's economy, explained by each car's history.
+ cls: car | moto | truck | van | suv | food | classic
+*/
+(function(){
+const V=(make,year,miles,cost,gas,upkeep,brk,cls,extra,quirk)=>Object.assign({make,year,miles,cost,gas,upkeep,brk,cls,charm:0,quirk},extra||{});
+Object.assign(VEHICLES,{
+ civic98:V(['本田思域','Honda Civic','Honda Civic'],1998,241000,1100,0.08,9,0.11,'car',{},
+  [`副驾驶的门只能从里面开。巴克说这叫“防盗设计”。`,`The passenger door only opens from the inside. Buck calls it "an anti-theft feature".`,`A porta do pendura só abre por dentro. O Buck chama-lhe «sistema antirroubo».`]),
+ caprice94:V(['雪佛兰卡普里斯（退役警车）','Chevrolet Caprice (retired police car)','Chevrolet Caprice (ex-carro da polícia)'],1994,176000,1300,0.12,12,0.1,'car',{charm:1},
+  [`后座还装着隔离网，警灯拆了，线还在。普鲁伊特警长说这辆他开过三年。`,`The cage is still behind the front seats; the light bar is gone but the wiring isn't. Sheriff Pruitt says he drove this one for three years.`,`Ainda tem a grade atrás dos bancos da frente; as luzes foram tiradas, os fios não. O xerife Pruitt diz que andou nele três anos.`]),
+ century99:V(['别克世纪','Buick Century','Buick Century'],1999,112000,1500,0.1,10,0.06,'car',{},
+  [`教堂的一位老太太开了二十年，只开去教堂和超市。座椅上还套着钩针织的垫子。`,`A church lady drove it for twenty years, only to church and the grocery store. There's still a crocheted cover on the seat.`,`Uma senhora da igreja conduziu-o vinte anos, só para a missa e o supermercado. Ainda tem uma capa de croché no banco.`]),
+ camry04:V(['丰田凯美瑞','Toyota Camry','Toyota Camry'],2004,198000,1900,0.09,10,0.05,'car',{},
+  [`一个大学生毕业搬去达拉斯前卖的，后备箱里还有半箱方便面。`,`A college kid sold it before moving to Dallas after graduation. Half a case of instant noodles is still in the trunk.`,`Um universitário vendeu-o antes de se mudar para Dallas. Ainda há meia caixa de massa instantânea na mala.`]),
+ rebel11:V(['本田叛逆者 250','Honda Rebel 250','Honda Rebel 250'],2011,9000,1600,0.04,7,0.04,'moto',{charm:2},
+  [`几乎没骑过。前车主的老婆不让他骑，他每个礼拜六来擦一遍。`,`Barely ridden. The last owner's wife wouldn't let him ride it; he came out every Saturday to polish it.`,`Quase não andou. A mulher do antigo dono não o deixava andar; ele vinha todos os sábados dar-lhe brilho.`]),
+ sportster06:V(['哈雷戴维森运动者 883','Harley-Davidson Sportster 883','Harley-Davidson Sportster 883'],2006,38000,3200,0.05,12,0.05,'moto',{charm:4},
+  [`油箱上画着一只鹰，画得很认真，也很难看。`,`There's an eagle painted on the tank, very earnestly and very badly.`,`Tem uma águia pintada no depósito, com muito empenho e muito mal.`]),
+ f150_95:V(['福特 150 型皮卡','Ford F-150','Ford F-150'],1995,268000,2400,0.13,14,0.09,'truck',{cargo:1},
+  [`两扇车门两种颜色，一扇红一扇白。巴克说：“这叫个性。”`,`The two doors are two different colors, one red, one white. "That's called personality," says Buck.`,`As duas portas são de cores diferentes, uma vermelha, outra branca. «Chama-se personalidade», diz o Buck.`]),
+ ram01:V(['道奇公羊 2500 柴油版','Dodge Ram 2500 diesel','Dodge Ram 2500 a gasóleo'],2001,302000,3400,0.14,16,0.06,'truck',{cargo:1,charm:1},
+  [`柴油机跑了三十万英里。巴克说：“才刚磨合好。”`,`The diesel has three hundred thousand miles on it. "Just broken in," says Buck.`,`O motor a gasóleo tem trezentas mil milhas. «Acabou de fazer a rodagem», diz o Buck.`]),
+ sienna09:V(['丰田塞纳','Toyota Sienna','Toyota Sienna'],2009,171000,3600,0.11,13,0.04,'van',{cargo:1,charm:-1},
+  [`座椅缝里全是麦片。七个座，适合拖家带口——巴克看了你一眼，“或者拉一后备箱的沙丁鱼。”`,`Cereal in every seat crack. Seven seats, made for a family — Buck glances at you — "or a trunk full of sardines."`,`Cereais em todas as frinchas dos bancos. Sete lugares, feita para uma família — o Buck olha para ti — «ou para uma mala cheia de sardinhas».`]),
+ silverado08:V(['雪佛兰索罗德 1500','Chevrolet Silverado 1500','Chevrolet Silverado 1500'],2008,187000,4200,0.12,15,0.05,'truck',{cargo:1},
+  [`牧场上用了十几年，车斗里的划痕能拼出一张德州地图。`,`A ranch truck for over a decade; the scratches in the bed could pass for a map of Texas.`,`Uma carrinha de rancho há mais de dez anos; os riscos na caixa davam um mapa do Texas.`]),
+ wrangler07:V(['吉普牧马人','Jeep Wrangler','Jeep Wrangler'],2007,164000,5800,0.13,18,0.07,'suv',{charm:3},
+  [`车顶能拆。巴克说开去大本德，星星会自己掉进车里。`,`The top comes off. Buck says drive it out to Big Bend and the stars fall right in.`,`O tejadilho sai. O Buck diz que, se o levares até Big Bend, as estrelas caem lá dentro.`]),
+ stepvan99:V(['雪佛兰厢式底盘餐车','Chevrolet step-van food truck','Roulote (furgão Chevrolet)'],1999,214000,6800,0.2,40,0.08,'food',{cargo:1,food:1},
+  [`以前卖墨西哥卷饼的，烤架、冰柜、窗板都在。车里还留着一股孜然味。`,`It used to sell tacos. Grill, cooler and serving hatch all there, and it still smells of cumin.`,`Vendia tacos. Grelha, arca e janela estão lá todas, e ainda cheira a cominhos.`]),
+ tacoma12:V(['丰田塔科马','Toyota Tacoma','Toyota Tacoma'],2012,151000,7900,0.11,18,0.02,'truck',{cargo:1,charm:1},
+  [`去年那场冰雹把车顶砸得像高尔夫球，所以才这个价。发动机一点事都没有。`,`Last year's hailstorm dimpled the roof like a golf ball — that's why it's this cheap. The engine's perfect.`,`A granizada do ano passado deixou o tejadilho como uma bola de golfe — por isso é tão barata. O motor está impecável.`]),
+ mustang68:V(['福特野马','Ford Mustang','Ford Mustang'],1968,97000,9500,0.16,30,0.15,'classic',{charm:6},
+  [`里程表只有五位数，谁也不知道它转过几圈。厄尔说他高中时有人开着这样一辆车把他女朋友接走了。`,`The odometer only has five digits; nobody knows how many times it has rolled over. Earl says in high school a boy in one of these drove off with his girlfriend.`,`O conta-quilómetros só tem cinco dígitos; ninguém sabe quantas voltas já deu. O Earl diz que no liceu um rapaz num destes lhe levou a namorada.`]),
+ e450_14:V(['福特 450 型厢式餐车','Ford E-450 food truck','Roulote Ford E-450'],2014,88000,11500,0.18,45,0.03,'food',{cargo:1,food:1,charm:1},
+  [`不锈钢厨房，自带发电机。奥斯汀一对夫妻开的咖啡车，生了双胞胎以后不干了。`,`Stainless kitchen, its own generator. An Austin couple ran it as a coffee truck until they had twins.`,`Cozinha em inox, gerador próprio. Um casal de Austin tinha-a como roulote de café até lhes nascerem gémeos.`]),
+ f150_19:V(['福特 150 型皮卡','Ford F-150','Ford F-150'],2019,52000,13800,0.12,35,0,'truck',{cargo:1,charm:4},
+  [`银行收回来的车，比市价便宜一大截。巴克说：“上一个车主去哪儿了，你别问，我也不问。”`,`A bank repossession, well under market. "Where the last owner went," says Buck, "you don't ask and I don't either."`,`Retomada pelo banco, muito abaixo do preço de mercado. «Para onde foi o antigo dono», diz o Buck, «tu não perguntas e eu também não.»`])
+});
+
+const BUCK=t(`巴克`,`Buck`,`Buck`);
+const LOT=t(`辅路二手车场`,`Frontage-road car lot`,`Stand da via de serviço`);
+const AFTER={
+ car:t(`你开着它出了车场，排气管咳了两声。巴克在后面喊：“它喜欢你！”`,`You drive it off the lot and the tailpipe coughs twice. Buck hollers after you: "She likes you!"`,`Sais do stand e o escape tosse duas vezes. O Buck grita atrás de ti: «Ela gosta de ti!»`),
+ moto:t(`你骑上摩托沿着主街开过去。花店门口有人吹了一声口哨，你没回头，耳朵红到脖子。`,`You ride down Main Street. Someone outside the flower shop whistles. You don't look back; your ears go red to the neck.`,`Desces a rua principal de mota. À porta da florista alguém assobia. Não olhas para trás; as orelhas ficam vermelhas até ao pescoço.`),
+ truck:t(`你把皮卡停在店门口。厄尔从酒吧那边走过来，绕车一圈，踢了踢轮胎：“行。现在你看起来像住在这儿的了。”`,`You park the truck outside the shop. Earl wanders over from the saloon, walks round it once, kicks a tyre. "All right. Now you look like you live here."`,`Estacionas a carrinha à porta. O Earl vem do bar, dá uma volta, dá um pontapé num pneu. «Pronto. Agora pareces de cá.»`),
+ van:t(`阿尔贝蒂娜太太看了一眼七个座位，意味深长地“嗯”了一声，什么也没说。`,`Dona Albertina counts the seven seats, says "Hm" meaningfully, and nothing else.`,`A Dona Albertina conta os sete lugares, diz «hum» com muito significado, e mais nada.`),
+ suv:t(`你把车顶拆了，沿着 35 号州际公路的辅路开了一圈。风灌进来，像在阿尔法马的山坡上骑自行车往下冲。`,`You take the top off and do a lap of the I-35 frontage road. The wind pours in like riding a bike down the hills of Alfama.`,`Tiras o tejadilho e dás uma volta pela via de serviço da I-35. O vento entra como quando descias de bicicleta as ladeiras de Alfama.`),
+ food:t(`你在车身侧面用葡萄牙蓝刷了一行字：若泽烧烤店·流动分店。字有点歪，阿尔贝蒂娜太太说歪得正好。`,`You paint a line in Portuguese blue along the side: Zé's Churrasco · On the Road. The letters lean a little; Dona Albertina says they lean just right.`,`Pintas na lateral, em azul português: Churrasqueira do Zé · Sobre Rodas. As letras ficam um pouco tortas; a Dona Albertina diz que estão tortas na medida certa.`),
+ classic:t(`你开着野马慢慢穿过主街。五金店老板放下扫帚，戴尔牧师在教堂台阶上停住，连特拉维斯的皮卡都在路口让了你一下。`,`You roll the Mustang slowly down Main Street. The hardware man puts down his broom, Pastor Dale stops on the church steps, and even Travis's truck waits for you at the corner.`,`Desces a rua principal devagar no Mustang. O da loja de ferragens pousa a vassoura, o Pastor Dale para nos degraus da igreja, e até a carrinha do Travis te dá passagem no cruzamento.`)
+};
+const AFTER_RICH=t(`第二天，全镇都知道葡萄牙人买了辆几乎全新的皮卡。五金店老板说你“生意做起来了”，特拉维斯开车经过时多看了两眼。`,`By the next day the whole town knows the Portuguese fella bought a nearly new truck. The hardware man says you've "made it"; Travis slows down for a second look.`,`No dia seguinte a vila inteira sabe que o português comprou uma carrinha quase nova. O da loja de ferragens diz que «estás a ir bem»; o Travis abranda para olhar duas vezes.`);
+// purchase bonuses: trucks make you more Texan; the expensive ones turn heads
+const BONUS=v=>v.cost>=9000?{rep:3,tex:2}:v.cls==='truck'?{tex:2}:v.cls==='classic'?{rep:2}:{};
+const bonusText=b=>[b.rep?t(`口碑 +${b.rep}`,`Reputation +${b.rep}`,`Reputação +${b.rep}`):null,b.tex?t(`德州味 +${b.tex}`,`Texanness +${b.tex}`,`Texanidade +${b.tex}`):null].filter(Boolean);
+
+// this week's stock: six listings, reshuffled every week, always at least one under $2,000
+function lotStock(){
+ const h=k=>{let x=S.week*2654435761;for(const ch of k)x=(x^ch.charCodeAt(0))*16777619>>>0;return x};
+ let ids=Object.keys(VEHICLES).filter(k=>k!==carId()).sort((a,b)=>h(a)-h(b)).slice(0,6);
+ if(!ids.some(k=>VEHICLES[k].cost<=2000)){const cheap=Object.keys(VEHICLES).filter(k=>k!==carId()&&VEHICLES[k].cost<=2000).sort((a,b)=>h(a)-h(b))[0];if(cheap)ids[5]=cheap}
+ return ids.sort((a,b)=>VEHICLES[a].cost-VEHICLES[b].cost);
+}
+const specs=v=>t(`${v.year} 年 · 里程 ${fmtMi(v.miles)} 英里 · 油耗每英里 $${v.gas.toFixed(2)} · 保险保养每周 $${v.upkeep}${v.brk?` · 抛锚 ${Math.round(v.brk*100)}%/趟`:' · 几乎不坏'}${v.charm?` · 魅力 ${v.charm>0?'+':''}${v.charm}`:''}${v.cargo?' · 能拉货':''}${v.food?' · 能出摊':''}`,
+ `${v.year} · ${fmtMi(v.miles)} mi · gas $${v.gas.toFixed(2)}/mile · insurance & upkeep $${v.upkeep}/week${v.brk?` · breakdowns ${Math.round(v.brk*100)}%/trip`:' · hardly ever breaks'}${v.charm?` · charm ${v.charm>0?'+':''}${v.charm}`:''}${v.cargo?' · hauls cargo':''}${v.food?' · sells food':''}`,
+ `${v.year} · ${fmtMi(v.miles)} mi · gasolina $${v.gas.toFixed(2)}/milha · seguro e manutenção $${v.upkeep}/semana${v.brk?` · avarias ${Math.round(v.brk*100)}%/viagem`:' · quase não avaria'}${v.charm?` · charme ${v.charm>0?'+':''}${v.charm}`:''}${v.cargo?' · leva carga':''}${v.food?' · vende comida':''}`);
+
+function lotScene(){
+ const own=CAR(),tr=carTrade();
+ const intro=[t(`35 号州际公路辅路边上一块碎石地，几十辆车排成两排，每辆挡风玻璃上都用白漆写着年份、里程和价钱。车场老板巴克从活动房里出来，手里端着一杯咖啡。“这礼拜新到了几辆。”`,`A gravel lot on the I-35 frontage road: a few dozen vehicles in two rows, year, mileage and price painted in white on every windshield. Buck, who runs the place, steps out of his trailer office with a coffee. "Got a few new ones in this week."`,`Um terreno de gravilha na via de serviço da I-35: umas dezenas de veículos em duas filas, ano, milhas e preço pintados a branco em cada para-brisas. O Buck, o dono, sai do escritório-contentor com um café. «Chegaram uns novos esta semana.»`),
+  own?t(`他绕着你的${own.make[0]}走了一圈，看了眼里程表（${fmtMi(carOdo())} 英里）：“我按 $${tr} 收，折进下一辆里。”`,`He walks round your ${own.make[1]} and checks the odometer (${fmtMi(carOdo())} mi). "I'll take it for $${tr} toward the next one."`,`Dá uma volta ao teu ${own.make[2]} e espreita o conta-quilómetros (${fmtMi(carOdo())} mi). «Fico com ele por $${tr} para abater no próximo.»`):t(`“第一次买车？在德州，车就是你的腿。”`,`"First car? In Texas, your car is your legs."`,`«Primeiro carro? No Texas, o carro são as tuas pernas.»`)];
+ if(S.course.drive<2)intro.push(t(`“你还不会开？那先跟厄尔学两课。车我可以先卖给你，让它在你店门口等着。”`,`"Can't drive yet? Take a couple of lessons with Earl. I'll still sell you one — it can wait outside your shop."`,`«Ainda não conduzes? Tem umas aulas com o Earl. Vendo-te o carro na mesma — fica à tua porta à espera.»`));
+ const stock=lotStock();
+ const gallery=`<div class="lot-grid">${stock.map(k=>{const v=VEHICLES[k];return `<figure>${carArt(k)}<figcaption><b>${carFull(v)}</b><br>$${fmtMi(v.cost)}</figcaption></figure>`}).join('')}</div>`;
+ const ch=stock.map(k=>{const v=VEHICLES[k],price=v.cost-tr;
+  return {t:t(`${v.year} 年${v.make[0]} · ${fmtMi(v.miles)} 英里 · $${fmtMi(v.cost)}${tr?`（折价后 $${fmtMi(price)}）`:''}`,`${v.year} ${v.make[1]} · ${fmtMi(v.miles)} mi · $${fmtMi(v.cost)}${tr?` ($${fmtMi(price)} after trade-in)`:''}`,`${v.make[2]} de ${v.year} · ${fmtMi(v.miles)} mi · $${fmtMi(v.cost)}${tr?` ($${fmtMi(price)} com retoma)`:''}`),
+   next:()=>{const b=BONUS(v);return {title:carFull(v),meta:LOT,art:carArt(k),text:[tt(v.quirk),specs(v)],choices:[
+    {t:t(`成交（$${fmtMi(price)}）`,`Deal ($${fmtMi(price)})`,`Negócio fechado ($${fmtMi(price)})`),req:()=>S.cash>=price||t(`钱不够（要 $${fmtMi(price)}）`,`Not enough money (need $${fmtMi(price)})`,`Não tens dinheiro (precisas de $${fmtMi(price)})`),
+     fx:()=>{buyCar(k);if(b.rep)S.rep+=b.rep;if(b.tex)stat('tex',b.tex);if(v.food)S.lusoThisWeek=true},
+     next:()=>Object.assign(say(carFull(v),v.cost>=9000&&v.cls==='truck'?AFTER_RICH:AFTER[v.cls],bonusText(b).join(' · ')),{art:carArt(k)})},
+    {t:t('再看看别的','Look at the others','Ver os outros'),next:lotScene}]}}}});
+ if(own)ch.push({t:t(`把${own.make[0]}直接卖给他（+$${fmtMi(tr)}）`,`Just sell him the ${own.make[1]} (+$${fmtMi(tr)})`,`Vender-lhe só o ${own.make[2]} (+$${fmtMi(tr)})`),fx:()=>sellCar(),next:()=>say(LOT,t('巴克数钱数得很慢，像在数自己的好心。“想买车的时候再来。”','Buck counts the money out slowly, like he\'s counting his own generosity. "Come back when you want wheels."','O Buck conta o dinheiro devagar, como quem conta a própria generosidade. «Volta quando quiseres rodas.»'))});
+ ch.push({t:t('只是看看','Just looking','Só estou a ver')});
+ return {title:LOT,meta:BUCK,text:intro,html:gallery,choices:ch};
+}
+function serviceScene(){
+ const v=CAR();if(!v)return say(LOT,t('你还没有车。','You don\'t have a vehicle yet.','Ainda não tens veículo.'));
+ S.cash-=40;S.wk.spend+=40;S.carServ=S.week;
+ return say(t('保养','Service','Revisão'),[t(`巴克的侄子钻到${v.make[0]}底下，换了机油、皮带和一个你叫不出名字的零件。“六个礼拜内它会听话的，”他说，“之后看它心情。”`,`Buck's nephew slides under the ${v.make[1]} and changes the oil, a belt and a part you can't name. "She'll behave for six weeks," he says. "After that, depends on her mood."`,`O sobrinho do Buck enfia-se debaixo do ${v.make[2]} e muda o óleo, uma correia e uma peça cujo nome não sabes. «Seis semanas a portar-se bem», diz. «Depois, depende do humor dela.»`)],
+  t('$40 · 六周内抛锚概率降到四成','$40 · breakdown chance cut to 40% for six weeks','$40 · probabilidade de avaria reduzida a 40% durante seis semanas'));
+}
+EXTRA_LOCS.push({id:'v1_lot',n:LOT,open:()=>S.week>=2,acts:[
+ {id:'v1_look',n:t('看车 / 买车 / 卖车','Browse, buy or sell a vehicle','Ver, comprar ou vender um veículo'),cost:1,tip:t('每周换一批车，旧车可以折价','New stock every week; trade-ins welcome','Carros novos todas as semanas; aceita retomas'),run:lotScene},
+ {id:'v1_service',n:t('给车做保养 $40','Service your vehicle · $40','Fazer a revisão · $40'),cost:1,tip:t('六周内少抛锚','Fewer breakdowns for six weeks','Menos avarias durante seis semanas'),
+  req:()=>!carId()?t('你还没有车','You don\'t have a vehicle','Ainda não tens veículo'):!CAR().brk?t('这辆车不需要保养','This one doesn\'t need it','Este não precisa'):S.carServ&&S.week-S.carServ<6?t(`刚保养过（第 ${S.carServ} 周）`,`Serviced recently (week ${S.carServ})`,`Revisão recente (semana ${S.carServ})`):S.cash<40?t('钱不够','Not enough money','Não tens dinheiro'):true,run:serviceScene}
+]});
+})();
+
+/* ===== v2 · illustrations: every dish and every vehicle as small inline SVG (no image files, single-file friendly) =====
+ dishArt(k) → <svg> for DISH[k];  carArt(k) → <svg> for VEHICLES[k].  Both return '' for unknown ids.
+ Flat style in the game's palette (azulejo blue, rust, cream). Decorative: aria-hidden, the name is always printed next to them.
+*/
+const ART=(function(){
+const svg=(vb,inner,cls)=>`<svg class="art ${cls}" viewBox="${vb}" aria-hidden="true" focusable="false">${inner}</svg>`;
+const a=o=>Object.entries(o||{}).map(([k,v])=>`${k.replace(/_/g,'-')}="${v}"`).join(' ');
+const E=(cx,cy,rx,ry,f,o)=>`<ellipse cx="${cx}" cy="${cy}" rx="${rx}" ry="${ry}" fill="${f}" ${a(o)}/>`;
+const C=(cx,cy,r,f,o)=>`<circle cx="${cx}" cy="${cy}" r="${r}" fill="${f}" ${a(o)}/>`;
+const R=(x,y,w,h,f,o)=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${f}" ${a(o)}/>`;
+const P=(d,f,o)=>`<path d="${d}" fill="${f}" ${a(o)}/>`;
+const L=(d,s,w,o)=>`<path d="${d}" fill="none" stroke="${s}" stroke-width="${w||1.5}" stroke-linecap="round" ${a(o)}/>`;
+const K={plate:'#fbf7ee',rim:'#2c5aa0',rim2:'#d9e2f0',wood:'#b9824a',woodD:'#8a5a2e',terra:'#c0643a',terraD:'#93462a',bread:'#e3aa5c',breadD:'#b97a35',meat:'#7a3b22',meatL:'#9c5332',pink:'#cf7b68',green:'#5f8f3e',greenD:'#3f6e32',yellow:'#f2c94c',cream:'#f4e6c4',red:'#b8322a',orange:'#e07b2e',iron:'#2e2e30',ironL:'#47474a',steel:'#a7b0ba',white:'#ffffff',egg:'#f6b81c',choc:'#5a3018'};
+/* ---- dish kit ---- */
+const plate=()=>E(60,60,52,23,K.plate,{stroke:K.rim,stroke_width:2})+E(60,60,41,17,'none',{stroke:K.rim2,stroke_width:1.5});
+const bowl=(soup,side)=>P('M12 50 Q14 84 60 86 Q106 84 108 50 Z',side||K.plate,{stroke:K.rim,stroke_width:2})+E(60,50,48,12,soup,{stroke:K.rim,stroke_width:2})+L('M24 70 Q60 80 96 70',K.rim2,1.5);
+const pot=(inside)=>P('M14 46 Q16 82 60 84 Q104 82 106 46 Z',K.terra,{stroke:K.terraD,stroke_width:2})+E(60,46,46,12,inside,{stroke:K.terraD,stroke_width:2})+R(4,46,12,5,K.terraD,{rx:2})+R(104,46,12,5,K.terraD,{rx:2});
+const skillet=(inside)=>R(100,54,22,6,K.iron,{rx:3,transform:'rotate(-12 100 57)'})+E(58,58,48,22,K.iron)+E(58,56,42,18,inside||K.ironL);
+const board=()=>P('M8 66 Q8 58 16 57 L104 50 Q112 50 112 58 L112 64 Q112 70 104 71 L16 78 Q8 78 8 72 Z',K.wood,{stroke:K.woodD,stroke_width:1.5})+L('M20 70 L100 63 M24 74 L90 68',K.woodD,1,{opacity:.5});
+const steam=(x)=>L(`M${x} 30 q-5 -6 0 -12 q5 -6 0 -12 M${x+10} 32 q-5 -6 0 -12 q5 -6 0 -12`,'#b8c3cf',1.6,{opacity:.8});
+const grill=(x1,y1,x2,y2,n,col)=>{let s='';for(let i=0;i<n;i++){const t=(i+1)/(n+1),x=x1+(x2-x1)*t,y=y1+(y2-y1)*t;s+=L(`M${x-3} ${y-5} L${x+3} ${y+5}`,col||K.iron,1.6,{opacity:.7})}return s};
+const sardine=(x,y,r)=>`<g transform="translate(${x} ${y}) rotate(${r})">${P('M-24 0 Q-6 -8 16 -3 L26 -8 L23 0 L26 8 L16 3 Q-6 8 -24 0 Z','#8e9aa6',{stroke:'#5d6874',stroke_width:1})}${P('M-24 0 Q-6 -8 16 -3 L16 0 L-24 0 Z','#c2ccd5',{opacity:.6})}${C(-18,-1,1.6,K.iron)}${grill(-14,0,12,0,4)}</g>`;
+const lemon=(x,y)=>P(`M${x} ${y} l14 -6 a15 15 0 0 1 -6 14 Z`,K.yellow,{stroke:'#d9a92a',stroke_width:1});
+const parsley=(x,y)=>C(x,y,3,K.green)+C(x+4,y-2,2.6,K.greenD)+C(x+3,y+3,2.4,K.green);
+const bun=(x,y,w,fill,fill2)=>R(x,y+10,w,8,K.bread,{rx:4})+R(x-2,y+5,w+4,6,fill,{rx:3})+(fill2?R(x+2,y+3,w-4,4,fill2,{rx:2}):'')+P(`M${x-1} ${y+4} Q${x+w/2} ${y-16} ${x+w+1} ${y+4} Z`,K.bread,{stroke:K.breadD,stroke_width:1.2})+C(x+w*0.35,y-4,1,K.cream)+C(x+w*0.6,y-6,1,K.cream)+C(x+w*0.5,y-2,1,K.cream);
+const tart=(x,y,r,top)=>E(x,y,r,r*0.62,K.breadD)+E(x,y-1,r*0.8,r*0.48,K.yellow)+C(x-r*0.25,y-2,r*0.18,top||'#7a3a12',{opacity:.8})+C(x+r*0.3,y,r*0.14,top||'#7a3a12',{opacity:.7})+C(x+r*0.05,y-r*0.3,r*0.1,top||'#7a3a12',{opacity:.6});
+const tortilla=(x,y,w)=>E(x,y,w,w*0.38,'#efd9a6',{stroke:'#c9a96a',stroke_width:1})+C(x-w*0.4,y,1.4,'#c9a96a')+C(x+w*0.3,y-2,1.4,'#c9a96a');
+const steak=(x,y,w,col)=>P(`M${x} ${y} q${w*0.2} -${w*0.35} ${w*0.6} -${w*0.3} q${w*0.45} ${w*0.05} ${w*0.4} ${w*0.35} q-${w*0.1} ${w*0.3} -${w*0.55} ${w*0.28} q-${w*0.5} 0 -${w*0.45} -${w*0.33} Z`,col||'#c68a45',{stroke:'#8a5a24',stroke_width:1.2});
+const gravy=(x,y,w)=>P(`M${x} ${y} q${w*0.3} -${w*0.2} ${w*0.6} 0 q${w*0.2} ${w*0.12} 0 ${w*0.2} q-${w*0.35} ${w*0.12} -${w*0.6} 0 Z`,'#f3ecdc',{stroke:'#ddd2bc',stroke_width:1})+C(x+w*0.2,y+2,1,'#5b5b5b')+C(x+w*0.45,y+4,1,'#5b5b5b');
+const mash=(x,y)=>P(`M${x-14} ${y+6} q2 -12 14 -14 q12 2 14 14 Z`,'#f6efd8',{stroke:'#e1d5b5',stroke_width:1})+C(x,y-2,3,K.yellow);
+const beans=(x,y,w)=>{let s='';for(let i=0;i<5;i++)s+=E(x+i*w/5,y+(i%2)*3,3,2,'#6b4a2b',{transform:`rotate(${i*30} ${x+i*w/5} ${y})`});return s};
+const DISHES={
+ sardinhas:()=>plate()+sardine(52,52,-6)+sardine(58,61,-3)+sardine(64,70,0)+lemon(88,62)+parsley(30,66),
+ bifana:()=>plate()+bun(36,44,48,'#a5683a','#f2c94c')+L('M40 50 q8 3 16 0 q8 -3 16 0 q6 2 10 0',K.yellow,2),
+ bacalhau:()=>R(18,38,84,40,K.terra,{rx:8,stroke:K.terraD,stroke_width:2})+R(24,42,72,30,'#f0d48a',{rx:6})+C(40,52,5,'#c98a2c',{opacity:.7})+C(62,60,6,'#c98a2c',{opacity:.6})+C(80,50,4,'#c98a2c',{opacity:.7})+C(52,64,3,'#a86a1c',{opacity:.6})+parsley(70,48),
+ caldo:()=>bowl('#6f9a3e')+L('M32 48 q6 -4 12 0 M58 52 q6 -4 12 0 M76 46 q5 -3 10 0',K.greenD,2)+C(46,52,4.5,K.red,{stroke:'#7d1d18',stroke_width:1})+C(68,47,4.5,K.red,{stroke:'#7d1d18',stroke_width:1})+C(86,52,4,K.red,{stroke:'#7d1d18',stroke_width:1})+steam(52),
+ nata:()=>plate()+tart(40,58,13)+tart(66,54,13)+tart(78,68,12)+C(30,48,1,'#7a5a3a')+C(34,46,1,'#7a5a3a'),
+ brisket:()=>board()+[0,1,2,3].map(i=>`<g transform="translate(${26+i*18} ${56-i*1.6}) rotate(-6)">${R(0,0,15,18,K.pink,{rx:2})}${R(0,0,15,4,K.choc,{rx:2})}${R(0,14,15,4,'#3a1e10',{rx:2})}${L('M2 6 L13 6',K.red,1,{opacity:.4})}</g>`).join('')+parsley(98,58),
+ chili:()=>bowl('#8c2f1c')+beans(36,50,40)+L('M44 46 l6 2 M60 44 l6 3 M70 50 l5 1',K.yellow,2)+P('M86 40 q10 -6 14 4 q-2 4 -6 2 q-2 -4 -8 -6 Z',K.red)+L('M86 40 l-3 -4',K.green,2),
+ cornbread:()=>skillet('#e9b949')+L('M30 56 L86 56 M58 40 L58 72',K.breadD,2)+C(42,48,1.5,'#c98a2c')+C(72,64,1.5,'#c98a2c')+R(46,42,10,6,'#fff3c4',{rx:2,opacity:.9}),
+ coffee:()=>E(60,72,40,10,K.plate,{stroke:K.rim,stroke_width:2})+P('M36 40 L84 40 L80 70 Q60 76 40 70 Z',K.white,{stroke:K.rim,stroke_width:2})+E(60,40,24,5,'#5a3018')+L('M84 46 q12 2 8 14 q-2 6 -10 6',K.rim,3)+steam(52),
+ polvo:()=>plate()+L('M36 58 q4 -18 22 -14 q16 4 10 16 q-6 8 -14 2 q-4 -4 2 -6',K.terraD,8,{stroke_linecap:'round'})+L('M36 58 q4 -18 22 -14 q16 4 10 16 q-6 8 -14 2 q-4 -4 2 -6',K.pink,5)+E(82,62,7,5,'#e9c36a')+E(30,68,6,4.5,'#e9c36a')+C(50,70,1.6,'#d9b52a')+C(70,72,1.6,'#d9b52a')+C(62,66,1.3,'#d9b52a')+parsley(88,52),
+ francesinha:()=>plate()+R(34,44,52,22,'#e3aa5c',{rx:3})+P('M30 50 Q60 30 90 50 L94 66 Q60 76 26 66 Z',K.orange,{opacity:.95})+E(60,46,11,7,K.white)+C(60,46,4.5,K.egg)+R(84,62,3,14,'#f2c94c',{transform:'rotate(20 84 62)'})+R(90,60,3,14,'#f2c94c',{transform:'rotate(-10 90 60)'})+R(26,62,3,13,'#f2c94c',{transform:'rotate(-25 26 62)'}),
+ chourico:()=>R(22,52,76,24,K.terra,{rx:10,stroke:K.terraD,stroke_width:2})+R(28,42,64,12,K.terraD,{rx:4})+L('M34 44 L86 44 M34 48 L86 48',K.iron,1,{opacity:.5})+P('M30 44 Q60 30 90 42 Q92 46 88 47 Q60 38 32 49 Z',K.red,{stroke:'#7d1d18',stroke_width:1.2})+P('M44 40 q-4 -10 2 -16 q0 8 6 10 q2 -8 8 -12 q-2 10 4 16 Z','#f39b2a',{opacity:.9})+P('M50 40 q-1 -6 3 -9 q0 5 3 6 q1 -4 4 -6 q-1 6 2 9 Z',K.yellow),
+ marisco:()=>pot('#e6873c')+P('M34 46 q6 -8 12 -2 q-2 6 -12 2 Z','#f2a48a',{stroke:'#d0664a',stroke_width:1})+P('M64 42 q6 -8 12 -2 q-2 6 -12 2 Z','#f2a48a',{stroke:'#d0664a',stroke_width:1})+E(52,52,6,3.5,'#2b2d3a',{transform:'rotate(-20 52 52)'})+E(80,52,6,3.5,'#2b2d3a',{transform:'rotate(15 80 52)'})+C(44,54,3,'#efe2c8')+C(70,54,3,'#efe2c8')+parsley(58,46)+steam(54),
+ bolinhos:()=>plate()+[[40,56],[58,52],[76,58],[56,68]].map(([x,y])=>E(x,y,10,6.5,'#d79a43',{stroke:'#a8692a',stroke_width:1.2})+C(x-3,y-1,1,'#a8692a')+C(x+3,y+2,1,'#a8692a')).join('')+lemon(82,66)+parsley(30,68),
+ paodeus:()=>plate()+E(60,58,26,15,K.bread,{stroke:K.breadD,stroke_width:1.5})+E(60,52,22,10,'#fbf3df')+[...Array(14)].map((_,i)=>C(42+(i*7)%36,47+(i*5)%10,1,'#e6d3a8')).join(''),
+ ribs:()=>board()+R(22,46,72,22,'#6d2d18',{rx:6})+R(22,46,72,6,'#3a1a0c',{rx:3})+[0,1,2,3,4,5].map(i=>R(26+i*12,40,4,30,'#efe3c6',{rx:2})+L(`M${32+i*12} 50 L${32+i*12} 66`,'#4a1f0e',1.2,{opacity:.6})).join(''),
+ cfsteak:()=>plate()+steak(30,64,44)+gravy(34,52,30)+mash(84,60),
+ btaco:()=>plate()+P('M28 64 Q60 18 92 64 Z','#efd9a6',{stroke:'#c9a96a',stroke_width:1.5})+P('M36 60 Q60 34 84 60 Z','#f6d24a')+L('M44 54 q8 -4 16 0 q8 4 16 0',K.red,3)+C(50,58,2.2,K.green)+C(66,56,2.2,K.green),
+ pecan:()=>plate()+P('M30 64 L88 56 L92 66 L34 74 Z',K.breadD)+P('M30 64 L88 56 L80 44 Q50 40 30 64 Z','#6b3416',{stroke:'#4a210c',stroke_width:1})+[[46,56],[58,52],[70,52],[62,60],[50,62]].map(([x,y])=>E(x,y,4,2.5,'#9a5b2a',{stroke:'#4a210c',stroke_width:.8})).join('')+P('M86 46 q6 -6 10 0 q-4 4 -10 0 Z',K.white),
+ bbifana:()=>plate()+bun(34,44,52,K.pink,K.choc)+L('M38 49 q10 2 20 0 q10 -2 22 0',K.red,1.5,{opacity:.6}),
+ pnata:()=>plate()+tart(42,60,13)+tart(70,56,13)+[[42,56],[70,52]].map(([x,y])=>C(x,y,4,'#4f8a2c',{stroke:'#2f5a18',stroke_width:1})+C(x,y,1.6,'#d9e8b0')).join(''),
+ p1_alcatra:()=>pot('#6e2a18')+[[40,48],[54,44],[68,48],[80,45],[60,52]].map(([x,y])=>R(x-5,y-4,10,8,K.meatL,{rx:2,stroke:K.meat,stroke_width:1})).join('')+L('M30 44 q4 -2 8 0',K.green,2)+steam(50),
+ cobbler:()=>skillet('#e98a3a')+[[38,52],[56,46],[72,56],[50,62],[80,48]].map(([x,y])=>E(x,y,7,4,'#f3c27a',{stroke:'#c98a3a',stroke_width:1})).join('')+C(64,54,3,'#ffd38a')+C(44,46,2.5,'#ffd38a'),
+ puffytaco:()=>plate()+P('M28 62 Q30 26 60 28 Q90 26 92 62 Q60 50 28 62 Z','#e7b55e',{stroke:'#b8832e',stroke_width:1.5})+P('M36 52 Q60 40 84 52 Q60 46 36 52 Z','#7a3b22')+L('M40 48 q6 -4 12 0 q6 4 12 0 q6 -4 12 0',K.green,3)+C(52,44,2,K.red)+C(68,44,2,K.red),
+ gpotato:()=>bowl('#f0dfa8',K.plate)+[[36,48],[52,46],[68,50],[84,47],[60,53],[44,53]].map(([x,y])=>E(x,y,7,4,'#f6e7b4',{stroke:'#d9c27a',stroke_width:1})).join('')+R(48,44,8,3,'#a33f2a',{rx:1})+R(72,46,8,3,'#a33f2a',{rx:1})+L('M40 44 l3 -2 M64 44 l3 -2 M80 50 l3 -2',K.green,1.6),
+ kolache:()=>plate()+[[40,58,'#6a2d6e'],[64,52,'#c0392b'],[78,66,'#e2a12a']].map(([x,y,f])=>E(x,y,13,8,K.bread,{stroke:K.breadD,stroke_width:1.2})+E(x,y-1,6,3.6,f)).join(''),
+ gshrimp:()=>plate()+L('M18 66 L102 50',K.woodD,2)+[30,48,66,84].map((x,i)=>`<g transform="translate(${x} ${63-i*4.2})">${P('M-8 0 q0 -9 9 -9 q8 0 8 7 q-1 6 -7 6 q-4 0 -4 -4',  '#f08a5d',{stroke:'#c55a30',stroke_width:1.2})}${grill(-6,-4,6,-4,2)}</g>`).join('')+lemon(84,66),
+ chilecol:()=>bowl('#7c1f12')+[[40,48],[56,52],[72,47],[84,52]].map(([x,y])=>R(x-4,y-3,8,6,K.meatL,{rx:2})).join('')+P('M88 38 q10 -6 14 4 q-2 4 -6 2 q-2 -4 -8 -6 Z','#8d1c12')+tortilla(22,40,10),
+ tx4_ench:()=>plate()+[0,1,2].map(i=>E(60,64-i*6,32,10,'#efd9a6',{stroke:'#c9a96a',stroke_width:1})).join('')+E(60,52,32,10,'#a92b1c',{opacity:.9})+L('M40 52 l5 1 M58 48 l6 2 M74 54 l4 -1',K.yellow,2)+E(60,48,10,6,K.white)+C(60,48,4,K.egg),
+ tx4_cfs:()=>plate()+steak(26,62,50,'#cf9450')+gravy(28,50,44)+C(86,56,4,'#4f8a2c')+C(92,62,4,'#4f8a2c'),
+ fajita:()=>skillet()+[...Array(9)].map((_,i)=>L(`M${30+i*6} ${48+(i%3)*5} l10 4`,['#c0392b','#e2a12a','#4f8a2c','#7a3b22','#f3e7c9'][i%5],3.2)).join('')+steam(48)+tortilla(96,30,12),
+ chopbeef:()=>plate()+bun(34,44,52,'#6e2a14','#b8322a')+[...Array(6)].map((_,i)=>C(40+i*8,49+(i%2),1.6,'#3a1408')).join(''),
+ catfish:()=>plate()+P('M28 60 q20 -14 44 -6 q-10 14 -44 6 Z','#d4953f',{stroke:'#a8692a',stroke_width:1.2})+P('M40 70 q20 -12 40 -4 q-10 12 -40 4 Z','#d4953f',{stroke:'#a8692a',stroke_width:1.2})+C(86,54,5,'#c98a3a')+C(92,62,5,'#c98a3a')+lemon(80,68),
+ tx8_betty:()=>plate()+steak(28,64,46,'#c68a45')+gravy(30,52,40)+L('M80 54 l12 -6 M82 60 l12 -6 M84 66 l12 -6',K.green,3),
+ pandecampo:()=>skillet()+E(58,56,36,15,'#e8c07a',{stroke:'#c4924a',stroke_width:1.2})+L('M40 52 l8 6 M54 50 l8 6 M68 50 l8 6',K.breadD,1.5)+C(48,60,1.3,'#b8823a')+C(70,60,1.3,'#b8823a'),
+ boudin:()=>plate()+L('M34 62 q-6 -16 12 -18 q22 -2 28 10 q4 12 -14 14 q-14 0 -10 -8',K.terraD,10)+L('M34 62 q-6 -16 12 -18 q22 -2 28 10 q4 12 -14 14 q-14 0 -10 -8',K.terra,7)+R(82,56,12,9,'#f2dca0',{rx:1})+R(86,62,12,9,'#f2dca0',{rx:1}),
+ barbacoa:()=>plate()+tortilla(46,58,20)+tortilla(76,64,18)+[...Array(10)].map((_,i)=>L(`M${36+i*4} ${54+(i%3)*2} l6 3`,K.meatL,2.4)).join('')+C(44,52,2,K.white)+C(52,56,2,K.white)+C(48,58,1.8,K.green)+P('M84 48 a8 8 0 0 1 12 6 Z','#7fb24a',{stroke:'#4f8a2c',stroke_width:1})
+};
+function dishArt(k,cls){const f=DISHES[k];return f?svg('0 0 120 90',f(),'art-dish '+(cls||'')):''}
+
+/* ---- vehicles: three-quarter view from above-front-left. Each body part is a side profile (x along the car, z up)
+   extruded across the width (y), projected with a fixed axonometric camera; faces are culled and shaded by their normal. ---- */
+const PX=[0.86,0.31],PY=[0.6,-0.36],PZ=[0,-1];
+const pj=(x,y,z)=>[x*PX[0]+y*PY[0]+z*PZ[0],x*PX[1]+y*PY[1]+z*PZ[1]];
+const hex=h=>{h=h.replace('#','');if(h.length===3)h=h.split('').map(c=>c+c).join('');return [0,2,4].map(i=>parseInt(h.substr(i,2),16))};
+const shade=(h,k)=>{const c=hex(h);return 'rgb('+c.map(v=>Math.round(k>=0?v+(255-v)*k:v*(1+k))).join(',')+')'};
+const area=p=>{let s=0;for(let i=0;i<p.length;i++){const a=p[i],b=p[(i+1)%p.length];s+=a[0]*b[1]-b[0]*a[1]}return s/2};
+const pts=p=>p.map(q=>q[0].toFixed(1)+','+q[1].toFixed(1)).join(' ');
+const OUT='rgba(20,22,28,.55)';
+const poly=(p3,fill,o)=>`<polygon points="${pts(p3.map(q=>pj(...q)))}" fill="${fill}" ${a(Object.assign({stroke:OUT,stroke_width:.3,stroke_linejoin:'round'},o||{}))}/>`;
+const line3=(p3,stroke,w,o)=>`<polyline points="${pts(p3.map(q=>pj(...q)))}" fill="none" stroke="${stroke}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round" ${a(o)}/>`;
+// direction towards the camera = the vector that projects to a point, sign chosen so the near side (−y) faces it
+const CAMX=(PY[0]/PX[0]),CAMZ=-((PX[1]*(-PY[0]/PX[0]))+PY[1]);
+// prism: profile [[x,z],...] (any winding), y0 near side, y1 far side. edge: {i: fill} overrides (e.g. glass), shades by normal
+function prism(prof,y0,y1,col,o){o=o||{};let P=prof.slice();const m=P.length;let E=o.edge||{};
+ if(area(P.map(([x,z])=>[x,-z]))<0){P.reverse();const E2={};for(const k in E)E2[(m-2-(+k)+m)%m]=E[k];E=E2} // counter-clockwise in (x,z); edge i of the original is edge m-2-i after reversing
+ const n=P.length,OS=area(P)>0?1:-1;const faces=[];
+ const near=P.map(([x,z])=>[x,y0,z]);
+ for(let i=0;i<n;i++){const A=P[i],B=P[(i+1)%n];const quad=[[A[0],y0,A[1]],[B[0],y0,B[1]],[B[0],y1,B[1]],[A[0],y1,A[1]]];
+  let nx=(B[1]-A[1])*OS,nz=-(B[0]-A[0])*OS;const l=Math.hypot(nx,nz)||1;nx/=l;nz/=l; // outward normal from the winding
+  if(CAMX*nx+CAMZ*nz<=0.02)continue; // back-facing
+  const base=E[i]||col;const k=0.26*Math.max(0,nz)-0.16*Math.max(0,nx)-0.3*Math.max(0,-nz)+0.04*Math.max(0,-nx);
+  faces.push(poly(quad,shade(base,k)));
+  const at=(u,v)=>[A[0]+(B[0]-A[0])*u,y0+(y1-y0)*v,A[1]+(B[1]-A[1])*u];
+  if(base===GL)faces.push(poly([at(0.12,0.62),at(0.88,0.4),at(0.88,0.5),at(0.12,0.72)],'rgba(255,255,255,.38)',{stroke:'none'})+poly([at(0.15,0.8),at(0.85,0.6),at(0.85,0.64),at(0.15,0.84)],'rgba(255,255,255,.28)',{stroke:'none'}));
+  else if(nz>0.85&&Math.hypot(B[0]-A[0],B[1]-A[1])>4)faces.push(poly([at(0.04,0.06),at(0.96,0.06),at(0.96,0.2),at(0.04,0.2)],'rgba(255,255,255,.13)',{stroke:'none'}))}
+ return faces.join('')+poly(near,shade(o.side||col,o.sideK||0))}
+const ring=(x,y,z,r,n)=>[...Array(n||28)].map((_,i)=>{const t=i/(n||28)*Math.PI*2;return [x+r*Math.cos(t),y,z+r*Math.sin(t)]});
+function hull(p){p=p.slice().sort((a,b)=>a[0]-b[0]||a[1]-b[1]);const c=(o,a,b)=>(a[0]-o[0])*(b[1]-o[1])-(a[1]-o[1])*(b[0]-o[0]);const lo=[],up=[];
+ for(const q of p){while(lo.length>=2&&c(lo[lo.length-2],lo[lo.length-1],q)<=0)lo.pop();lo.push(q)}for(const q of p.slice().reverse()){while(up.length>=2&&c(up[up.length-2],up[up.length-1],q)<=0)up.pop();up.push(q)}return lo.slice(0,-1).concat(up.slice(0,-1))}
+// a wheel: tyre band + sidewall + rim + hub; y = outer face, tw = tyre width (towards +y)
+function wheel3(x,z,r,y,tw,o){o=o||{};const A=ring(x,y,z,r),B=ring(x,y+tw,z,r);const band=hull(A.concat(B).map(q=>pj(...q)));
+ const rim=o.rim||'#c9ced4';
+ return `<polygon points="${pts(band)}" fill="#1c1d21"/>`+poly(A,'#2a2b30',{stroke:'#111',stroke_width:.3})+(o.white?poly(ring(x,y-0.02,z,r*0.8),'#f1efe8',{stroke:'none'}):'')
+  +poly(ring(x,y-0.04,z,r*0.6),rim,{stroke:'rgba(0,0,0,.4)'})+poly(ring(x,y-0.06,z,r*0.6*0.72),shade(rim,-0.18),{stroke:'none'})
+  +(o.spokes?[...Array(5)].map((_,i)=>{const t=i/5*Math.PI*2;return line3([[x,y-0.07,z],[x+r*0.55*Math.cos(t),y-0.07,z+r*0.55*Math.sin(t)]],shade(rim,0.25),0.6)}).join(''):'')
+  +poly(ring(x,y-0.08,z,r*0.16,12),shade(rim,-0.35),{stroke:'none'})}
+const arch=(x,z,r,y)=>poly([...Array(15)].map((_,i)=>{const t=Math.PI*i/14;return [x+r*Math.cos(t),y-0.01,z+r*Math.sin(t)]}),'#17181c',{stroke:'none'});
+const shadow3=(L,W,s)=>`<polygon points="${pts([[-1.5,-1.5,0],[L+2.5,-1.5,0],[L+2.5,W+1.5,0],[-1.5,W+1.5,0]].map(q=>pj(...q)))}" fill="rgba(0,0,0,${s||.2})" filter="url(#artblur)"/>`;
+const GL='#9ec4df',GLD='#6f97b6';
+// glass panel set into the near side of a cabin profile: quad given as 4 [x,z]
+const win=(q,y,col)=>poly(q.map(([x,z])=>[x,y-0.03,z]),col||GL,{stroke:'rgba(20,22,28,.6)',stroke_width:.35})+line3([[q[0][0]+0.6,y-0.05,q[0][1]-0.4],[q[1][0]+0.3,y-0.05,q[1][1]-0.4]],'rgba(255,255,255,.55)',0.5);
+const lamp=(x,y0,y1,z0,z1,c)=>poly([[x+0.05,y0,z0],[x+0.05,y1,z0],[x+0.05,y1,z1],[x+0.05,y0,z1]],c||'#fff3c4',{stroke:'rgba(0,0,0,.45)'});
+const mirror=(x,z,y)=>poly([[x,y,z],[x+1.6,y,z],[x+1.6,y-1.4,z+0.4],[x,y-1.4,z+0.4]],'#222')+poly([[x,y-1.4,z+0.4],[x+1.6,y-1.4,z+0.4],[x+1.6,y-1.4,z+1.6],[x,y-1.4,z+1.6]],'#2b2d33');
+const seam=(p,y)=>line3(p.map(([x,z])=>[x,y-0.04,z]),'rgba(0,0,0,.35)',0.35);
+const handle=(x,z,y)=>line3([[x,y-0.05,z],[x+1.6,y-0.05,z]],'rgba(255,255,255,.6)',0.6)+line3([[x,y-0.06,z-0.25],[x+1.6,y-0.06,z-0.25]],'rgba(0,0,0,.45)',0.4);
+const fit=(inner,ps)=>{let x0=1e9,x1=-1e9,y0=1e9,y1=-1e9;for(const [x,y,z] of ps){const [u,v]=pj(x,y,z);x0=Math.min(x0,u);x1=Math.max(x1,u);y0=Math.min(y0,v);y1=Math.max(y1,v)}
+ const pad=2.5;return {vb:`${(x0-pad).toFixed(1)} ${(y0-pad).toFixed(1)} ${(x1-x0+pad*2).toFixed(1)} ${(y1-y0+pad*2).toFixed(1)}`,inner:`<defs><filter id="artblur" x="-20%" y="-50%" width="140%" height="200%"><feGaussianBlur stdDeviation="1.1"/></filter></defs>`+inner}};
+const box=(L,W,H)=>[[0,0,0],[L,0,0],[L,W,0],[0,W,0],[0,0,H],[L,0,H],[L,W,H],[0,W,H]];
+
+/* --- sedans (also the police car and the Mustang) --- */
+function sedan(c,o){o=o||{};const L=o.L||48,W=o.W||18,r=o.r||3.2,wz=r,sill=2.6,belt=o.belt||9,cab=o.cab||[[12,belt],[16,14],[29,14],[35,belt]],ci=1.6;
+ const nose=o.boxy?[[L,sill],[L,belt-1.2],[L-1,belt]]:[[L,sill],[L+0.4,belt-2.4],[L-2,belt]];
+ const tail=o.boxy?[[0,belt],[0,sill+0.5]]:[[1,belt],[0,belt-2],[0,sill+0.8]];
+ const body=[...tail,[1,sill],[L-1,sill],...nose,[cab[3][0],belt+0.2],[cab[0][0],belt+0.2]];
+ const fx=[L*0.78,L*0.2];let s=shadow3(L,W);
+ s+=fx.map(x=>wheel3(x,wz,r,W-1.6,1.4)).join('');
+ s+=prism(body,0,W,c);
+ s+=prism(cab,ci,W-ci,c,{edge:{0:GL,2:GL}});
+ const [b0,b1,b2,b3]=cab;const mid=(b1[0]+b2[0])/2;
+ s+=win([[b0[0]+1.4,belt+0.5],[b1[0]+0.5,b1[1]-0.7],[mid-0.6,b1[1]-0.7],[mid-0.6,belt+0.5]],ci)+win([[mid+0.6,belt+0.5],[mid+0.6,b2[1]-0.7],[b2[0]-0.3,b2[1]-0.7],[b3[0]-1.6,belt+0.5]],ci);
+ if(o.police){s+=poly([[L*0.36,-0.02,sill+0.3],[L*0.7,-0.02,sill+0.3],[L*0.7,-0.02,belt-0.1],[L*0.36,-0.02,belt-0.1]],'#f4f4f2',{stroke:'rgba(0,0,0,.4)'});
+  s+=line3([[mid-6,ci+3,14.05],[mid-6,ci+3,15]],'#c0392b',0.6)+line3([[mid+4,W-ci-3,14.05],[mid+4,W-ci-3,15]],'#c0392b',0.6)+line3([[mid-3,ci,belt+0.6],[mid-3,ci,13.1]],'#444',0.3)+line3([[mid-1.5,ci,belt+0.6],[mid-1.5,ci,13.1]],'#444',0.3);
+  s+=poly([[L,1.5,sill+0.4],[L+1.6,1.5,sill+0.4],[L+1.6,W-1.5,sill+0.4],[L,W-1.5,sill+0.4]],'#222')+line3([[L+1.4,2,sill+0.5],[L+1.4,2,belt-1.5],[L+1.4,W-2,belt-1.5],[L+1.4,W-2,sill+0.5]],'#2a2a2a',0.7)}
+ if(o.stripes){for(const yy of [W/2-2.2,W/2+0.6]){s+=poly([[cab[3][0]+0.3,yy,belt+0.22],[L-2.1,yy,belt+0.02],[L-2.1,yy+1.6,belt+0.02],[cab[3][0]+0.3,yy+1.6,belt+0.22]],'#f7f7f2',{stroke:'none'});
+   s+=poly([[b1[0],yy,b1[1]+0.03],[b2[0],yy,b2[1]+0.03],[b2[0],yy+1.6,b2[1]+0.03],[b1[0],yy+1.6,b1[1]+0.03]],'#f7f7f2',{stroke:'none'})}}
+ s+=seam([[mid,sill+0.4],[mid,belt-0.2]],0)+seam([[cab[0][0]-0.5,sill+0.4],[cab[0][0]-0.5,belt-0.3]],0)+seam([[cab[3][0]+1,sill+0.4],[cab[3][0]+1,belt-0.3]],0);
+ s+=handle(mid-4,belt-1.4,0)+handle(mid+4.5,belt-1.4,0)+line3([[2,-0.05,belt-2.2],[L-2.5,-0.05,belt-2.2]],'rgba(255,255,255,.35)',0.5);
+ if(o.rust)s+=poly([[6,-0.05,sill+0.3],[9,-0.05,sill+0.3],[8,-0.05,sill+1.8]],'#8a4a22',{stroke:'none',opacity:.75})+poly([[L-9,-0.05,sill+0.2],[L-6.5,-0.05,sill+0.2],[L-7.5,-0.05,sill+1.3]],'#8a4a22',{stroke:'none',opacity:.7});
+ s+=fx.map(x=>arch(x,wz,r+0.7,0)).join('');
+ s+=fx.map(x=>wheel3(x,wz,r,0.2,1.4,{white:o.white,spokes:o.spokes,rim:o.rim})).join('');
+ s+=lamp(L+(o.boxy?0:0.2),1.2,4.6,belt-2.6,belt-1.4)+lamp(L+(o.boxy?0:0.2),W-4.6,W-1.2,belt-2.6,belt-1.4)+poly([[L+0.06,5.5,belt-2.7],[L+0.06,W-5.5,belt-2.7],[L+0.06,W-5.5,belt-1.5],[L+0.06,5.5,belt-1.5]],o.chrome?'#d9dde2':'#2a2c31')
+  +lamp(-0.02,0,0,0,0,'none')+poly([[0.6,-0.04,belt-2.2],[2.4,-0.04,belt-2.2],[2.4,-0.04,belt-1.2],[0.6,-0.04,belt-1.2]],'#c0392b',{stroke:'none'});
+ s+=mirror(cab[3][0]-1.2,belt+0.2,ci);
+ return fit(s,box(L,W,cab[1][1]))}
+
+/* --- pickups --- */
+function pickup(c,o){o=o||{};const L=o.L||56,W=o.W||19,r=o.r||3.6,wz=r,sill=3.2,belt=o.belt||11,cabX0=o.cabX0||22,cabX1=o.cabX1||35,top=o.top||17.5,bedW=o.bedW||W;
+ const fx=[L*0.8,L*0.17];let s=shadow3(L,Math.max(W,bedW));const dy=(W-bedW)/2;
+ s+=fx.map(x=>wheel3(x,wz,r,(x<L/2?Math.max(W,bedW)+dy*0:W)-1.8,1.6)).join('');
+ // bed (open box): outer prism, then the opening on top and the inner far wall
+ s+=prism([[0,sill+0.3],[cabX0-0.3,sill+0.3],[cabX0-0.3,belt],[0,belt]],dy,dy+bedW,o.bed||c);
+ s+=poly([[1,dy+1,belt+0.01],[cabX0-1.3,dy+1,belt+0.01],[cabX0-1.3,dy+bedW-1,belt+0.01],[1,dy+bedW-1,belt+0.01]],'#2a2b30',{stroke:'none'})
+  +poly([[1,dy+bedW-1,belt],[cabX0-1.3,dy+bedW-1,belt],[cabX0-1.3,dy+bedW-1,belt-4],[1,dy+bedW-1,belt-4]],shade(o.bed||c,-0.35),{stroke:'none'})
+  +poly([[cabX0-1.3,dy+1,belt],[cabX0-1.3,dy+bedW-1,belt],[cabX0-1.3,dy+bedW-1,belt-4],[cabX0-1.3,dy+1,belt-4]],shade(o.bed||c,-0.2),{stroke:'none'})
+  +poly([[1,dy+1,belt-4],[cabX0-1.3,dy+1,belt-4],[cabX0-1.3,dy+bedW-1,belt-4],[1,dy+bedW-1,belt-4]],'#3a3b40',{stroke:'none',opacity:.0});
+ if(o.cargo)s+=prism([[3,belt-3.5],[9,belt-3.5],[9,belt+1.2],[3,belt+1.2]],dy+3,dy+9,'#b9824a')+prism([[10,belt-3.5],[15,belt-3.5],[15,belt+0.5],[10,belt+0.5]],dy+bedW-9,dy+bedW-3,'#c99a5a');
+ // cab + hood
+ s+=prism([[cabX0,sill],[L-1,sill],[L,sill+1],[L,belt-1],[L-1.5,belt],[cabX1+1,belt+0.2],[cabX0,belt+0.2]],0,W,c);
+ s+=prism([[cabX0+0.3,belt+0.2],[cabX0+0.6,top],[cabX1-2,top],[cabX1+1,belt+0.2]],1.2,W-1.2,c,{edge:{2:GL}});
+ s+=win([[cabX0+1.3,belt+0.6],[cabX0+1.5,top-0.8],[cabX1-2.4,top-0.8],[cabX1-0.4,belt+0.6]],1.2);
+ if(o.twoTone)s+=poly([[cabX0+0.4,-0.02,sill+0.5],[cabX1+0.6,-0.02,sill+0.5],[cabX1+0.6,-0.02,belt-0.1],[cabX0+0.4,-0.02,belt-0.1]],'#f1eee6',{stroke:'rgba(0,0,0,.4)'});
+ s+=seam([[cabX0+0.4,sill+0.5],[cabX0+0.4,belt]],0)+seam([[cabX1+0.6,sill+0.5],[cabX1+0.6,belt-0.3]],0)+handle(cabX0+2,belt-1.6,0);
+ s+=line3([[1,-0.05,belt-1.6],[L-2,-0.05,belt-1.6]],'rgba(255,255,255,.3)',0.5);
+ if(o.dents)for(let i=0;i<14;i++){const x=cabX0+1.5+(i*2.3)%(cabX1-cabX0-4),y=2.5+(i*3.7)%(W-5);s+=poly(ring(x,y,top+0.02,0.35,8).map(([px,py,pz])=>[px,py+ (pz-top),top+0.02]),'rgba(255,255,255,.45)',{stroke:'none'})}
+ if(o.dents)for(let i=0;i<10;i++){const x=cabX1+2+(i*2.9)%(L-cabX1-5),y=2.5+(i*4.1)%(W-5);s+=poly(ring(x,y,belt+0.02,0.3,8).map(([px,py,pz])=>[px,py+(pz-belt),belt+0.02]),'rgba(255,255,255,.4)',{stroke:'none'})}
+ if(o.scratch)s+=line3([[3,dy-0.05,belt-2.5],[9,dy-0.05,belt-3.4],[14,dy-0.05,belt-2.8]],'rgba(255,255,255,.65)',0.35)+line3([[5,dy-0.05,belt-5],[12,dy-0.05,belt-4.4]],'rgba(255,255,255,.55)',0.35);
+ if(o.rust)s+=poly([[3,dy-0.05,sill+0.5],[6,dy-0.05,sill+0.5],[5,dy-0.05,sill+2]],'#8a4a22',{stroke:'none',opacity:.75});
+ if(o.flares)s+=poly([...Array(13)].map((_,i)=>{const t=Math.PI*i/12;return [fx[1]+(r+2)*Math.cos(t),dy-0.4,wz+(r+2)*Math.sin(t)]}),shade(c,-0.08));
+ s+=fx.map((x,i)=>arch(x,wz,r+0.8,i===1?dy:0)).join('');
+ s+=fx.map((x,i)=>wheel3(x,wz,r,(i===1?dy:0)+0.2,1.6,{rim:o.rim,spokes:o.spokes})).join('');
+ const gz0=sill+1.4,gz1=belt-0.6;
+ s+=poly([[L+0.06,4.5,gz0],[L+0.06,W-4.5,gz0],[L+0.06,W-4.5,gz1],[L+0.06,4.5,gz1]],o.chrome?'#dfe3e8':'#2a2c31')+(o.chrome?[1,2,3].map(i=>line3([[L+0.08,4.5,gz0+i*(gz1-gz0)/4],[L+0.08,W-4.5,gz0+i*(gz1-gz0)/4]],'#9aa1a9',0.4)).join(''):'');
+ s+=lamp(L,1.2,4.2,belt-3,belt-1.2,o.led?'#eaf6ff':'#fff3c4')+lamp(L,W-4.2,W-1.2,belt-3,belt-1.2,o.led?'#eaf6ff':'#fff3c4')+(o.led?line3([[L+0.1,1.2,belt-3.2],[L+0.1,4.2,belt-3.2]],'#9fe0ff',0.5):'');
+ s+=prism([[L-0.4,sill-0.9],[L+1.3,sill-0.9],[L+1.5,sill+1.1],[L-0.4,sill+1.3]],0.4,W-0.4,o.chrome?'#d3d8de':'#2b2d31');
+ s+=poly([[0.8,dy-0.04,belt-2.6],[2.2,dy-0.04,belt-2.6],[2.2,dy-0.04,belt-0.8],[0.8,dy-0.04,belt-0.8]],'#c0392b',{stroke:'none'})+mirror(cabX1-0.6,belt+0.4,1.2);
+ return fit(s,box(L,Math.max(W,bedW),top))}
+
+/* --- minivan --- */
+function van(c){const L=51,W=19,r=3.3,sill=2.8,belt=9.5,top=17;let s=shadow3(L,W);const fx=[L*0.8,L*0.18];
+ s+=fx.map(x=>wheel3(x,r,r,W-1.6,1.4)).join('');
+ s+=prism([[0,sill],[L-1,sill],[L,sill+1.5],[L+0.3,belt-1.5],[L-3,belt],[0.5,belt],[0,belt-1]],0,W,c);
+ s+=prism([[0.6,belt],[1.4,top],[34,top],[44,belt]],1.1,W-1.1,c,{edge:{2:GL,0:GL}});
+ s+=win([[2.6,belt+0.6],[2.9,top-0.9],[12,top-0.9],[12,belt+0.6]],1.1)+win([[13.2,belt+0.6],[13.2,top-0.9],[24,top-0.9],[24,belt+0.6]],1.1)+win([[25.2,belt+0.6],[25.2,top-0.9],[33.4,top-0.9],[41.5,belt+0.6]],1.1);
+ s+=seam([[13,sill+0.4],[13,belt-0.2]],0)+seam([[25,sill+0.4],[25,belt-0.2]],0)+line3([[13,-0.05,belt-0.8],[25,-0.05,belt-0.8]],'rgba(0,0,0,.4)',0.45)+handle(22,belt-1.6,0)+handle(31,belt-1.6,0);
+ s+=line3([[6,(W)/2-4,top+0.3],[30,(W)/2-4,top+0.3]],'#555a62',0.6)+line3([[6,W/2+4,top+0.3],[30,W/2+4,top+0.3]],'#555a62',0.6);
+ s+=fx.map(x=>arch(x,r,r+0.7,0)).join('')+fx.map(x=>wheel3(x,r,r,0.2,1.4)).join('');
+ s+=lamp(L+0.3,1.2,5,belt-3,belt-1.8)+lamp(L+0.3,W-5,W-1.2,belt-3,belt-1.8)+poly([[L+0.36,6,sill+2],[L+0.36,W-6,sill+2],[L+0.36,W-6,sill+3.6],[L+0.36,6,sill+3.6]],'#2a2c31')+mirror(41,belt+0.2,1.1);
+ return fit(s,box(L,W,top))}
+
+/* --- Jeep Wrangler: open top, roll bar, flat windshield, round lamps, slotted grille --- */
+function jeep(c){const L=42,W=18,r=3.9,sill=4,belt=12,top=19.5;let s=shadow3(L,W);const fx=[L*0.8,L*0.2];
+ s+=fx.map(x=>wheel3(x,r,r,W-2,1.8)).join('');
+ s+=prism([[0,sill],[L,sill],[L,belt-0.5],[L-0.5,belt],[0,belt]],0,W,c);
+ s+=poly([[1,1,belt+0.01],[29,1,belt+0.01],[29,W-1,belt+0.01],[1,W-1,belt+0.01]],'#26272b',{stroke:'none'})+prism([[6,belt],[14,belt],[14,belt+3],[6,belt+3]],2,W-2,'#3a332c')+prism([[17,belt],[24,belt],[24,belt+3.2],[17,belt+3.2]],2.5,W-2.5,'#3a332c');
+ s+=line3([[9,1,belt],[9,1,top],[9,W-1,top],[9,W-1,belt]],'#1f2024',1)+line3([[9,1,top],[29.5,1,top-0.2]],'#1f2024',0.9)+line3([[9,W-1,top],[29.5,W-1,top-0.2]],'#1f2024',0.9);
+ s+=prism([[29,belt],[29.6,top-0.2],[30.4,top-0.2],[30.4,belt]],0.6,W-0.6,'#2a2b30',{edge:{0:GL}});
+ s+=poly([[29.05,1.2,belt+0.5],[29.55,1.2,top-0.8],[29.55,W-1.2,top-0.8],[29.05,W-1.2,belt+0.5]],GL,{stroke:'rgba(0,0,0,.5)',opacity:.85});
+ s+=prism([[4,sill-0.5],[L-3,sill-0.5],[L-3,sill+0.3],[4,sill+0.3]],-1.2,0,'#222428');
+ s+=fx.map(x=>arch(x,r,r+0.9,0)).join('')+fx.map(x=>wheel3(x,r,r,0.15,1.8,{rim:'#bfc4ca',spokes:1})).join('');
+ for(let i=0;i<7;i++){const y=4.6+i*1.25;s+=poly([[L+0.06,y,sill+1.8],[L+0.06,y+0.55,sill+1.8],[L+0.06,y+0.55,belt-1.3],[L+0.06,y,belt-1.3]],'#202124',{stroke:'none'})}
+ for(const y of [2.6,W-2.6])s+=poly(ring(0,0,0,1.25,16).map(([u,_,v])=>[L+0.07,y+u,belt-3+v]),'#fff3c4',{stroke:'#333',stroke_width:.4});
+ s+=prism([[L-0.4,sill-1.2],[L+1.6,sill-1.2],[L+1.6,sill+0.8],[L-0.4,sill+0.8]],-0.6,W+0.6,'#26272b');
+ return fit(s,box(L,W,top))}
+
+/* --- step-van food trucks --- */
+function stepvan(c,o){o=o||{};const L=58,W=20,r=3.6,sill=3.6,top=29,ws=48;let s=shadow3(L,W);const fx=[L*0.84,L*0.2];
+ s+=fx.map(x=>wheel3(x,r,r,W-1.8,1.6)).join('');
+ s+=prism([[0,sill],[ws,sill],[ws,top],[1,top],[0,top-1]],0,W,c);
+ s+=prism([[ws,sill],[L,sill],[L,12],[L-2,13.5],[ws+3.5,14],[ws+1,top-1],[ws,top]],0.6,W-0.6,c,{edge:{4:GL}});
+ s+=win([[ws+1.2,15],[ws+1.2,top-2.5],[ws+2.8,15.5],[ws+2.8,15]],0.6);
+ // serving hatch + awning on the near side
+ const hx0=12,hx1=40,hz0=12.5,hz1=21.5;
+ s+=poly([[hx0,-0.03,hz0],[hx1,-0.03,hz0],[hx1,-0.03,hz1],[hx0,-0.03,hz1]],o.steel?'#d7dce1':'#3b3f45',{stroke:'rgba(0,0,0,.55)',stroke_width:.5})
+  +poly([[hx0+1,-0.05,hz0+1],[hx1-1,-0.05,hz0+1],[hx1-1,-0.05,hz1-0.8],[hx0+1,-0.05,hz1-0.8]],o.steel?'#aeb6be':'#23262b',{stroke:'none'})
+  +poly([[hx0-1,-0.04,hz0-0.6],[hx1+1,-0.04,hz0-0.6],[hx1+1.6,-2.4,hz0-0.2],[hx0-1.6,-2.4,hz0-0.2]],'#c9ced4');
+ const n=9;for(let i=0;i<n;i++){const x0=hx0-1+(hx1-hx0+2)*i/n,x1=hx0-1+(hx1-hx0+2)*(i+1)/n;
+  s+=poly([[x0,-0.05,hz1+0.6],[x1,-0.05,hz1+0.6],[x1,-4.2,hz1-1.4],[x0,-4.2,hz1-1.4]],i%2?'#fbfaf6':(o.awning||'#2c5aa0'),{stroke:'rgba(0,0,0,.35)',stroke_width:.25})}
+ s+=line3([[hx0,-4.2,hz1-1.4],[hx1,-4.2,hz1-1.4]],'rgba(0,0,0,.4)',0.5);
+ if(o.gen)s+=prism([[3,sill-0.6],[9,sill-0.6],[9,sill+3.5],[3,sill+3.5]],-1.5,1,'#6b7178');
+ s+=seam([[ws-0.2,sill+0.5],[ws-0.2,top-0.5]],0)+line3([[0.5,-0.05,top-2],[ws-1,-0.05,top-2]],'rgba(255,255,255,.4)',0.5);
+ s+=fx.map(x=>arch(x,r,r+0.8,0)).join('')+fx.map(x=>wheel3(x,r,r,0.15,1.6,{rim:o.steel?'#e1e4e8':'#c9ced4'})).join('');
+ s+=lamp(L,1.4,4.6,9.5,11)+lamp(L,W-4.6,W-1.4,9.5,11)+poly([[L+0.06,6,sill+1.6],[L+0.06,W-6,sill+1.6],[L+0.06,W-6,sill+5],[L+0.06,6,sill+5]],'#2a2c31')
+  +prism([[L-0.4,sill-0.9],[L+1.3,sill-0.9],[L+1.5,sill+1.1],[L-0.4,sill+1.3]],0.4,W-0.4,'#2b2d31')+mirror(ws+1.5,15.5,0.6);
+ return fit(s,box(L,W,top))}
+
+/* --- motorcycles: drawn on the centre plane, same camera --- */
+function moto(c,o){o=o||{};const big=o.cruiser,y=5,r=big?3.3:3.1,rx=3.4,fx=big?20.5:18.6,L=fx+3.4,z=r,head=big?[16.2,10.6]:[15.4,10.4];
+ let s=`<polygon points="${pts([[0,y-2,0],[L,y-2,0],[L,y+2,0],[0,y+2,0]].map(q=>pj(...q)))}" fill="rgba(0,0,0,.22)" filter="url(#artblur)"/>`;
+ const tube=(p,w,col)=>line3(p.map(([x,zz,yy])=>[x,yy==null?y:yy,zz]),col||'#25262a',w||0.75);
+ s+=tube([[head[0]+0.2,head[1]-0.2,y+1],[fx,z,y+1]],0.7,'#c4cad1');                      // far fork leg
+ s+=wheel3(rx,z,r,y-0.6,1.2,{spokes:1,rim:'#b9c0c8'});
+ s+=tube([[rx,z],[8.6,4.4]],0.9)+tube([[8.4,8.2],[head[0],head[1]]],0.9)+tube([[head[0],head[1]],[11.8,4]],0.9)+tube([[4.2,8.4],[8.4,8.2],[11.8,4],[8.6,4.4]],0.8);
+ s+=prism([[7.6,3.6],[12.6,3.4],[13.2,6.6],[8.4,7.2]],y-1.5,y+1.5,'#8d939c');                  // engine
+ for(let k=0;k<4;k++)s+=line3([[9+k*1,y-1.55,4.6],[9.4+k*1,y-1.55,6.6]],'rgba(255,255,255,.55)',0.3);
+ s+=prism([[9.6,4.2],[12,4.2],[12,6],[9.6,6]],y-2,y-1.5,'#c9ced4');                             // cover
+ s+=tube([[12.2,3.6,y-1.9],[6,3.9,y-2],[1,5,y-2]],big?1.1:0.9,'#d8dde2')+tube([[1,5,y-2],[0.2,5.3,y-2]],big?1.5:1.2,'#9aa1a9'); // exhaust
+ s+=prism(big?[[2.4,7.5],[8.6,7.6],[9.4,8.6],[5.4,9],[2.6,8.6]]:[[2.6,8],[9,7.9],[9.6,8.9],[3,9.2]],y-1.5,y+1.5,'#2a1d14');  // seat
+ s+=prism([[0.6,6.4],[4.2,7.8],[4.4,8.4],[0.4,7.1]],y-1.3,y+1.3,c);                             // rear fender
+ s+=poly([[0.5,y-1.32,6.8],[1.2,y-1.32,7.1],[1.2,y-1.32,7.5],[0.5,y-1.32,7.2]],'#c0392b',{stroke:'none'});
+ s+=prism(big?[[8.8,8.4],[15.6,9],[15.8,10.6],[10.4,11.4],[8.8,10]]:[[9.2,8.6],[14.8,9.2],[15,10.6],[10.4,11.1],[9.2,9.8]],y-1.8,y+1.8,c); // tank
+ if(o.eagle)s+=poly([[11.2,y-1.85,9.6],[12.4,y-1.85,10.6],[13.3,y-1.85,9.9],[14.4,y-1.85,10.6],[14.2,y-1.85,9.3],[12.3,y-1.85,9.1]],'#f2c94c',{stroke:'#7a4a14',stroke_width:.25});
+ else s+=line3([[10,y-1.85,9.9],[14.4,y-1.85,10]],'rgba(255,255,255,.7)',0.45);
+ s+=wheel3(fx,z,r,y-0.6,1.2,{spokes:1,rim:'#b9c0c8'});
+ s+=prism([[fx-2.6,z+2.6],[fx+1.2,z+3.4],[fx+2.6,z+2.2],[fx+2.2,z+2.9],[fx-2.4,z+3.3]],y-1,y+1,c);  // front fender
+ s+=tube([[head[0]+0.2,head[1]-0.2,y-1],[fx,z,y-1]],0.75,'#d6dbe0');                          // near fork leg
+ s+=tube([[head[0]-0.6,head[1]+1.2,y-3.6],[head[0]+0.4,head[1]+0.4,y-1.4],[head[0]+0.4,head[1]+0.4,y+1.4],[head[0]-0.6,head[1]+1.2,y+3.6]],0.6,'#2a2b30'); // bars
+ s+=tube([[head[0]-0.6,head[1]+1.2,y-3.6],[head[0]-1.4,head[1]+1.2,y-3.7]],0.9,'#111');
+ s+=poly(ring(0,0,0,1,16).map(([u,_,v])=>[head[0]+1.1,y+u,head[1]-0.6+v]),'#fff3c4',{stroke:'#2a2b30',stroke_width:.45});
+ return fit(s,[[0,y-4,0],[L,y+4,0],[0,y-4,13],[L,y+4,13]])}
+const CARS={
+ civic98:()=>sedan('#7d8d74',{L:44,W:17,rust:1,cab:[[11,9],[15,13.4],[26,13.4],[32,9]]}),
+ caprice94:()=>sedan('#1b1d22',{L:54,W:19,boxy:1,police:1,belt:9.4,cab:[[14,9.4],[18,14.2],[33,14.2],[39,9.4]]}),
+ century99:()=>sedan('#cdbfa6',{L:50,W:18.5,boxy:1,white:1,chrome:1,belt:9.2,cab:[[12,9.2],[16,14],[30,14],[36,9.2]]}),
+ camry04:()=>sedan('#97a1ac',{L:48,W:18,cab:[[11,9],[16,14],[29,14],[35.5,9]]}),
+ rebel11:()=>moto('#2b2d33'),
+ sportster06:()=>moto('#7a1f1a',{cruiser:1,eagle:1}),
+ f150_95:()=>pickup('#a8302a',{twoTone:1,rust:1}),
+ ram01:()=>pickup('#3e5f86',{L:60,W:19.5,bedW:22.5,flares:1,belt:12,top:19,cabX0:24,cabX1:38,r:3.9,chrome:1,cargo:1}),
+ sienna09:()=>van('#b9bec3'),
+ silverado08:()=>pickup('#ece8de',{L:57,scratch:1,cabX1:36,chrome:1}),
+ wrangler07:()=>jeep('#c7a24a'),
+ stepvan99:()=>stepvan('#f1ece0'),
+ tacoma12:()=>pickup('#5e6b5a',{L:54,W:18.5,dents:1,top:17,cabX0:21,cabX1:34,spokes:1}),
+ mustang68:()=>sedan('#1f4d8c',{L:47,W:18,belt:8.6,cab:[[9,8.6],[20,12.6],[27,12.6],[33,8.6]],stripes:1,chrome:1,spokes:1,rim:'#dfe3e8'}),
+ e450_14:()=>stepvan('#f6f6f6',{steel:1,gen:1,awning:'#c0643a'}),
+ f150_19:()=>pickup('#2b2f36',{L:60,W:20,belt:12.5,top:19.5,cabX0:23,cabX1:38,r:3.9,chrome:1,led:1,spokes:1,rim:'#d7dbe0'})
+};
+function carArt(k,cls){const f=CARS[k];if(!f)return '';const {vb,inner}=f();return svg(vb,inner,'art-car '+(cls||''))}
+
+return {dishArt,carArt,DISHES,CARS};
+})();
+const dishArt=ART.dishArt,carArt=ART.carArt;
 
 /* ---------- story events ---------- */
 /* ===================== v0.3 — romance deepening =====================
@@ -7622,7 +8144,7 @@ function render(){if(S&&S.flags&&S.flags.dbgInfEnergy)S.energy=10;
  if(S){if(cur&&cur!==lastCur)mview='story';else if(!cur&&lastCur)mview='act';lastCur=cur}
  const app=$('#app');
  if(!S){app.innerHTML=res(startHTML());bindStart();bindLang();return}
- app.dataset.mv=mview;app.innerHTML=res(headerHTML()+`<div class="views" id="views"><div class="main"><div class="col-l"><div class="card scene" aria-live="polite">${sceneHTML()}</div>${mapCardHTML()}</div><div class="card" id="panel"><div class="pscroll"><div class="pmain">${panelHTML()}</div>${tab==="log"?"":panelFill()}</div></div></div><div class="card board">${boardHTML()}</div></div>${mnavHTML()}`);
+ app.dataset.mv=mview;app.dataset.idle=cur?'0':'1';app.innerHTML=res(headerHTML()+`<div class="views" id="views"><div class="main"><div class="col-l"><div class="card scene" aria-live="polite">${sceneHTML()}</div>${mapCardHTML()}</div><div class="card" id="panel"><div class="pscroll"><div class="pmain">${panelHTML()}</div>${tab==="log"?"":panelFill()}</div></div></div><div class="card board">${boardHTML()}</div></div>${mnavHTML()}`);
  bind();bindMini();gc();fitFill();document.querySelectorAll('.mnav [data-mv]').forEach(b=>b.onclick=()=>setView(b.dataset.mv));bindLang();
  // phones: when a new scene opens, bring it into view (the action board sits below it)
  if(cur&&cur!==render._last&&window.innerWidth<=860){const el=document.querySelector('.scene');if(el&&el.scrollIntoView&&el.getBoundingClientRect().top<0)el.scrollIntoView({block:'start'})}
@@ -7633,7 +8155,7 @@ function headerHTML(){
  const pips=Array.from({length:10},(_,i)=>`<span class="pip ${i<S.energy?'on':''}"></span>`).join('');
  const st=(n,cls,v,sh)=>`<div class="stat"><div class="lab"><span class="lab-l">${n}</span><span class="lab-s">${sh||n}</span><b>${v}</b></div><div class="bar ${cls}"><i style="width:${v}%"></i></div></div>`;
  return `<header><div class="tiles"></div><div class="hrow"><div class="logo">${t('里斯本·孤星','LISBOA, LONE STAR','LISBOA, ESTRELA SOLITÁRIA')}<small>${t('叙事经营游戏','A NARRATIVE MANAGEMENT GAME','UM JOGO NARRATIVO DE GESTÃO')}</small></div>
- <div class="clock"><b>${t('第 '+S.week+' 周','Week '+S.week,'Semana '+S.week)}</b> · ${SEASON(S.week)} · ${DAY()[S.day-1]} · <b>${SLOT()[S.slot]}</b></div>
+ <div class="clock" title="${SEASON(S.week)}"><b>${t('第 '+S.week+' 周','Week '+S.week,'Semana '+S.week)}</b><span class="seas"> · ${SEASON(S.week)}</span> · ${DAY()[S.day-1]} · <b>${SLOT()[S.slot]}</b></div>
  <div class="money ${S.cash<0?'neg':''}">$${Math.round(S.cash)}</div>
  <div class="pips" title="${t('精力','Energy','Energia')} ${S.energy}/10" aria-label="${t('精力','Energy','Energia')} ${S.energy}/10">${pips}</div>
  <span class="spacer"></span>${langSwitch()}<button class="btn-s" id="restart">${t('重新开始','Restart','Recomeçar')}</button></div>
@@ -7647,7 +8169,7 @@ function sceneHTML(){
  const ps=(cur.text||[]).map(x=>`<p>${x}</p>`).join('');
  const list=cur.choices&&cur.choices.length?cur.choices:[{t:t('继续','Continue','Continuar')}];
  const ch=list.map((c,i)=>{const r=c.req?c.req():true;const dis=r!==true;return `<button class="choice" data-c="${i}" ${dis?'disabled':''}>${c.t}${dis?`<span class="req">${r}</span>`:''}</button>`}).join('');
- return `${cur.meta?`<div class="meta">${cur.meta}</div>`:''}${cur.title?`<h2>${cur.title}</h2>`:''}${ps}${cur.html||''}${cur.mini?miniHTML(cur):''}<div class="choices">${ch}</div>`;
+ return `${cur.meta?`<div class="meta">${cur.meta}</div>`:''}${cur.title?`<h2>${cur.title}</h2>`:''}${cur.art?`<div class="scene-art">${cur.art}</div>`:''}${ps}${cur.html||''}${cur.mini?miniHTML(cur):''}<div class="choices">${ch}</div>`;
 }
 function innerThought(){
  if(S.stats.saud>80)return t('你又想起了阿尔法马的台阶。太多次了。','You\'re thinking about the Alfama steps again. Too often.','Voltas a pensar nos degraus de Alfama. Vezes demais.');
@@ -7660,7 +8182,7 @@ function boardHTML(){
  const A=actions(),dis=!!cur,L=boardLocs();
  return Object.keys(L).map(l=>{
   if(!locOpen(l))return '';
-  return `<div class="loc"><h3>${L[l]}</h3><div class="acts">${A.filter(a=>a.loc===l).map(a=>{const r=a.req?a.req():true;const c=costOf(a);return `<button class="act" data-a="${a.loc}|${a.id}" ${dis||r!==true||S.energy<c?'disabled':''} title="${r!==true?r:(a.tip||'')}">${a.n}<em>${c}⚡</em></button>`}).join('')}</div></div>`;
+  return `<div class="loc"><h3>${L[l]}</h3><div class="acts">${A.filter(a=>a.loc===l).map(a=>{const r=a.req?a.req():true;const c=costOf(a);const why=r!==true?r:S.energy<c?t(`精力不够（要 ${c} 点，现在 ${S.energy} 点）`,`Not enough energy (needs ${c}, you have ${S.energy})`,`Sem energia (precisa de ${c}, tens ${S.energy})`):'';return `<button class="act${!dis&&why?' off':''}" data-a="${a.loc}|${a.id}" ${dis?'disabled':why?`aria-disabled="true" data-why="${why}"`:''} title="${why||a.tip||''}">${a.n}<em>${c}⚡</em></button>`}).join('')}</div></div>`;
  }).join('')+(()=>{const lk=Object.keys(L).filter(l=>!locOpen(l));return lk.length?`<div class="loc loc-locked"><h3>${t('未解锁','Locked','Bloqueado')} <span>${lk.length}</span></h3><div class="mini">${lk.map(l=>L[l]).join(' · ')}</div></div>`:''})();
 }
 function fitFill(){document.querySelectorAll('.pfill').forEach(f=>{const items=[...f.querySelectorAll('.pf-item')];items.forEach(e=>e.style.display='');if(!f.clientHeight){return}const bottom=f.getBoundingClientRect().bottom;let cut=false;items.forEach(e=>{if(cut||e.getBoundingClientRect().bottom>bottom+0.5){cut=true;e.style.display='none'}});for(let i=items.length-1;i>=0;i--){const e=items[i];if(e.style.display==='none')continue;if(e.classList.contains('pf-h'))e.style.display='none';else break}})}
@@ -7680,7 +8202,7 @@ function panelHTML(){
 }
 function shopPanel(){
  const opts=k=>`<option value="">${t('— 空 —','— empty —','— vazio —')}</option>`+Object.keys(DISH).filter(d=>(!DISH[d].fusion||S.fusion.unlocked)&&(!DISH[d].unlock||S.flags['dish_'+d])).map(d=>`<option value="${d}" ${k===d?'selected':''}>${tt(DISH[d].n)} $${DISH[d].price}</option>`).join('');
- const menu=S.menu.map((k,i)=>`<label class="mini" for="m${i}">${t('槽位','Slot','Lugar')} ${i+1}<select id="m${i}" data-m="${i}">${opts(k)}</select></label>`).join('');
+ const menu=S.menu.map((k,i)=>`<label class="mini menu-slot" for="m${i}">${k?dishArt(k,'art-ico'):'<span class="art art-ico art-empty"></span>'}<span>${t('槽位','Slot','Lugar')} ${i+1}<select id="m${i}" data-m="${i}">${opts(k)}</select></span></label>`).join('');
  const inv=Object.keys(ING).map(k=>{const p=unitPrice(k);return `<div class="stat"><div class="lab">${tt(ING[k].n)}<b>${S.inv[k]}${k==='imp'&&S.incoming?` (+${S.incoming})`:''}</b></div><button class="btn-s" data-buy="${k}">${t('进 10 份','Buy 10','Comprar 10')} · $${(p*10).toFixed(0)}</button></div>`}).join('');
  const pool=Object.keys(STAFF).filter(k=>(k==='jolene'&&rel('jolene').like>=3)||(k==='marisol'&&rel('marisol').met)||(k==='tommy'&&S.week>=5)||(k==='p1_deshawn'&&NPCS.p1_deshawn&&rel('p1_deshawn').met&&!S.flags.p1_dsSchool&&!S.flags.p1_dsTrucks)||(k==='p1_ruthann'&&NPCS.p1_ruthann&&rel('p1_ruthann').met));
  const lockMsg={jolene:t('乔琳好感 3 后可雇','Hire after Jolene\'s affection reaches 3','Contratável com afeto da Jolene 3'),marisol:t('在牧场认识玛丽索尔后可雇','Hire after meeting Marisol at the ranch','Contratável depois de conheceres a Marisol no rancho'),tommy:t('第 5 周后可雇','Hire from week 5','Contratável a partir da semana 5'),p1_deshawn:S.flags.p1_dsSchool?t('去上厨艺学校了','Off to culinary school','Foi para a escola de cozinha'):S.flags.p1_dsTrucks?t('去开砂车了','Driving sand trucks now','Agora conduz camiões de areia'):t('在店里认识德肖恩后可雇','Hire after meeting DeShawn at the shop','Contratável depois de conheceres o DeShawn no restaurante'),p1_ruthann:t('在主街认识露丝·安后可雇','Hire after meeting Ruth Ann on Main Street','Contratável depois de conheceres a Ruth Ann na rua principal')};
@@ -7705,8 +8227,8 @@ function logPanel(){const k=LANG==='en'?'e':LANG==='pt'?'p':'z';return `<div cla
 function startHTML(){
  const has=load();
  return `<div class="card start"><div class="tiles" style="margin:-16px -18px 14px"></div>
- <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap"><div class="mini" style="letter-spacing:.2em;color:var(--rust)">${t('一个叙事经营游戏 · v0.6','A NARRATIVE MANAGEMENT GAME · v0.6','UM JOGO NARRATIVO DE GESTÃO · v0.6')}</div>${langSwitch()}</div>
- <div class="big">${t('里斯本·<br>孤星','LISBOA,<br>LONE STAR','LISBOA,<br>ESTRELA SOLITÁRIA')}</div><h2 style="margin:4px 0 10px;font-size:20px">${t('里斯本·孤星','Lisboa, Lone Star','Lisboa, Estrela Solitária')}</h2>
+ <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap"><div class="mini" style="letter-spacing:.2em;color:var(--rust)">${t('一个叙事经营游戏','A NARRATIVE MANAGEMENT GAME','UM JOGO NARRATIVO DE GESTÃO')} · v0.9.3</div>${langSwitch()}</div>
+ <div class="big">${t('里斯本·<br>孤星','LISBOA,<br>LONE STAR','LISBOA,<br>ESTRELA SOLITÁRIA')}</div><h2 style="margin:4px 0 10px;font-size:20px">${t('一年，一家店，两个家','One year, one grill, two homes','Um ano, uma churrasqueira, duas casas')}</h2>
  <p>${t('舅舅若泽去世了，把德州小城圣鲁伊斯的一家葡萄牙烧烤店留给了你，附带一个条件：亲自经营满一年。你 28 岁，从里斯本阿尔法马来，带着一把法多吉他和一箱沙丁鱼罐头。','Your uncle José has died and left you his Portuguese grill in San Luís, a small Texas town — on one condition: you run it yourself for a full year. You\'re 28, from Alfama in Lisbon, with a fado guitar and a box of canned sardines.','O teu tio José morreu e deixou-te a churrasqueira portuguesa que tinha em San Luís, uma vila do Texas — com uma condição: geri-la tu mesmo durante um ano inteiro. Tens 28 anos, és de Alfama, e chegas com uma guitarra de fado e uma caixa de latas de sardinha.')}</p>
  ${has?`<button class="go" id="cont">${t(`继续存档（第 ${has.week} 周）`,`Continue (week ${has.week})`,`Continuar (semana ${has.week})`)}</button>`:''}
  <label for="pname">${t('你的名字','Your name','O teu nome')}</label><input type="text" id="pname" value="Tiago" maxlength="16">
@@ -7740,7 +8262,7 @@ function bind(){
  const r2=$('#restart2');if(r2&&r2.addEventListener)r2.onclick=()=>{if(r2.dataset.sure){tryRemove();S=null;queue=[];cur=null;render()}else{r2.dataset.sure=1;r2.textContent=res(t('再点一次确认','Tap again to confirm','Toca outra vez para confirmar'))}};
  $('#restart').onclick=()=>{const b=$('#restart');if(b.dataset.sure){tryRemove();S=null;queue=[];cur=null;render()}else{b.dataset.sure=1;b.textContent=t('再点一次确认','Click again to confirm','Clica outra vez para confirmar')}};
  document.querySelectorAll('.choice').forEach(b=>b.onclick=()=>choose(+b.dataset.c));
- document.querySelectorAll('.act').forEach(b=>b.onclick=()=>{const [l,id]=b.dataset.a.split('|');const a=actions().find(x=>x.loc===l&&x.id===id);if(a)doAction(a)});
+ document.querySelectorAll('.act').forEach(b=>b.onclick=()=>{if(b.classList.contains('off')){toast(b.dataset.why||'');return}const [l,id]=b.dataset.a.split('|');const a=actions().find(x=>x.loc===l&&x.id===id);if(a)doAction(a)});
  document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{tab=b.dataset.t;render()});
  bindWikiDebug();
  document.querySelectorAll('select[data-m]').forEach(s=>s.onchange=()=>{const v=s.value||null;S.menu[+s.dataset.m]=v;save();toast(v?t('菜单加入 ','Added to menu: ','Na ementa: ')+tt(DISH[v].n):t('清空槽位','Slot cleared','Lugar vazio'))});

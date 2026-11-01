@@ -6,6 +6,7 @@ Single-file browser game. The user (Yu) writes in Chinese; answer in Chinese.
 - `python3 build.py` → writes `lisboa/index.html` (the playable game) and `check.js` (extracted script, used by bots).
 - `node validate.js story/*.js` must print `NO PROBLEMS FOUND`. "never fired" lines for rare romance/family events are normal.
 - UI: `node tests/ui_wiki.js`, `node tests/ui_mappage.js`, `node tests/ui_shots.js shop,biz,map,people,ach,log,wiki` (screenshots in /tmp; desktop 1280×900 and phone 390×844). Playwright + Chromium are preinstalled — do not reinstall.
+- Everything at once: `bash tests/run_all.sh quick` (about 3 min; drop `quick` to add the slow simulation bots). Balance probe: `node tests/balance_bot.js 16 0.5 [staff]`.
 - Commit both `lisboa/template.html` and the rebuilt `lisboa/index.html`.
 
 ## Architecture
