@@ -126,6 +126,7 @@ function hface(o){
  const sk=SKIN[o.sk||1],skD=sh(sk,-0.15),skDD=sh(sk,-0.3),skL=sh(sk,0.24),hc=HAIR[o.hc]||o.hc,hcD=sh(hc,-0.3),hcL=sh(hc,0.22),cc=CLOTH[o.cc]||o.cc,ccD=sh(cc,-0.22);
  const fw=12.2,fy=44,fh=22,chin=70,ey=fy+0.9,ex=5.1,iris=o.eye||'#5a3a22';
  const bgc=C(50,50,50,BG[o.bgi||0]);let s='';
+ if(o.h==='long'){s+=P(`M${50-fw-1.6} 36 Q${50-fw-3.6} 50 ${50-fw-2.8} 62 Q${50-fw-5} 68 ${50-fw-6.4} 71 Q${50-fw-1} 72 ${50-fw+3} 69 L${50+fw-3} 69 Q${50+fw+1} 72 ${50+fw+6.4} 71 Q${50+fw+5} 68 ${50+fw+2.8} 62 Q${50+fw+3.6} 50 ${50+fw+1.6} 36 Z`,hc);for(let k=-2;k<=2;k++)s+=L(`M${50+k*4.4} 44 Q${50+k*5} 58 ${50+k*5.6+(k<0?-1:1)} 68`,sh(hc,-0.25),0.7,{opacity:.45})}
  if(o.h==='mid')s+=P(`M${50-fw-3.4} 36 Q${50-fw-5.4} 48 ${50-fw-3.2} ${fy+10} Q${50-fw-0.6} ${fy+12.4} ${50-fw+1} ${fy+8.6} L${50+fw-1} ${fy+8.6} Q${50+fw+0.6} ${fy+12.4} ${50+fw+3.2} ${fy+10} Q${50+fw+5.4} 48 ${50+fw+3.4} 36 Z`,hc);
  // shoulders, neck, clothes
  s+=P('M4 100 Q8 76 31.5 70.5 Q50 77 68.5 70.5 Q92 76 96 100 Z',cc);
@@ -183,6 +184,22 @@ function hhair(o,hc,hcD,hcL,fy,fw,fh){const t=o.h,top=fy-fh;let s='';
  if(t==='slick'){s+=P(crown(1.6)+hairline(-1.2)+'Z',hc)+burns()+L(`M${50-fw+2.6} ${fy-12.6} Q50 ${top-2.8} ${50+fw-2.6} ${fy-12.6} M${50-fw+4.6} ${fy-15} Q50 ${top-3.6} ${50+fw-4.6} ${fy-15}`,hcD,0.7)+shine(`M${50-6} ${top-1.6} Q50 ${top-3.2} ${50+6} ${top-1.4}`)}
  if(t==='buzz')s+=P(crown(-1.2,0.2)+hairline()+'Z',hc,{opacity:.72})+R(50-fw-0.2,fy-3,1.4,5,hc,{rx:0.6,opacity:.72})+R(50+fw-1.2,fy-3,1.4,5,hc,{rx:0.6,opacity:.72});
  if(t==='mid'){s+=P(crown(1.6,2.4)+`L${50+fw+1.6} ${fy+8} Q${50+fw-0.2} ${fy+9} ${50+fw-0.6} ${fy+5} Q${50+fw-0.6} ${fy-6} ${50+fw-3.6} ${fy-11.4} Q${50+2} ${fy-14.8} ${50-3} ${fy-12.4} Q${50-fw+2.6} ${fy-10.4} ${50-fw+0.6} ${fy-2} L${50-fw+0.6} ${fy+5} Q${50-fw+0.2} ${fy+9} ${50-fw-1.6} ${fy+8} Z`,hc)+L(`M${50-fw-1.2} ${fy-4} q-0.8 4 0.6 8.4 M${50+fw+1.2} ${fy-4} q0.8 4 -0.6 8.4 M${50-2} ${fy-12.6} Q${50-5} ${fy-10} ${50-6.6} ${fy-7.6}`,hcD,0.7,{opacity:.6})+shine(`M${50-7} ${top} Q${50} ${top-2.2} ${50+7} ${top+0.2}`)}
+ // ---- the four protagonist styles ----
+ if(t==='long'){s+=P(crown(2.2,1.8)+hairline(-0.6)+'Z',hc)+P(`M${50-fw-1.8} ${fy+1} Q${50-fw-2.6} ${fy+8} ${50-fw-1.6} ${fy+13} L${50-fw-0.2} ${fy+12} Q${50-fw-0.6} ${fy+6} ${50-fw+0.2} ${fy+1} Z M${50+fw+1.8} ${fy+1} Q${50+fw+2.6} ${fy+8} ${50+fw+1.6} ${fy+13} L${50+fw+0.2} ${fy+12} Q${50+fw+0.6} ${fy+6} ${50+fw-0.2} ${fy+1} Z`,hc);
+  s+=L(`M${50-fw+3} ${fy-11.8} Q${50-5} ${top} ${50+2} ${top-1.6} M${50-1} ${fy-13.6} Q${50+2} ${top+1} ${50+8} ${top+1.4} M${50+fw-3} ${fy-11.8} Q${50+fw-1} ${fy-6} ${50+fw+1} ${fy+4} M${50-fw+2} ${fy-9} Q${50-fw-0.6} ${fy-3} ${50-fw-1} ${fy+6}`,hcD,0.65,{opacity:.55})+shine(`M${50-7} ${top+0.6} Q${50-1} ${top-2.8} ${50+6} ${top-0.4}`)}
+ if(t==='flattop'){// faded sides, a flat squared top with bristles
+  s+=P(crown(-0.6,0.3)+hairline()+'Z',hc,{opacity:.55})+burns();
+  const y0=fy-12.2,yt=top-1.8;s+=P(`M${50-fw+0.6} ${fy-7} Q${50-fw-0.6} ${y0-3} ${50-fw+0.6} ${yt+2.6} Q${50-fw+1.6} ${yt} ${50-fw+4.6} ${yt} L${50+fw-4.6} ${yt} Q${50+fw-1.6} ${yt} ${50+fw-0.6} ${yt+2.6} Q${50+fw+0.6} ${y0-3} ${50+fw-0.6} ${fy-7} Q${50+fw-2.6} ${fy-11.4} ${50+fw-3.6} ${fy-11.8} Q50 ${fy-14.6} ${50-fw+3.6} ${fy-11.8} Q${50-fw+2.6} ${fy-11.4} ${50-fw+0.6} ${fy-7} Z`,hc);
+  for(let k=0;k<11;k++){const x=50-fw+3+k*(fw*2-6)/10;s+=L(`M${x} ${yt+0.4} L${x+0.2} ${yt+2.6}`,hcD,0.5,{opacity:.5})}
+  s+=L(`M${50-fw+3.6} ${yt+0.3} L${50+fw-3.6} ${yt+0.3}`,hcL,0.7,{opacity:.5})}
+ if(t==='crop'){// buzz cut: an even, very short layer, skull and hairline showing, fine texture
+  s+=P(crown(-1.6,0)+hairline()+'Z',hc,{opacity:.62});
+  for(let k=0;k<26;k++){const ang=Math.PI*(0.12+0.76*((k*7)%26)/26),r=fw-1.2-(k%3)*1.6;s+=C(50+Math.cos(ang)*-r,fy-9.4-Math.sin(ang)*(fh-11)-(k%2),0.3,hcD,{opacity:.55})}
+  s+=P(`M${50-fw+0.2} ${fy-2.6} L${50-fw+1.1} ${fy-2.6} L${50-fw+0.7} ${fy+1.6} L${50-fw+0.3} ${fy+1.6} Z M${50+fw-0.2} ${fy-2.6} L${50+fw-1.1} ${fy-2.6} L${50+fw-0.7} ${fy+1.6} L${50+fw-0.3} ${fy+1.6} Z`,hc,{opacity:.62})}
+ if(t==='curls'){// full curls; uneven edge at the forehead and temples
+  s+=P(crown(2.6,1.8)+hairline(1.2)+'Z',hc)+burns();
+  const pts=[];for(let r=0;r<3;r++)for(let k=0;k<7-r;k++){const ang=Math.PI*(0.08+0.84*(k+(r?0.5:0))/(6-r)),rad=fw+1.2-r*3.4;pts.push([50-Math.cos(ang)*rad,fy-8-Math.sin(ang)*(fh-6-r*3.6),2.9-r*0.25])}
+  for(const [x,y,rr] of [[50-fw+1.6,fy-9],[50-fw+4.4,fy-11.6],[50-2.6,fy-12.8],[50+1.6,fy-13.2],[50+fw-4.6,fy-11.8],[50+fw-1.8,fy-9.4]].map(([x,y])=>[x,y,2.4]).concat(pts))s+=C(x,y,rr,hc)+L(`M${x-rr*0.6} ${y+rr*0.2} q${rr*0.6} ${-rr*0.9} ${rr*1.2} 0`,hcD,0.55,{opacity:.6})+C(x-rr*0.35,y-rr*0.4,rr*0.32,hcL,{opacity:.4})}
  return s}
 const SV=(inner,cls)=>`<svg class="art art-face ${cls||''}" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><defs><clipPath id="fc"><circle cx="50" cy="50" r="50"/></clipPath></defs><g clip-path="url(#fc)">${inner}</g></svg>`;
 return {face,hface,SV};
@@ -311,18 +328,18 @@ if(typeof truthScene==='function'){const u0=truthScene;truthScene=function(id){c
 
 /* ---------- the player's look: pick one of a few handsome Lisboetas (start screen, or the people panel later) ---------- */
 const PLAYER_LOOKS=[
- {n:['黑发碎短发','Textured black hair','Cabelo preto texturizado'],o:{sk:2,h:'textured',hc:'black',fh:'stubble',cl:'shirt',cc:'white',bgi:0}},
- {n:['金发油头','Blond undercut','Undercut loiro'],o:{sk:0,h:'undercut',hc:'blonde',eye:'#3f6f9c',cl:'blazer',cc:'black',ic:'charcoal',bgi:6}},
- {n:['黑色卷发','Black curls','Caracóis pretos'],o:{sk:3,h:'curlytop',hc:'black',fh:'beard',cl:'western',cc:'denim',bgi:5}},
- {n:['金色碎刘海','Blond fringe','Franja loira'],o:{sk:0,h:'fringe',hc:'platinum',eye:'#4f86b0',cl:'sweater',cc:'navy',bgi:3}},
- {n:['深棕飞机头','Dark brown quiff','Topete castanho-escuro'],o:{sk:2,h:'quiff',hc:'dark',fh:'stubble',cl:'apron',cc:'navy',ac:'white',bgi:1}},
- {n:['亚麻金卷发','Ash-blond curls','Caracóis loiro-cinza'],o:{sk:1,h:'curlytop',hc:'ash',eye:'#5f7f4a',cl:'tee',cc:'white',bgi:2}},
- {n:['黑发男士发髻','Black man bun','Coque preto'],o:{sk:3,h:'manbun',hc:'black',fh:'beard',cl:'tee',cc:'olive',bgi:7}},
- {n:['浅金寸头','Blond buzz cut','Cabelo rapado loiro'],o:{sk:1,h:'buzz',hc:'blonde',fh:'stubble',eye:'#3f6f9c',cl:'tee',cc:'black',bgi:4}},
- {n:['黑发侧分','Black side parting','Risca ao lado, preto'],o:{sk:2,h:'side',hc:'black',cl:'suit',cc:'navy',tie:'maroon',bgi:6}},
- {n:['金发冲浪头','Blond surfer cut','Corte surfista loiro'],o:{sk:1,h:'mid',hc:'blonde',fh:'stubble',eye:'#4f86b0',cl:'flannel',cc:'red',bgi:5}},
- {n:['黑发大背头','Black slicked back','Cabelo preto para trás'],o:{sk:4,h:'slick',hc:'black',fh:'mustache',cl:'vest',cc:'white',ac:'charcoal',bgi:0}},
- {n:['蜜金蓬松短发','Honey-blond tousled','Despenteado loiro-mel'],o:{sk:2,h:'textured',hc:'#c99a4a',fh:'beard',fhc:'#b0823c',eye:'#5a3a22',cl:'blazer',cc:'denim',ic:'white',bgi:2}}
+ {n:['黑色长发','Long black hair','Cabelo comprido preto'],o:{sk:2,h:'long',hc:'black',fh:'stubble',cl:'shirt',cc:'white',bgi:0}},
+ {n:['金色长发','Long blond hair','Cabelo comprido loiro'],o:{sk:1,h:'long',hc:'blonde',eye:'#4f86b0',cl:'tee',cc:'white',bgi:5}},
+ {n:['深棕长发络腮胡','Long dark hair and beard','Cabelo comprido escuro e barba'],o:{sk:3,h:'long',hc:'dark',fh:'beard',cl:'tee',cc:'white',bgi:2}},
+ {n:['黑色平头','Black flat top','Corte raso preto'],o:{sk:2,h:'flattop',hc:'black',cl:'tee',cc:'white',bgi:6}},
+ {n:['金色平头','Blond flat top','Corte raso loiro'],o:{sk:0,h:'flattop',hc:'blonde',fh:'stubble',eye:'#3f6f9c',cl:'shirt',cc:'white',bgi:3}},
+ {n:['平头胡茬','Flat top and stubble','Corte raso e barba curta'],o:{sk:3,h:'flattop',hc:'dark',fh:'stubble',cl:'shirt',cc:'white',bgi:7}},
+ {n:['黑色寸头','Black buzz cut','Cabelo rapado preto'],o:{sk:3,h:'crop',hc:'black',fh:'stubble',cl:'tee',cc:'white',bgi:4}},
+ {n:['金色寸头','Blond buzz cut','Cabelo rapado loiro'],o:{sk:1,h:'crop',hc:'blonde',eye:'#5f7f4a',cl:'tee',cc:'white',bgi:1}},
+ {n:['寸头络腮胡','Buzz cut and beard','Cabelo rapado e barba'],o:{sk:2,h:'crop',hc:'dark',fh:'beard',cl:'shirt',cc:'white',bgi:0}},
+ {n:['黑色卷发','Black curls','Caracóis pretos'],o:{sk:2,h:'curls',hc:'black',cl:'shirt',cc:'white',bgi:5}},
+ {n:['金色卷发','Blond curls','Caracóis loiros'],o:{sk:1,h:'curls',hc:'#c99a4a',fh:'stubble',fhc:'#b0823c',eye:'#4f86b0',cl:'tee',cc:'white',bgi:2}},
+ {n:['卷发胡茬','Curls and stubble','Caracóis e barba curta'],o:{sk:3,h:'curls',hc:'dark',fh:'stubble',cl:'tee',cc:'white',bgi:6}}
 ];
 let pendingLook=0;
 const lookIdx=()=>{const i=S&&S.look!=null?S.look:pendingLook;return PLAYER_LOOKS[i]?i:0};
