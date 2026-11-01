@@ -11,6 +11,7 @@ run(){ # name, command, regex that must appear in the output, regex that must no
 run validate   "node validate.js story/*.js"   "NO PROBLEMS FOUND"
 run roadcheck  "node tests/roadcheck.js"        "ROADS OK"
 run p3         "node tests/p3_test.js"          "P3 OK"
+run p4        "node tests/p4_test.js"          "P4 OK"
 run cars      "node tests/v1_cars_test.js"     "CARS OK"
 run art       "node tests/art_test.js"         "ART OK"
 run tx7        "node tests/tx7_test.js"         "witness"
