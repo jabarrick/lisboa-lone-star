@@ -9378,7 +9378,7 @@ function hat(t,col,fy,fw,fh){const top=fy-fh,c=col?(CLOTH[col]||col):null;
 function hface(o){
  const sk=SKIN[o.sk||1],skD=sh(sk,-0.15),skDD=sh(sk,-0.3),skL=sh(sk,0.24),hc=HAIR[o.hc]||o.hc,hcD=sh(hc,-0.3),hcL=sh(hc,0.22),cc=CLOTH[o.cc]||o.cc,ccD=sh(cc,-0.22);
  const fw=12.2,fy=44,fh=22,chin=o.chin==='pointed'?70.5:70,ey=fy+0.9,ex=5.1,iris=o.eye||'#5a3a22';
- const cw=o.chin==='pointed'?2.4:3.8,cd=o.chin==='pointed'?1.5:0.8,jx=o.chin==='pointed'?3.4:2.6,jy=o.chin==='pointed'?18:19.2; // chin half-width, chin drop, jaw corner
+ const cw=o.chin==='pointed'?2.4:3.2,cd=o.chin==='pointed'?1.5:0.9,jx=o.chin==='pointed'?3.4:3.2,jy=o.chin==='pointed'?18:18.6; // chin half-width, chin drop, jaw corner
  const bgc=C(50,50,50,BG[o.bgi||0]);let s='';
  if(o.h==='long'){s+=P(`M${50-fw-1.6} 36 Q${50-fw-3.6} 50 ${50-fw-2.8} 62 Q${50-fw-5} 68 ${50-fw-6.4} 71 Q${50-fw-1} 72 ${50-fw+3} 69 L${50+fw-3} 69 Q${50+fw+1} 72 ${50+fw+6.4} 71 Q${50+fw+5} 68 ${50+fw+2.8} 62 Q${50+fw+3.6} 50 ${50+fw+1.6} 36 Z`,hc);for(let k=-2;k<=2;k++)s+=L(`M${50+k*4.4} 44 Q${50+k*5} 58 ${50+k*5.6+(k<0?-1:1)} 68`,sh(hc,-0.25),0.7,{opacity:.45})}
  if(o.h==='mid')s+=P(`M${50-fw-3.4} 36 Q${50-fw-5.4} 48 ${50-fw-3.2} ${fy+10} Q${50-fw-0.6} ${fy+12.4} ${50-fw+1} ${fy+8.6} L${50+fw-1} ${fy+8.6} Q${50+fw+0.6} ${fy+12.4} ${50+fw+3.2} ${fy+10} Q${50+fw+5.4} 48 ${50+fw+3.4} 36 Z`,hc);
@@ -9393,6 +9393,7 @@ function hface(o){
  s+=P(head,sk);
  s+=P(`M${50+fw-2.6} ${fy-13} Q${50+fw+0.4} ${fy-2} ${50+fw} ${fy+6} Q${50+fw-0.4} ${fy+14.5} ${50+fw-jx} ${fy+jy} L${50+cw} ${chin-1} Q${50+cw*0.4} ${chin-0.4} ${50+cw*0.6} ${chin-2.4} L${50+fw-4.4} ${fy+16.4} Q${50+fw-2.4} ${fy+4} ${50+fw-2.6} ${fy-13} Z`,skD,{opacity:.3});
  s+=P(`M${50-fw+0.6} ${fy+7} Q${50-fw+3} ${fy+9} ${50-fw+4.4} ${fy+12.5} Q${50-fw+2} ${fy+11.6} ${50-fw+0.6} ${fy+9} Z`,skD,{opacity:.28})+P(`M${50+fw-0.6} ${fy+7} Q${50+fw-3} ${fy+9} ${50+fw-4.4} ${fy+12.5} Q${50+fw-2} ${fy+11.6} ${50+fw-0.6} ${fy+9} Z`,skD,{opacity:.38});
+ s+=P(`M${50-fw+1.2} ${fy+8.4} Q${50-fw+3.4} ${fy+11} ${50-fw+3.6} ${fy+15.6} Q${50-fw+2} ${fy+13} ${50-fw+0.8} ${fy+10.6} Z`,skD,{opacity:.35})+P(`M${50+fw-1.2} ${fy+8.4} Q${50+fw-3.4} ${fy+11} ${50+fw-3.6} ${fy+15.6} Q${50+fw-2} ${fy+13} ${50+fw-0.8} ${fy+10.6} Z`,skD,{opacity:.45});
  s+=L(`M48.8 ${chin-1.8} Q50 ${chin-1.1} 51.2 ${chin-1.8}`,skD,0.55,{opacity:.7});
  // eyes: realistic, slightly hooded almond shape; the upper lid covers the top of the iris; deep-set under the brow
  for(const d of [-1,1]){const x=50+d*ex,inner=x-d*3,outer=x+d*3.1;
@@ -9443,9 +9444,9 @@ function hhair(o,hc,hcD,hcL,fy,fw,fh){const t=o.h,top=fy-fh;let s='';
   s+=L(`M${50-fw+3} ${fy-11.8} Q${50-5} ${top} ${50+2} ${top-1.6} M${50-1} ${fy-13.6} Q${50+2} ${top+1} ${50+8} ${top+1.4} M${50+fw-3} ${fy-11.8} Q${50+fw-1} ${fy-6} ${50+fw+1} ${fy+4} M${50-fw+2} ${fy-9} Q${50-fw-0.6} ${fy-3} ${50-fw-1} ${fy+6}`,hcD,0.65,{opacity:.55})+shine(`M${50-7} ${top+0.6} Q${50-1} ${top-2.8} ${50+6} ${top-0.4}`)}
  if(t==='flattop'){// faded sides, a flat squared top with bristles
   s+=P(crown(-0.6,0.3)+hairline()+'Z',hc,{opacity:.55})+burns();
-  const y0=fy-12.2,yt=top-1.8;s+=P(`M${50-fw+0.6} ${fy-7} Q${50-fw-0.6} ${y0-3} ${50-fw+0.6} ${yt+2.6} Q${50-fw+1.6} ${yt} ${50-fw+4.6} ${yt} L${50+fw-4.6} ${yt} Q${50+fw-1.6} ${yt} ${50+fw-0.6} ${yt+2.6} Q${50+fw+0.6} ${y0-3} ${50+fw-0.6} ${fy-7} Q${50+fw-2.6} ${fy-11.4} ${50+fw-3.6} ${fy-11.8} Q50 ${fy-14.6} ${50-fw+3.6} ${fy-11.8} Q${50-fw+2.6} ${fy-11.4} ${50-fw+0.6} ${fy-7} Z`,hc);
-  for(let k=0;k<11;k++){const x=50-fw+3+k*(fw*2-6)/10;s+=L(`M${x} ${yt+0.4} L${x+0.2} ${yt+2.6}`,hcD,0.5,{opacity:.5})}
-  s+=L(`M${50-fw+3.6} ${yt+0.3} L${50+fw-3.6} ${yt+0.3}`,hcL,0.7,{opacity:.5})}
+  const y0=fy-12.2,yt=top-1.8;s+=P(`M${50-fw+0.6} ${fy-7} Q${50-fw+0.4} ${y0-3} ${50-fw+1.8} ${yt+2.4} Q${50-fw+2.8} ${yt} ${50-fw+5.4} ${yt} L${50+fw-5.4} ${yt} Q${50+fw-2.8} ${yt} ${50+fw-1.8} ${yt+2.4} Q${50+fw-0.4} ${y0-3} ${50+fw-0.6} ${fy-7} Q${50+fw-2.6} ${fy-11.4} ${50+fw-3.6} ${fy-11.8} Q50 ${fy-14.6} ${50-fw+3.6} ${fy-11.8} Q${50-fw+2.6} ${fy-11.4} ${50-fw+0.6} ${fy-7} Z`,hc);
+  for(let k=0;k<9;k++){const x=50-fw+5+k*(fw*2-10)/8;s+=L(`M${x} ${yt+0.4} L${x+0.2} ${yt+2.6}`,hcD,0.5,{opacity:.5})}
+  s+=L(`M${50-fw+5.4} ${yt+0.3} L${50+fw-5.4} ${yt+0.3}`,hcL,0.7,{opacity:.5})}
  if(t==='crop'){// buzz cut: an even, very short layer, skull and hairline showing, fine texture
   s+=P(crown(-1.6,0)+hairline()+'Z',hc,{opacity:.62});
   for(let k=0;k<26;k++){const ang=Math.PI*(0.12+0.76*((k*7)%26)/26),r=fw-1.2-(k%3)*1.6;s+=C(50+Math.cos(ang)*-r,fy-9.4-Math.sin(ang)*(fh-11)-(k%2),0.3,hcD,{opacity:.55})}
