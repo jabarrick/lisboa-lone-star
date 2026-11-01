@@ -9377,7 +9377,8 @@ function hat(t,col,fy,fw,fh){const top=fy-fh,c=col?(CLOTH[col]||col):null;
 /* the player: a lean, long, handsome face — narrow jaw, square chin, large eyes; the hair hugs the skull with a natural hairline */
 function hface(o){
  const sk=SKIN[o.sk||1],skD=sh(sk,-0.15),skDD=sh(sk,-0.3),skL=sh(sk,0.24),hc=HAIR[o.hc]||o.hc,hcD=sh(hc,-0.3),hcL=sh(hc,0.22),cc=CLOTH[o.cc]||o.cc,ccD=sh(cc,-0.22);
- const fw=12.2,fy=44,fh=22,chin=70,ey=fy+0.9,ex=5.1,iris=o.eye||'#5a3a22';
+ const fw=12.2,fy=44,fh=22,chin=o.chin==='pointed'?71.2:70,ey=fy+0.9,ex=5.1,iris=o.eye||'#5a3a22';
+ const cw=o.chin==='pointed'?1.3:3.8,cd=o.chin==='pointed'?2.4:0.8,jx=o.chin==='pointed'?4.2:2.6,jy=o.chin==='pointed'?16.6:19.2; // chin half-width, chin drop, jaw corner
  const bgc=C(50,50,50,BG[o.bgi||0]);let s='';
  if(o.h==='long'){s+=P(`M${50-fw-1.6} 36 Q${50-fw-3.6} 50 ${50-fw-2.8} 62 Q${50-fw-5} 68 ${50-fw-6.4} 71 Q${50-fw-1} 72 ${50-fw+3} 69 L${50+fw-3} 69 Q${50+fw+1} 72 ${50+fw+6.4} 71 Q${50+fw+5} 68 ${50+fw+2.8} 62 Q${50+fw+3.6} 50 ${50+fw+1.6} 36 Z`,hc);for(let k=-2;k<=2;k++)s+=L(`M${50+k*4.4} 44 Q${50+k*5} 58 ${50+k*5.6+(k<0?-1:1)} 68`,sh(hc,-0.25),0.7,{opacity:.45})}
  if(o.h==='mid')s+=P(`M${50-fw-3.4} 36 Q${50-fw-5.4} 48 ${50-fw-3.2} ${fy+10} Q${50-fw-0.6} ${fy+12.4} ${50-fw+1} ${fy+8.6} L${50+fw-1} ${fy+8.6} Q${50+fw+0.6} ${fy+12.4} ${50+fw+3.2} ${fy+10} Q${50+fw+5.4} 48 ${50+fw+3.4} 36 Z`,hc);
@@ -9388,9 +9389,9 @@ function hface(o){
  // ears
  s+=E(50-fw+0.3,fy+2.6,2.3,4.4,skD)+E(50+fw-0.3,fy+2.6,2.3,4.4,skD)+L(`M${50-fw-0.6} ${fy+1} q-0.9 1.6 0 3.4`,skDD,0.55)+L(`M${50+fw+0.6} ${fy+1} q0.9 1.6 0 3.4`,skDD,0.55);
  // head: long and lean, straight cheeks, narrow angled jaw, square chin
- const head=`M${50-fw} ${fy-8} Q${50-fw} ${fy-fh} 50 ${fy-fh} Q${50+fw} ${fy-fh} ${50+fw} ${fy-8} L${50+fw} ${fy+7} Q${50+fw-0.4} ${fy+14.5} ${50+fw-2.6} ${fy+19.2} L${53.8} ${chin-1} Q50 ${chin+0.8} ${46.2} ${chin-1} L${50-fw+2.6} ${fy+19.2} Q${50-fw+0.4} ${fy+14.5} ${50-fw} ${fy+7} Z`;
+ const head=`M${50-fw} ${fy-8} Q${50-fw} ${fy-fh} 50 ${fy-fh} Q${50+fw} ${fy-fh} ${50+fw} ${fy-8} L${50+fw} ${fy+7} Q${50+fw-0.4} ${fy+14.5} ${50+fw-jx} ${fy+jy} L${50+cw} ${chin-1} Q50 ${chin+cd} ${50-cw} ${chin-1} L${50-fw+jx} ${fy+jy} Q${50-fw+0.4} ${fy+14.5} ${50-fw} ${fy+7} Z`;
  s+=P(head,sk);
- s+=P(`M${50+fw-2.6} ${fy-13} Q${50+fw+0.4} ${fy-2} ${50+fw} ${fy+6} Q${50+fw-0.4} ${fy+14.5} ${50+fw-2.6} ${fy+19.2} L53.8 ${chin-1} Q51.4 ${chin-0.4} 52.2 ${chin-2.4} L${50+fw-4.4} ${fy+16.4} Q${50+fw-2.4} ${fy+4} ${50+fw-2.6} ${fy-13} Z`,skD,{opacity:.3});
+ s+=P(`M${50+fw-2.6} ${fy-13} Q${50+fw+0.4} ${fy-2} ${50+fw} ${fy+6} Q${50+fw-0.4} ${fy+14.5} ${50+fw-jx} ${fy+jy} L${50+cw} ${chin-1} Q${50+cw*0.4} ${chin-0.4} ${50+cw*0.6} ${chin-2.4} L${50+fw-4.4} ${fy+16.4} Q${50+fw-2.4} ${fy+4} ${50+fw-2.6} ${fy-13} Z`,skD,{opacity:.3});
  s+=P(`M${50-fw+0.6} ${fy+7} Q${50-fw+3} ${fy+9} ${50-fw+4.4} ${fy+12.5} Q${50-fw+2} ${fy+11.6} ${50-fw+0.6} ${fy+9} Z`,skD,{opacity:.28})+P(`M${50+fw-0.6} ${fy+7} Q${50+fw-3} ${fy+9} ${50+fw-4.4} ${fy+12.5} Q${50+fw-2} ${fy+11.6} ${50+fw-0.6} ${fy+9} Z`,skD,{opacity:.38});
  s+=L(`M48.8 ${chin-1.8} Q50 ${chin-1.1} 51.2 ${chin-1.8}`,skD,0.55,{opacity:.7});
  // eyes: realistic, slightly hooded almond shape; the upper lid covers the top of the iris; deep-set under the brow
@@ -9410,7 +9411,7 @@ function hface(o){
  // mouth: well-shaped lips, a half-smile
  s+=L(`M46.6 ${ey+13.2} Q49.6 ${ey+14.5} 53.6 ${ey+12.7}`,'#6b382c',1.15)+L(`M47.9 ${ey+15.1} Q50.1 ${ey+15.9} 52.4 ${ey+15}`,skD,0.9,{opacity:.8})+L(`M53.6 ${ey+12.7} l0.6 -0.5`,'#6b382c',0.75);
  // facial hair
- const fhc=HAIR[o.fhc]||o.fhc||hc,beard=`M${50-fw+0.2} ${fy+5} Q${50-fw+0.4} ${fy+15} ${50-fw+2.6} ${fy+19.2} L46.2 ${chin-1} Q50 ${chin+0.8} 53.8 ${chin-1} L${50+fw-2.6} ${fy+19.2} Q${50+fw-0.4} ${fy+15} ${50+fw-0.2} ${fy+5} Q${50+fw-2.6} ${fy+11} ${50+fw-5.2} ${ey+12.4} Q50 ${ey+11} ${50-fw+5.2} ${ey+12.4} Q${50-fw+2.6} ${fy+11} ${50-fw+0.2} ${fy+5} Z`;
+ const fhc=HAIR[o.fhc]||o.fhc||hc,beard=`M${50-fw+0.2} ${fy+5} Q${50-fw+0.4} ${fy+15} ${50-fw+jx} ${fy+jy} L${50-cw} ${chin-1} Q50 ${chin+cd} ${50+cw} ${chin-1} L${50+fw-jx} ${fy+jy} Q${50+fw-0.4} ${fy+15} ${50+fw-0.2} ${fy+5} Q${50+fw-2.6} ${fy+11} ${50+fw-5.2} ${ey+12.4} Q50 ${ey+11} ${50-fw+5.2} ${ey+12.4} Q${50-fw+2.6} ${fy+11} ${50-fw+0.2} ${fy+5} Z`;
  const stache=`M45.8 ${ey+12.5} Q50 ${ey+10.1} 54.2 ${ey+12.2} Q52 ${ey+12} 50 ${ey+11.5} Q48 ${ey+12.2} 45.8 ${ey+12.5} Z`;
  if(o.fh==='stubble')s+=P(beard,fhc,{opacity:.24})+P(stache,fhc,{opacity:.3});
  if(o.fh==='beard')s+=P(beard,fhc,{opacity:.9})+P(stache,fhc)+L(`M46.6 ${ey+13.2} Q49.6 ${ey+14.5} 53.6 ${ey+12.7}`,'#6b382c',1.1);
@@ -9582,17 +9583,17 @@ if(typeof truthScene==='function'){const u0=truthScene;truthScene=function(id){c
 /* ---------- the player's look: pick one of a few handsome Lisboetas (start screen, or the people panel later) ---------- */
 const PLAYER_LOOKS=[
  {n:['黑色平头','Black flat top','Corte raso preto'],o:{sk:2,h:'flattop',hc:'black',cl:'tee',cc:'white',bgi:6}},
- {n:['金色平头','Blond flat top','Corte raso loiro'],o:{sk:0,h:'flattop',hc:'blonde',fh:'stubble',eye:'#3f6f9c',cl:'shirt',cc:'white',bgi:3}},
+ {n:['金色平头','Blond flat top','Corte raso loiro'],o:{chin:'pointed',sk:0,h:'flattop',hc:'blonde',fh:'stubble',eye:'#3f6f9c',cl:'shirt',cc:'white',bgi:3}},
  {n:['深棕平头胡茬','Dark flat top and stubble','Corte raso escuro e barba curta'],o:{sk:3,h:'flattop',hc:'dark',fh:'stubble',cl:'shirt',cc:'white',bgi:7}},
- {n:['亚麻金平头','Ash-blond flat top','Corte raso loiro-cinza'],o:{sk:1,h:'flattop',hc:'ash',eye:'#5f7f4a',cl:'tee',cc:'white',bgi:0}},
+ {n:['亚麻金平头','Ash-blond flat top','Corte raso loiro-cinza'],o:{chin:'pointed',sk:1,h:'flattop',hc:'ash',eye:'#5f7f4a',cl:'tee',cc:'white',bgi:0}},
  {n:['黑色寸头','Black buzz cut','Cabelo rapado preto'],o:{sk:3,h:'crop',hc:'black',fh:'stubble',cl:'tee',cc:'white',bgi:4}},
- {n:['金色寸头','Blond buzz cut','Cabelo rapado loiro'],o:{sk:1,h:'crop',hc:'blonde',eye:'#4f86b0',cl:'tee',cc:'white',bgi:1}},
+ {n:['金色寸头','Blond buzz cut','Cabelo rapado loiro'],o:{chin:'pointed',sk:1,h:'crop',hc:'blonde',eye:'#4f86b0',cl:'tee',cc:'white',bgi:1}},
  {n:['深棕寸头络腮胡','Dark buzz cut and beard','Cabelo rapado escuro e barba'],o:{sk:2,h:'crop',hc:'dark',fh:'beard',cl:'shirt',cc:'white',bgi:5}},
  {n:['蜜金寸头','Honey-blond buzz cut','Cabelo rapado loiro-mel'],o:{sk:2,h:'crop',hc:'#c99a4a',fh:'stubble',fhc:'#b0823c',cl:'shirt',cc:'white',bgi:2}},
- {n:['黑色卷发','Black curls','Caracóis pretos'],o:{sk:2,h:'curls',hc:'black',cl:'shirt',cc:'white',bgi:5}},
- {n:['金色卷发','Golden curls','Caracóis dourados'],o:{sk:1,h:'curls',hc:'#c99a4a',fh:'stubble',fhc:'#b0823c',eye:'#4f86b0',cl:'tee',cc:'white',bgi:2}},
+ {n:['黑色卷发','Black curls','Caracóis pretos'],o:{chin:'pointed',sk:2,h:'curls',hc:'black',cl:'shirt',cc:'white',bgi:5}},
+ {n:['金色卷发','Golden curls','Caracóis dourados'],o:{chin:'pointed',sk:1,h:'curls',hc:'#c99a4a',fh:'stubble',fhc:'#b0823c',eye:'#4f86b0',cl:'tee',cc:'white',bgi:2}},
  {n:['深棕卷发胡茬','Dark curls and stubble','Caracóis escuros e barba curta'],o:{sk:3,h:'curls',hc:'dark',fh:'stubble',cl:'tee',cc:'white',bgi:6}},
- {n:['亚麻金卷发','Ash-blond curls','Caracóis loiro-cinza'],o:{sk:0,h:'curls',hc:'ash',eye:'#3f6f9c',cl:'shirt',cc:'white',bgi:4}}
+ {n:['亚麻金卷发','Ash-blond curls','Caracóis loiro-cinza'],o:{chin:'pointed',sk:0,h:'curls',hc:'ash',eye:'#3f6f9c',cl:'shirt',cc:'white',bgi:4}}
 ];
 let pendingLook=0;
 const lookIdx=()=>{const i=S&&S.look!=null?S.look:pendingLook;return PLAYER_LOOKS[i]?i:0};
