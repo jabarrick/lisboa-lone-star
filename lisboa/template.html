@@ -240,7 +240,8 @@ select{font:inherit;font-size:13px;width:100%;background:var(--surface);color:va
  .hrow{padding:6px 10px;gap:4px 10px}
  .logo{font-size:15px}.logo small{display:none}
  .clock{font-size:11.5px}.money{font-size:15px}
- .pip{width:6px;height:11px}
+ .pip{width:4px;height:11px}.pips{gap:2px}
+ .seas{display:none}
  .langs button,.btn-s{font-size:11px;padding:2px 7px}
  .stats{grid-template-columns:repeat(4,minmax(0,1fr));gap:2px 8px;padding:0 10px 6px}
  .stat .lab{font-size:10.5px}.stat .lab b{font-size:11px}
@@ -262,7 +263,7 @@ select{font:inherit;font-size:13px;width:100%;background:var(--surface);color:va
  .views{flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:10px 0 calc(66px + env(safe-area-inset-bottom,0px));overscroll-behavior:contain}
  .main{display:block}.col-l{display:block}
  .views .card{border-radius:10px}
- #app[data-mv="story"] .tx-map,#app[data-mv="story"] #panel,#app[data-mv="story"] .board{display:none}
+ #app[data-mv="story"] .tx-map,#app[data-mv="story"] #panel,#app[data-mv="story"][data-idle="0"] .board{display:none}
  #app[data-mv="act"] .scene,#app[data-mv="act"] .tx-map,#app[data-mv="act"] #panel{display:none}
  #app[data-mv="map"] .scene,#app[data-mv="map"] #panel,#app[data-mv="map"] .board{display:none}
  #app[data-mv="panel"] .scene,#app[data-mv="panel"] .tx-map,#app[data-mv="panel"] .board{display:none}
@@ -963,7 +964,7 @@ function bizPanel(){
  const priceSel=Object.keys(PRICE).map(k=>`<button class="btn-s ${S.price===k?'on':''}" data-price="${k}">${tt(PRICE[k].n)} ×${PRICE[k].pm}</button>`).join(' ');
  const specOpts=`<option value="">${t('— 无 —','— none —','— nenhum —')}</option>`+S.menu.filter(Boolean).map(k=>`<option value="${k}" ${S.special===k?'selected':''}>${tt(DISH[k].n)}</option>`).join('');
  const mkt=Object.keys(ING).map(k=>{const p=unitPrice(k),m=S.market[k];const arrow=m>1.08?'▲':m<0.92?'▼':'·';return `<div class="stat"><div class="lab">${tt(ING[k].n)}<b>${S.inv[k]}${k==='imp'&&S.incoming?` (+${S.incoming})`:''}</b></div><div class="mini">${arrow} $${p.toFixed(2)}/${t('份','unit','dose')}</div><button class="btn-s" data-buy="${k}">${t('进 10 份','Buy 10','Comprar 10')} · $${Math.round(p*10)}</button></div>`}).join('');
- const ords=S.orders.filter(o=>!o.done&&!o.failed).map(o=>{const d=ORD(o.id),left=orderDayLeft(o);return `<div class="npc"><div><span class="nm">${tt(d.n)}</span><div class="mini">${t('需要','Needs','Precisa')} ${d.q} ${tt(ING[d.ing].n)}（${t('库存','in stock','em stock')} ${S.inv[d.ing]}） · $${d.pay} · ${left>=0?t(`还剩 ${left} 天`,`${left} days left`,`faltam ${left} dias`):''}</div></div></div>`}).join('')||`<p class="mini">${t('本周暂无订单。口碑 40 以上每周会有两笔。','No orders this week. At reputation 40+ you get two a week.','Sem encomendas esta semana. Com reputação 40+ recebes duas por semana.')}</p>`;
+ const ords=S.orders.filter(o=>!o.done&&!o.failed).map(o=>{const d=ORD(o.id),left=orderDayLeft(o);return `<div class="npc"><div><span class="nm">${tt(d.n)}</span><div class="mini">${t('需要','Needs','Precisa')} ${d.q} ${tt(ING[d.ing].n)} ${t(`（库存 ${S.inv[d.ing]}）`,`(in stock ${S.inv[d.ing]})`,`(em stock ${S.inv[d.ing]})`)} · $${d.pay} · ${left>=0?t(`还剩 ${left} 天`,`${left} days left`,`faltam ${left} dias`):''}</div></div></div>`}).join('')||`<p class="mini">${t('本周暂无订单。口碑 40 以上每周会有两笔。','No orders this week. At reputation 40+ you get two a week.','Sem encomendas esta semana. Com reputação 40+ recebes duas por semana.')}</p>`;
  const ups=Object.keys(UPG).map(k=>{const u=UPG[k];return `<div class="npc"><div><span class="nm">${tt(u.n)}</span> <span class="grp">${has(k)?t('已安装','installed','instalado'):'$'+u.cost}</span><div class="mini">${tt(u.d)}</div></div><div>${has(k)?'':`<button class="btn-s" data-up="${k}" ${S.cash>=u.cost?'':'disabled'}>${t('购买','Buy','Comprar')}</button>`}</div></div>`}).join('');
  return `<h3 class="sub">${t('定价策略','Pricing','Preços')}</h3><div class="acts">${priceSel}</div><p class="mini">${t('平价：客流 +20%，售价 ×0.8。高档：售价 ×1.25，客流 −15%，口碑低于 50 时客人更挑剔。','Budget: +20% customers, prices ×0.8. Premium: prices ×1.25, −15% customers, and pickier diners below reputation 50.','Económico: +20% clientes, preços ×0,8. Premium: preços ×1,25, −15% clientes e clientes mais exigentes com reputação abaixo de 50.')}</p>
  <h3 class="sub">${t('本周招牌菜','House special','Prato da casa')}</h3><label class="mini" for="special">${t('所有客人都更想点它，售价 +$2','Everyone is more likely to order it; +$2','Toda a gente o pede mais; +$2')}<select id="special">${specOpts}</select></label>
@@ -1918,7 +1919,7 @@ function render(){if(S&&S.flags&&S.flags.dbgInfEnergy)S.energy=10;
  if(S){if(cur&&cur!==lastCur)mview='story';else if(!cur&&lastCur)mview='act';lastCur=cur}
  const app=$('#app');
  if(!S){app.innerHTML=res(startHTML());bindStart();bindLang();return}
- app.dataset.mv=mview;app.innerHTML=res(headerHTML()+`<div class="views" id="views"><div class="main"><div class="col-l"><div class="card scene" aria-live="polite">${sceneHTML()}</div>${mapCardHTML()}</div><div class="card" id="panel"><div class="pscroll"><div class="pmain">${panelHTML()}</div>${tab==="log"?"":panelFill()}</div></div></div><div class="card board">${boardHTML()}</div></div>${mnavHTML()}`);
+ app.dataset.mv=mview;app.dataset.idle=cur?'0':'1';app.innerHTML=res(headerHTML()+`<div class="views" id="views"><div class="main"><div class="col-l"><div class="card scene" aria-live="polite">${sceneHTML()}</div>${mapCardHTML()}</div><div class="card" id="panel"><div class="pscroll"><div class="pmain">${panelHTML()}</div>${tab==="log"?"":panelFill()}</div></div></div><div class="card board">${boardHTML()}</div></div>${mnavHTML()}`);
  bind();bindMini();gc();document.querySelectorAll('.mnav [data-mv]').forEach(b=>b.onclick=()=>setView(b.dataset.mv));bindLang();
  // phones: when a new scene opens, bring it into view (the action board sits below it)
  if(cur&&cur!==render._last&&window.innerWidth<=860){const el=document.querySelector('.scene');if(el&&el.scrollIntoView&&el.getBoundingClientRect().top<0)el.scrollIntoView({block:'start'})}
@@ -1929,7 +1930,7 @@ function headerHTML(){
  const pips=Array.from({length:10},(_,i)=>`<span class="pip ${i<S.energy?'on':''}"></span>`).join('');
  const st=(n,cls,v,sh)=>`<div class="stat"><div class="lab"><span class="lab-l">${n}</span><span class="lab-s">${sh||n}</span><b>${v}</b></div><div class="bar ${cls}"><i style="width:${v}%"></i></div></div>`;
  return `<header><div class="tiles"></div><div class="hrow"><div class="logo">${t('里斯本·孤星','LISBOA, LONE STAR','LISBOA, ESTRELA SOLITÁRIA')}<small>${t('叙事经营游戏','A NARRATIVE MANAGEMENT GAME','UM JOGO NARRATIVO DE GESTÃO')}</small></div>
- <div class="clock"><b>${t('第 '+S.week+' 周','Week '+S.week,'Semana '+S.week)}</b> · ${SEASON(S.week)} · ${DAY()[S.day-1]} · <b>${SLOT()[S.slot]}</b></div>
+ <div class="clock" title="${SEASON(S.week)}"><b>${t('第 '+S.week+' 周','Week '+S.week,'Semana '+S.week)}</b><span class="seas"> · ${SEASON(S.week)}</span> · ${DAY()[S.day-1]} · <b>${SLOT()[S.slot]}</b></div>
  <div class="money ${S.cash<0?'neg':''}">$${Math.round(S.cash)}</div>
  <div class="pips" title="${t('精力','Energy','Energia')} ${S.energy}/10" aria-label="${t('精力','Energy','Energia')} ${S.energy}/10">${pips}</div>
  <span class="spacer"></span>${langSwitch()}<button class="btn-s" id="restart">${t('重新开始','Restart','Recomeçar')}</button></div>
@@ -1998,8 +1999,8 @@ function logPanel(){const k=LANG==='en'?'e':LANG==='pt'?'p':'z';return `<div cla
 function startHTML(){
  const has=load();
  return `<div class="card start"><div class="tiles" style="margin:-16px -18px 14px"></div>
- <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap"><div class="mini" style="letter-spacing:.2em;color:var(--rust)">${t('一个叙事经营游戏 · v0.6','A NARRATIVE MANAGEMENT GAME · v0.6','UM JOGO NARRATIVO DE GESTÃO · v0.6')}</div>${langSwitch()}</div>
- <div class="big">${t('里斯本·<br>孤星','LISBOA,<br>LONE STAR','LISBOA,<br>ESTRELA SOLITÁRIA')}</div><h2 style="margin:4px 0 10px;font-size:20px">${t('里斯本·孤星','Lisboa, Lone Star','Lisboa, Estrela Solitária')}</h2>
+ <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap"><div class="mini" style="letter-spacing:.2em;color:var(--rust)">${t('一个叙事经营游戏','A NARRATIVE MANAGEMENT GAME','UM JOGO NARRATIVO DE GESTÃO')} · v0.9.3</div>${langSwitch()}</div>
+ <div class="big">${t('里斯本·<br>孤星','LISBOA,<br>LONE STAR','LISBOA,<br>ESTRELA SOLITÁRIA')}</div><h2 style="margin:4px 0 10px;font-size:20px">${t('一年，一家店，两个家','One year, one grill, two homes','Um ano, uma churrasqueira, duas casas')}</h2>
  <p>${t('舅舅若泽去世了，把德州小城圣鲁伊斯的一家葡萄牙烧烤店留给了你，附带一个条件：亲自经营满一年。你 28 岁，从里斯本阿尔法马来，带着一把法多吉他和一箱沙丁鱼罐头。','Your uncle José has died and left you his Portuguese grill in San Luís, a small Texas town — on one condition: you run it yourself for a full year. You\'re 28, from Alfama in Lisbon, with a fado guitar and a box of canned sardines.','O teu tio José morreu e deixou-te a churrasqueira portuguesa que tinha em San Luís, uma vila do Texas — com uma condição: geri-la tu mesmo durante um ano inteiro. Tens 28 anos, és de Alfama, e chegas com uma guitarra de fado e uma caixa de latas de sardinha.')}</p>
  ${has?`<button class="go" id="cont">${t(`继续存档（第 ${has.week} 周）`,`Continue (week ${has.week})`,`Continuar (semana ${has.week})`)}</button>`:''}
  <label for="pname">${t('你的名字','Your name','O teu nome')}</label><input type="text" id="pname" value="Tiago" maxlength="16">

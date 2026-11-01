@@ -1,4 +1,4 @@
-const lang=process.argv[2];
+const lang=process.argv[2]||'en'; // usage: node tests/smoke3.js en|pt|zh
 const el=()=>({innerHTML:'',classList:{add(){},remove(){}},dataset:{},onclick:null,value:'Tiago'});
 global.document={querySelector:()=>el(),querySelectorAll:()=>[],documentElement:{}};
 global.window={innerWidth:1200,innerHeight:900,matchMedia:()=>({matches:false,addEventListener(){}}),addEventListener(){},scrollTo(){},requestAnimationFrame(){}};global.localStorage={getItem:k=>k.includes('lang')?lang:null,setItem(){},removeItem(){}};
@@ -9,7 +9,7 @@ function scan(h){
  if(/undefined|NaN|\\[object/.test(h.replace(/<[^>]+>/g,' ')))note('BAD '+(h.replace(/<[^>]+>/g,' ').match(/.{30}(undefined|NaN|\\[object).{20}/)||[''])[0]);
  const txt=h.replace(/<[^>]+>/g,' ');
  if(lang==='zh'){for(const w of txt.match(/[A-Za-zÀ-ÿ][A-Za-zÀ-ÿ'’-]{2,}(?: [A-Za-zÀ-ÿ'’-]+)*/g)||[])note('LATIN '+w)}
- if(lang!=='zh'){for(const w of txt.match(/[\\u4e00-\\u9fff]+/g)||[])note('CJK '+w)}
+ if(lang!=='zh'){for(const w of txt.match(/[\\u4e00-\\u9fff\\u3000-\\u303f\\uff01-\\uff5e]+/g)||[])note('CJK '+w)}
  if(lang==='en'){for(const w of txt.match(/\\b\\S*[ãõçáéíóúâêôà]\\S*\\b/gi)||[])note('PT? '+w)}
 }
 function note(k){seen.set(k,(seen.get(k)||0)+1)}
